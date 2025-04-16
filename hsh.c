@@ -61,13 +61,18 @@ void get_arguments(char *line, char **arguments)
 	char *str;
 
 	str = strtok(line, " \n");
-
-	while (str != NULL)
+	
+	if (str != NULL)
 	{
-		arguments[i] = str;
-		str = strtok(NULL, " \n");
-		i++;
+		while (str != NULL)
+		{
+			arguments[i] = str;
+			str = strtok(NULL, " \n");
+			i++;
+		}
 	}
+	else
+		arguments[0] = NULL;
 }
 
 /**
