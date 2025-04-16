@@ -1,7 +1,5 @@
 #include "main.h"
 
-void get_arguments(char *line, char **arguments);
-
 /**
  * main - ...
  *
@@ -28,12 +26,15 @@ int main(void)
 
 		get_arguments(line, arguments);
 
-		printf("%s\n", arguments[0]);
-
 		free(line);
 	}
 }
 
+/**
+ * get_arguments - transforms user input in an array of strings
+ * @line: user input
+ * @arguments: array of strings
+ */
 void get_arguments(char *line, char **arguments)
 {
 	int i = 0;
