@@ -22,11 +22,12 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
-char *get_command(char *name, list_t **paths);
+void get_arguments(char *line, char **arguments);
+void process_command(char **arguments);
 
 char *_getenv(const char *name);
 list_t *create_path_list(char *value);
-
+char *search_path_list(char *command, list_t *paths);
 list_t *add_node_end(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);
