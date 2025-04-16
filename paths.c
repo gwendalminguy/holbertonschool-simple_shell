@@ -10,8 +10,8 @@ char *_getenv(const char *name)
 {
 	extern char **environ;
 	int i = 0, cmp = 0;
-	char *variable = "";
-	char *value = "";
+	char *variable = NULL;
+	char *value = NULL;
 
 	/* Searching for a matching variable */
 	while (environ[i] != NULL)
@@ -38,7 +38,7 @@ char *_getenv(const char *name)
  */
 list_t *create_path_list(char *value)
 {
-	char *path = "";
+	char *path = NULL;
 	list_t *head = NULL;
 
 	path = strtok(value, ":\n");
@@ -59,7 +59,7 @@ list_t *create_path_list(char *value)
  */
 void print_list(const list_t *head)
 {
-	char *data = "";
+	char *data = NULL;
 	int i = 0;
 
 	/* Printing each element of the list and going to the next one */
@@ -81,10 +81,8 @@ void print_list(const list_t *head)
  * add_node_end - adds a new node at the end of a list
  * @head: head of the list
  * @str: data of the node
- *
- * Return: address of the node
  */
-list_t *add_node_end(list_t **head, const char *str)
+void add_node_end(list_t **head, const char *str)
 {
 	list_t *new = NULL;
 	list_t *current = *head;
@@ -95,31 +93,30 @@ list_t *add_node_end(list_t **head, const char *str)
 		i++;
 
 	/* Allocating enough memory for the new node */
-	new = malloc(i + 1 + sizeof(int) + sizeof(list_t *));
+	new = malloc(i + sizeof(list_t));
 
 	/* Checking if malloc failed */
-	if (new == NULL)
-		return (NULL);
-
-	/* Setting node values */
-	new->str = strdup(str);
-	new->len = i;
-	new->next = NULL;
-
-	/* Setting head to new if list is empty */
-	if (*head == NULL)
+	if (new != NULL)
 	{
-		*head = new;
-		return (new);
+		/* Setting node values */
+		new->str = strdup(str);
+		new->len = i;
+		new->next = NULL;
+
+		/* Setting head to new if list is empty */
+		if (*head == NULL)
+		{
+			*head = new;
+			return;
+		}
+
+		/* Reaching the end of the list */
+		while (current->next)
+			current = current->next;
+
+		/* Adding node at the end of the list */
+		current->next = new;
 	}
-
-	/* Reaching the end of the list */
-	while (current->next)
-		current = current->next;
-
-	/* Adding node at the end of the list */
-	current->next = new;
-	return (new);
 }
 
 /**
@@ -128,11 +125,13 @@ list_t *add_node_end(list_t **head, const char *str)
  */
 void free_list(list_t *head)
 {
-	list_t *current = head;
+	list_t *current = NULL;
 	list_t *temp = NULL;
 
 	if (head != NULL)
 	{
+		current = head;
+
 		while (current)
 		{
 			/* Saving address of next element */

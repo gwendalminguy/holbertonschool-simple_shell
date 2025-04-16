@@ -7,15 +7,16 @@
  */
 int main(void)
 {
-	char *line;
-	size_t len;
-	ssize_t read;
-	char *value;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read = 0;
+	char *value = NULL;
 	list_t *path_list = NULL;
 	char *arguments[4096];
 
 	value = _getenv("PATH");
 	path_list = create_path_list(value);
+	/* print_list(path_list); */
 
 	while (1)
 	{
