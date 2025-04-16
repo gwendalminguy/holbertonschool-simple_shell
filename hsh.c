@@ -20,7 +20,7 @@ int main(void)
 	while (1)
 	{
 		printf("$ ");
-		
+
 		read = getline(&line, &len, stdin);
 
 		if (read < 0)
@@ -36,6 +36,7 @@ int main(void)
 
 	free(line);
 	free_list(path_list);
+	return (0);
 }
 
 /**
@@ -63,30 +64,27 @@ void get_arguments(char *line, char **arguments)
  * @arguments: array of strings
  */
 
- void process_command(char **arguments)
- {
-	 pid_t parent_pid;
-	 pid_t child_pid;
-	 int status;
- 
-	 child_pid = fork();
-	 
-	 if (child_pid == -1)
-	 {
-		 dprintf(STDERR_FILENO, "Error\n");
-		 exit(1);
-	 }
-	 
-	 if (child_pid == 0)
-	 {
-		 execve(arguments[0], arguments, NULL);
-		 exit(1);
-	 }
-	 else
-	 {
-		 wait(&status);
-	 }
+void process_command(char **arguments)
+{
+	pid_t child_pid;
+	int status;
 
-	 return;
- }
- 
+	child_pid = fork();
+
+	if (child_pid == -1)
+	{
+		dprintf(STDERR_FILENO, "Error\n");
+		exit(1);
+	}
+
+	if (child_pid == 0)
+	{
+		execve(arguments[0], arguments, NULL);
+		exit(1);
+	}
+	else
+	{
+		wait(&status);
+	}
+
+}

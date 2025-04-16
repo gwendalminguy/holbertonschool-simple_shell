@@ -12,7 +12,7 @@ char *_getenv(const char *name)
 	int i = 0, cmp = 0;
 	char *variable = "";
 	char *value = "";
-	
+
 	/* Searching for a matching variable */
 	while (environ[i] != NULL)
 	{
