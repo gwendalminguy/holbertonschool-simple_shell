@@ -25,7 +25,7 @@ typedef struct list_s
 void get_arguments(char *line, char **arguments);
 void process_command(char **arguments);
 
-char *_getenv(const char *name);
+char *_getenv(const char *name, char **env);
 list_t *create_path_list(char *value);
 char *search_path_list(char *command, list_t *paths);
 void add_node_end(list_t **head, const char *str);
