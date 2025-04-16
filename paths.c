@@ -53,6 +53,47 @@ list_t *create_path_list(char *value)
 }
 
 /**
+ * search_path_list - searches for a given command in all PATH directories
+ * @command: user input
+ * @paths: linked list of all PATH directories
+ *
+ * Return: full command path
+ */
+char *search_path_list(char *command, list_t *paths)
+{
+	struct stat st;
+	char *full_path;
+	list_t *current = paths;
+	int size = 0;
+
+	/* Searching for the command in each PATH */
+	while (current != NULL)
+	{
+		size = strlen(current->str) + strlen(command);
+		full_path = malloc(2 + size * sizeof(char));
+
+		if (full_path == NULL)
+			return (full_path);
+
+		strcpy(full_path, current->str);
+
+		full_path = strcat(full_path, "/");
+		full_path = strcat(full_path, command);
+
+		if (stat(full_path, &st) == 0)
+		{
+			return (full_path);
+		}
+
+		current = current->next;
+
+		free(full_path);
+	}
+
+	return (NULL);
+}
+
+/**
  * print_list - prints all the elements of a list
  * @head: head of the list
  */

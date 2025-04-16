@@ -1,10 +1,10 @@
 #include "main.h"
 
 /**
- * main - ...
- * @argc: ...
- * @argv: ...
- * @env: ...
+ * main - prompts user for a command and executes it
+ * @argc: number of arguments
+ * @argv: arguments
+ * @env: environment variables
  *
  * Return: 0
  */
@@ -18,30 +18,34 @@ int main(int argc __attribute__((unused)),
 	char *value = NULL;
 	list_t *path_list = NULL;
 	char *arguments[4096];
+	char *command = NULL;
 
 	value = _getenv("PATH", env);
 	path_list = create_path_list(value);
-	/* print_list(path_list); */
 
 	while (1)
 	{
+		memset(arguments, 0, sizeof(arguments));
 		if (isatty(STDIN_FILENO) != 0)
-		{
 			printf("$ ");
-		}
 
-		/* Prompting user for input */
 		read = getline(&line, &len, stdin);
-
 		if (read < 0)
-		{
 			break;
-		}
 
 		get_arguments(line, arguments);
 
 		if (arguments[0] != NULL)
-			process_command(arguments);
+		{
+			command = search_path_list(arguments[0], path_list);
+			if (command != NULL)
+			{
+				arguments[0] = strdup(command);
+				process_command(arguments);
+				free(arguments[0]);
+				free(command);
+			}
+		}
 	}
 
 	free(line);
@@ -61,7 +65,7 @@ void get_arguments(char *line, char **arguments)
 	char *str;
 
 	str = strtok(line, " \n");
-	
+
 	if (str != NULL)
 	{
 		while (str != NULL)
@@ -102,5 +106,4 @@ void process_command(char **arguments)
 	{
 		wait(&status);
 	}
-
 }
