@@ -40,7 +40,8 @@ int main(int argc __attribute__((unused)),
 
 		get_arguments(line, arguments);
 
-		process_command(arguments);
+		if (arguments[0] != NULL)
+			process_command(arguments);
 	}
 
 	free(line);
