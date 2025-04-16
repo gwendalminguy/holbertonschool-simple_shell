@@ -34,7 +34,7 @@ int main(int argc __attribute__((unused)),
 		get_arguments(line, arguments);
 		if (arguments[0] != NULL)
 		{
-			if (arguments[0][0] == '/' | arguments[0][0] == '.')
+			if (arguments[0][0] == '/' || arguments[0][0] == '.')
 				command = strdup(arguments[0]);
 			else
 				command = search_path_list(arguments[0], path_list);
