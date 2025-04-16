@@ -2,10 +2,15 @@
 
 /**
  * main - ...
+ * @argc: ...
+ * @argv: ...
+ * @env: ...
  *
  * Return: 0
  */
-int main(int argc __attribute__((unused)), char **argv __attribute__((unused)), char **env)
+int main(int argc __attribute__((unused)),
+	 char **argv __attribute__((unused)),
+	 char **env)
 {
 	char *line = NULL;
 	size_t len = 0;
