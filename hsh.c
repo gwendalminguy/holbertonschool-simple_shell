@@ -10,7 +10,12 @@ int main(void)
 	char *line;
 	size_t len;
 	ssize_t read;
+	char *value;
+	list_t *path_list = NULL;
 	char *arguments[4096];
+
+	value = _getenv("PATH");
+	path_list = create_path_list(value);
 
 	while (1)
 	{
@@ -26,8 +31,11 @@ int main(void)
 
 		get_arguments(line, arguments);
 
-		free(line);
+		process_command(arguments);
 	}
+
+	free(line);
+	free_list(path_list);
 }
 
 /**
@@ -51,7 +59,7 @@ void get_arguments(char *line, char **arguments)
 }
 
 /**
- * process_command - process the command math by searching path
+ * process_command - process the given command
  * @arguments: array of strings
  */
 
@@ -62,20 +70,23 @@ void get_arguments(char *line, char **arguments)
 	 int status;
  
 	 child_pid = fork();
+	 
 	 if (child_pid == -1)
 	 {
 		 dprintf(STDERR_FILENO, "Error\n");
-		 return;
+		 exit(1);
 	 }
+	 
 	 if (child_pid == 0)
 	 {
 		 execve(arguments[0], arguments, NULL);
-		 break;
+		 exit(1);
 	 }
 	 else
 	 {
 		 wait(&status);
 	 }
+
 	 return;
  }
  
