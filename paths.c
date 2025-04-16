@@ -49,6 +49,8 @@ list_t *create_path_list(char *value)
 		add_node_end(&head, path);
 		path = strtok(NULL, ":\n");
 	}
+
+	return (head);
 }
 
 /**
@@ -145,4 +147,5 @@ void free_list(list_t *head)
 			/* Switching current element to next one */
 			current = temp;
 		}
+	}
 }
