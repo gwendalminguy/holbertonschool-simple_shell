@@ -6,17 +6,16 @@
  *
  * Return: value of the environment variable
  */
-char *_getenv(const char *name)
+char *_getenv(const char *name, char **env)
 {
-	extern char **environ;
 	int i = 0, cmp = 0;
 	char *variable = NULL;
 	char *value = NULL;
 
 	/* Searching for a matching variable */
-	while (environ[i] != NULL)
+	while (env[i] != NULL)
 	{
-		variable = strtok(environ[i], "=\n");
+		variable = strtok(env[i], "=\n");
 		value = strtok(NULL, "=\n");
 
 		cmp = strcmp(name, variable);
