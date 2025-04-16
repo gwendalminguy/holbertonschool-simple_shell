@@ -19,13 +19,16 @@ int main(void)
 
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(STDIN_FILENO) != 0)
+		{
+			printf("$ ");
+		}
 
+		/* Prompting user for input */
 		read = getline(&line, &len, stdin);
 
 		if (read < 0)
 		{
-			dprintf(STDERR_FILENO, "Error\n");
 			break;
 		}
 
