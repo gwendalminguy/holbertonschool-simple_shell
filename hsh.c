@@ -28,16 +28,16 @@ int main(int argc __attribute__((unused)),
 		memset(arguments, 0, sizeof(arguments));
 		if (isatty(STDIN_FILENO) != 0)
 			printf("$ ");
-
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 			break;
-
 		get_arguments(line, arguments);
-
 		if (arguments[0] != NULL)
 		{
-			command = search_path_list(arguments[0], path_list);
+			if (arguments[0][0] == '/')
+				command = strdup(arguments[0]);
+			else
+				command = search_path_list(arguments[0], path_list);
 			if (command != NULL)
 			{
 				arguments[0] = strdup(command);
