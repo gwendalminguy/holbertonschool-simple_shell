@@ -49,3 +49,33 @@ void get_arguments(char *line, char **arguments)
 		i++;
 	}
 }
+
+/**
+ * process_command - process the command math by searching path
+ * @arguments: array of strings
+ */
+
+ void process_command(char **arguments)
+ {
+	 pid_t parent_pid;
+	 pid_t child_pid;
+	 int status;
+ 
+	 child_pid = fork();
+	 if (child_pid == -1)
+	 {
+		 dprintf(STDERR_FILENO, "Error\n");
+		 return;
+	 }
+	 if (child_pid == 0)
+	 {
+		 execve(arguments[0], arguments, NULL);
+		 break;
+	 }
+	 else
+	 {
+		 wait(&status);
+	 }
+	 return;
+ }
+ 
