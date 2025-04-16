@@ -5,7 +5,7 @@
  *
  * Return: 0
  */
-int main(void)
+int main(int argc __attribute__((unused)), char **argv __attribute__((unused)), char **env)
 {
 	char *line = NULL;
 	size_t len = 0;
@@ -14,7 +14,7 @@ int main(void)
 	list_t *path_list = NULL;
 	char *arguments[4096];
 
-	value = _getenv("PATH");
+	value = _getenv("PATH", env);
 	path_list = create_path_list(value);
 	/* print_list(path_list); */
 
@@ -40,6 +40,7 @@ int main(void)
 
 	free(line);
 	free_list(path_list);
+
 	return (0);
 }
 
