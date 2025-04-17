@@ -19,12 +19,12 @@ char *get_env(const char *name, char **env)
 	while (env[i] != NULL)
 	{
 		variable = strtok(env[i], "=\n");
+		value = strtok(NULL, "=\n");
 
 		cmp = strncmp(name, variable, len);
 
-		if (cmp == 0)
+		if (cmp == 0 && value[0] != '\0')
 		{
-			value = strtok(NULL, "=\n");
 			return (value);
 		}
 
