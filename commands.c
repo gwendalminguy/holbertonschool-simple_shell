@@ -19,12 +19,12 @@ char *get_env(const char *name, char **env)
 	while (env[i] != NULL)
 	{
 		variable = strtok(env[i], "=\n");
-		value = strtok(NULL, "=\n");
 
 		cmp = strncmp(name, variable, len);
 
 		if (cmp == 0)
 		{
+			value = strtok(NULL, "=\n");
 			return (value);
 		}
 
@@ -72,7 +72,7 @@ void process_command(char **arguments, char **env)
 
 	if (stat(arguments[0], &st) != 0)
 	{
-		dprintf(STDERR_FILENO, "./hsh: 1: %s not found\n", arguments[0]);
+		dprintf(STDERR_FILENO, "./hsh: 1: %s: not found\n", arguments[0]);
 		exit(127);
 	}
 
