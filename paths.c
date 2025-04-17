@@ -1,36 +1,6 @@
 #include "main.h"
 
 /**
- * _getenv - gets an environment variable
- * @name: name of variable to get
- * @env: environment variable
- *
- * Return: value of the environment variable
- */
-char *_getenv(const char *name, char **env)
-{
-	int i = 0, cmp = 0;
-	char *variable = NULL;
-	char *value = NULL;
-
-	/* Searching for a matching variable */
-	while (env[i] != NULL)
-	{
-		variable = strtok(env[i], "=\n");
-		value = strtok(NULL, "=\n");
-
-		cmp = strcmp(name, variable);
-
-		if (cmp == 0)
-			return (value);
-
-		i++;
-	}
-
-	return (NULL);
-}
-
-/**
  * create_path_list - creates a singly linked list of all PATH directories
  * @value: value of PATH environment variable
  *

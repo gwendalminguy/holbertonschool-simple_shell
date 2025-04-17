@@ -20,7 +20,7 @@ int main(int argc __attribute__((unused)),
 	char *arguments[4096];
 	char *command = NULL;
 
-	value = _getenv("PATH", env);
+	value = get_env("PATH", env);
 	path_list = create_path_list(value);
 
 	while (1)
@@ -51,66 +51,4 @@ int main(int argc __attribute__((unused)),
 	free_list(path_list);
 
 	return (0);
-}
-
-/**
- * get_arguments - transforms user input in an array of strings
- * @line: user input
- * @arguments: array of strings
- */
-void get_arguments(char *line, char **arguments)
-{
-	int i = 0;
-	char *str;
-
-	str = strtok(line, " \n");
-
-	if (str != NULL)
-	{
-		while (str != NULL)
-		{
-			arguments[i] = str;
-			str = strtok(NULL, " \n");
-			i++;
-		}
-	}
-	else
-		arguments[0] = NULL;
-}
-
-/**
- * process_command - process the given command
- * @arguments: array of strings
- */
-
-void process_command(char **arguments, char **env)
-{
-	pid_t child_pid;
-	int status;
-	struct stat st;
-	char *name;
-
-	if (stat(arguments[0], &st) != 0)
-	{
-		printf("./hsh: 1: %s not found\n", arguments[0]);
-		exit(127);
-	}
-
-	child_pid = fork();
-
-	if (child_pid == -1)
-	{
-		dprintf(STDERR_FILENO, "Error\n");
-		exit(1);
-	}
-
-	if (child_pid == 0)
-	{
-		execve(arguments[0], arguments, env);
-		exit(0);
-	}
-	else
-	{
-		wait(&status);
-	}
 }
