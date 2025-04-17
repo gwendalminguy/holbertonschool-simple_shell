@@ -24,7 +24,9 @@ char *get_env(const char *name, char **env)
 		cmp = strncmp(name, variable, len);
 
 		if (cmp == 0)
+		{
 			return (value);
+		}
 
 		i++;
 	}
