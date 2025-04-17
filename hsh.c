@@ -32,19 +32,18 @@ int main(int argc __attribute__((unused)),
 		if (read < 0)
 			break;
 		get_arguments(line, arguments);
-		if (arguments[0] != NULL)
+		if (arguments[0] == NULL)
+			continue;
+		if (arguments[0][0] == '/' || arguments[0][0] == '.')
+			command = strdup(arguments[0]);
+		else
+			command = search_path_list(arguments[0], path_list);
+		if (command != NULL)
 		{
-			if (arguments[0][0] == '/' || arguments[0][0] == '.')
-				command = strdup(arguments[0]);
-			else
-				command = search_path_list(arguments[0], path_list);
-			if (command != NULL)
-			{
-				arguments[0] = strdup(command);
-				process_command(arguments);
-				free(arguments[0]);
-				free(command);
-			}
+			arguments[0] = strdup(command);
+			process_command(arguments);
+			free(arguments[0]);
+			free(command);
 		}
 	}
 
