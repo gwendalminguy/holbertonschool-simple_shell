@@ -41,7 +41,7 @@ int main(int argc __attribute__((unused)),
 		if (command != NULL)
 		{
 			arguments[0] = strdup(command);
-			process_command(arguments);
+			process_command(arguments, env);
 			free(arguments[0]);
 			free(command);
 		}
@@ -83,10 +83,18 @@ void get_arguments(char *line, char **arguments)
  * @arguments: array of strings
  */
 
-void process_command(char **arguments)
+void process_command(char **arguments, char **env)
 {
 	pid_t child_pid;
 	int status;
+	struct stat st;
+	char *name;
+
+	if (stat(arguments[0], &st) != 0)
+	{
+		printf("./hsh: 1: %s not found\n", arguments[0]);
+		exit(127);
+	}
 
 	child_pid = fork();
 
@@ -98,8 +106,8 @@ void process_command(char **arguments)
 
 	if (child_pid == 0)
 	{
-		execve(arguments[0], arguments, NULL);
-		exit(1);
+		execve(arguments[0], arguments, env);
+		exit(0);
 	}
 	else
 	{
