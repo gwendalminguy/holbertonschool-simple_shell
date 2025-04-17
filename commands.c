@@ -81,4 +81,14 @@ void process_command(char **arguments, char **env)
 		dprintf(STDERR_FILENO, "Error\n");
 		exit(1);
 	}
+
+	if (child_pid == 0)
+	{
+		execve(arguments[0], arguments, env);
+		exit(0);
+	}
+	else
+	{
+		wait(&status);
+	}
 }
