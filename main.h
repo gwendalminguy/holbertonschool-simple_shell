@@ -23,7 +23,7 @@ typedef struct list_s
 } list_t;
 
 void get_arguments(char *line, char **arguments);
-void process_command(char **arguments);
+void process_command(char **arguments, char **env);
 
 char *_getenv(const char *name, char **env);
 list_t *create_path_list(char *value);
