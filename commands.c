@@ -75,7 +75,7 @@ int process_command(char **arguments, char **env)
 
 	if (stat(arguments[0], &st) != 0)
 	{
-		dprintf(STDERR_FILENO, "./hsh: 1: %s: not found\n", arguments[0]);
+		fprintf(stderr, "./hsh: 1: %s: not found\n", arguments[0]);
 		return (1);
 	}
 
@@ -83,7 +83,7 @@ int process_command(char **arguments, char **env)
 
 	if (child_pid == -1)
 	{
-		dprintf(STDERR_FILENO, "Error\n");
+		fprintf(stderr, "Error\n");
 		exit(1);
 	}
 
