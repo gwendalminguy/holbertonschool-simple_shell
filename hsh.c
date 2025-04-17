@@ -19,6 +19,7 @@ int main(int argc __attribute__((unused)),
 	list_t *path_list = NULL;
 	char *arguments[4096];
 	char *command = NULL;
+	int code = 0;
 
 	value = get_env("PATH", env);
 	path_list = create_path_list(value);
@@ -41,14 +42,18 @@ int main(int argc __attribute__((unused)),
 		if (command != NULL)
 		{
 			arguments[0] = strdup(command);
-			process_command(arguments, env);
+			code = process_command(arguments, env);
 			free(arguments[0]);
 			free(command);
+			if (code == 1)
+				break;
 		}
 	}
 
 	free(line);
 	free_list(path_list);
+	if (code == 1);
+		exit(127);
 
 	return (0);
 }

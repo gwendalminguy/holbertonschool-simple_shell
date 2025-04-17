@@ -64,7 +64,7 @@ void get_arguments(char *line, char **arguments)
  * @arguments: array of strings
  */
 
-void process_command(char **arguments, char **env)
+int process_command(char **arguments, char **env)
 {
 	pid_t child_pid;
 	int status;
@@ -73,7 +73,7 @@ void process_command(char **arguments, char **env)
 	if (stat(arguments[0], &st) != 0)
 	{
 		dprintf(STDERR_FILENO, "./hsh: 1: %s: not found\n", arguments[0]);
-		exit(127);
+		return (1);
 	}
 
 	child_pid = fork();
