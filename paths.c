@@ -4,6 +4,7 @@
  * _getenv - gets an environment variable
  * @name: name of variable to get
  * @env: environment variable
+ *
  * Return: value of the environment variable
  */
 char *_getenv(const char *name, char **env)
@@ -94,13 +95,13 @@ char *search_path_list(char *command, list_t *paths)
 }
 
 /**
- * print_list - prints all the elements of a list
+ * print_list - prints all the elements of a linked list
  * @head: head of the list
  */
 void print_list(const list_t *head)
 {
 	char *data = NULL;
-	int i = 0;
+	unsigned int i = 0;
 
 	/* Printing each element of the list and going to the next one */
 	while (head != NULL)
@@ -110,7 +111,7 @@ void print_list(const list_t *head)
 		else
 			data = head->str;
 
-		printf("[Node %i] [%u] %s\n", i, head->len, data);
+		printf("[Node %u] [%u] %s\n", i, head->len, data);
 
 		head = head->next;
 		i++;
@@ -118,7 +119,7 @@ void print_list(const list_t *head)
 }
 
 /**
- * add_node_end - adds a new node at the end of a list
+ * add_node_end - adds a new node at the end of a linked list
  * @head: head of the list
  * @str: data of the node
  */
@@ -160,7 +161,7 @@ void add_node_end(list_t **head, const char *str)
 }
 
 /**
- * free_list - frees a list
+ * free_list - frees a linked list
  * @head: head of the list
  */
 void free_list(list_t *head)
