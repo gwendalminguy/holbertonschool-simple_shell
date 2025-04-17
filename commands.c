@@ -62,6 +62,9 @@ void get_arguments(char *line, char **arguments)
 /**
  * process_command - process the given command
  * @arguments: array of strings
+ * @env: ...
+ *
+ * Return: ...
  */
 
 int process_command(char **arguments, char **env)
@@ -93,4 +96,6 @@ int process_command(char **arguments, char **env)
 	{
 		wait(&status);
 	}
+
+	return (0);
 }

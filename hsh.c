@@ -23,7 +23,6 @@ int main(int argc __attribute__((unused)),
 
 	value = get_env("PATH", env);
 	path_list = create_path_list(value);
-
 	while (1)
 	{
 		memset(arguments, 0, sizeof(arguments));
@@ -43,8 +42,10 @@ int main(int argc __attribute__((unused)),
 		{
 			arguments[0] = strdup(command);
 			code = process_command(arguments, env);
+
 			free(arguments[0]);
 			free(command);
+
 			if (code == 1)
 				break;
 		}
@@ -52,7 +53,8 @@ int main(int argc __attribute__((unused)),
 
 	free(line);
 	free_list(path_list);
-	if (code == 1);
+
+	if (code == 1)
 		exit(127);
 
 	return (0);
