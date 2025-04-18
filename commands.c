@@ -30,22 +30,29 @@ int copy_env(char **env, char **environment)
 char *get_env(const char *name, char **env)
 {
 	int i = 0, len = 0, cmp = 0;
+	int number = 0;
 	char *variable = NULL;
 	char *value = NULL;
+	char *copy = NULL;
+	char *environment[4096];
+
+	number = copy_env(env, environment);
 
 	len = strlen(name);
 
 	/* Searching for a matching variable */
-	while (env[i] != NULL)
+	while (environment[i] != NULL)
 	{
-		variable = strtok(env[i], "=\n");
+		variable = strtok(environment[i], "=\n");
 		value = strtok(NULL, "=\n");
 
 		cmp = strncmp(name, variable, len);
 
 		if (cmp == 0 && value != NULL)
 		{
-			return (value);
+			copy = strdup(value);
+			free_env(environment, number);
+			return (copy);
 		}
 
 		i++;
