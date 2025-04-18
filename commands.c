@@ -110,6 +110,7 @@ void get_arguments(char *line, char **arguments)
 /**
  * process_command - process the given command
  * @arguments: array of strings
+ * @argv: ...
  * @env: environment variables
  *
  * Return: status code

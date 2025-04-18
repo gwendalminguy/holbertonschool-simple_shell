@@ -69,7 +69,9 @@ char *search_path_list(char *command, list_t *paths, int *code)
 		free(full_path);
 	}
 
-	return (NULL);
+	full_path = strdup(command);
+
+	return (full_path);
 }
 
 /**
