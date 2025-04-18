@@ -19,7 +19,7 @@ int main(int argc __attribute__((unused)),
 	list_t *path_list = NULL;
 	char *arguments[4096];
 	char *command = NULL;
-	int code = 0, number = 0;
+	int code = 0;
 
 	value = get_env("PATH", env);
 	path_list = create_path_list(value);
