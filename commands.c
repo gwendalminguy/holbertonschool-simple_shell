@@ -43,7 +43,7 @@ char *get_env(const char *name, char **env)
 
 		cmp = strncmp(name, variable, len);
 
-		if (cmp == 0 && value[0] != '\0')
+		if (cmp == 0 && value != NULL)
 		{
 			return (value);
 		}
