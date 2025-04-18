@@ -58,6 +58,8 @@ char *get_env(const char *name, char **env)
 		i++;
 	}
 
+	free(environment, number);
+
 	return (NULL);
 }
 
