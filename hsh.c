@@ -19,9 +19,11 @@ int main(int argc __attribute__((unused)),
 	list_t *path_list = NULL;
 	char *arguments[4096];
 	char *command = NULL;
-	int code = 0;
-	
-	value = get_env("PATH", env);
+	char *environment[4096];
+	int code = 0, number = 0;
+
+	number = copy_env(env, environment);
+	value = get_env("PATH", environment);
 	path_list = create_path_list(value);
 	
 	while (1)
@@ -53,6 +55,7 @@ int main(int argc __attribute__((unused)),
 	}
 
 	free(line);
+	free_env(environment, number);
 	free_list(path_list);
 
 	if (code == -1)

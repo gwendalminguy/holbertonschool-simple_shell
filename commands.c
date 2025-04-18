@@ -1,6 +1,26 @@
 #include "main.h"
 
 /**
+ * copy_env - ...
+ * @env: ...
+ * @environment: ...
+ * 
+ * Return: ...
+ */
+int copy_env(char **env, char **environment)
+{
+	int i = 0;
+
+	while (env[i] != NULL)
+	{
+		environment[i] = strdup(env[i]);
+		i++;
+	}
+	
+	return (i);
+}
+
+/**
  * get_env - gets an environment variable
  * @name: name of variable to get
  * @env: environment variable
@@ -32,6 +52,24 @@ char *get_env(const char *name, char **env)
 	}
 
 	return (NULL);
+}
+
+/**
+ * free_env - ...
+ * @env: ...
+ */
+void free_env(char **env, int number)
+{
+	int i = 0;
+
+	while (i < number)
+	{
+		if (env[i] != NULL)
+		{
+			free(env[i]);
+			i++;
+		}
+	}
 }
 
 /**
