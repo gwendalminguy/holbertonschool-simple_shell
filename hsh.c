@@ -36,10 +36,15 @@ int main(int argc __attribute__((unused)),
 			continue;
 		if (arguments[0][0] == '/' || arguments[0][0] == '.')
 			command = strdup(arguments[0]);
+		if (strcmp(arguments[0], "exit") == 0)
+		{
+			break;
+		}
 		else
 			command = search_path_list(arguments[0], path_list);
 		if (command != NULL)
 		{
+			
 			arguments[0] = strdup(command);
 			code = process_command(arguments, env);
 
