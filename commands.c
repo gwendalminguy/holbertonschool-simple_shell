@@ -36,8 +36,8 @@ char *get_env(const char *name, char **env)
 	char *copy = NULL;
 	char *environment[4096];
 
+	memset(environment, 0, sizeof(environment));
 	number = copy_env(env, environment);
-
 	len = strlen(name);
 
 	/* Searching for a matching variable */
