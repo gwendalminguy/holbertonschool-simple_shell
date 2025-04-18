@@ -62,12 +62,12 @@ void get_arguments(char *line, char **arguments)
 /**
  * process_command - process the given command
  * @arguments: array of strings
- * @env: ...
+ * @env: environment variables
  *
  * Return: ...
  */
 
-int process_command(char **arguments, char **env)
+int process_command(char **arguments, char **argv, char **env)
 {
 	pid_t child_pid;
 	int status;
@@ -75,8 +75,8 @@ int process_command(char **arguments, char **env)
 
 	if (stat(arguments[0], &st) != 0)
 	{
-		fprintf(stderr, "./hsh: 1: %s: not found\n", arguments[0]);
-		return (1);
+		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arguments[0]);
+		return (-1);
 	}
 
 	child_pid = fork();
@@ -84,7 +84,7 @@ int process_command(char **arguments, char **env)
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "Error\n");
-		exit(1);
+		exit(-1);
 	}
 
 	if (child_pid == 0)

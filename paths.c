@@ -16,7 +16,7 @@ list_t *create_path_list(char *value)
 	/* Creating a node for each PATH directory */
 	while (path != NULL)
 	{
-		add_node_end(&head, path);
+		add_node_list(&head, path);
 		path = strtok(NULL, ":\n");
 	}
 
@@ -44,7 +44,7 @@ char *search_path_list(char *command, list_t *paths)
 		full_path = malloc(2 + size * sizeof(char));
 
 		if (full_path == NULL)
-			return (full_path);
+			return (NULL);
 
 		strcpy(full_path, current->str);
 
@@ -89,11 +89,11 @@ void print_list(const list_t *head)
 }
 
 /**
- * add_node_end - adds a new node at the end of a linked list
+ * add_node_list - adds a new node at the end of a linked list
  * @head: head of the list
  * @str: data of the node
  */
-void add_node_end(list_t **head, const char *str)
+void add_node_list(list_t **head, const char *str)
 {
 	list_t *new = NULL;
 	list_t *current = *head;
