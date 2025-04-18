@@ -29,7 +29,7 @@ void get_arguments(char *line, char **arguments);
 int process_command(char **arguments, char **argv, char **env);
 
 list_t *create_path_list(char *value);
-char *search_path_list(char *command, list_t *paths);
+char *search_path_list(char *command, list_t *paths, int *code);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);

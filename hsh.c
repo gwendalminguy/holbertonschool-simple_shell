@@ -23,7 +23,7 @@ int main(int argc __attribute__((unused)),
 
 	value = get_env("PATH", env);
 	path_list = create_path_list(value);
-	
+
 	while (1)
 	{
 		memset(arguments, 0, sizeof(arguments));
@@ -38,7 +38,7 @@ int main(int argc __attribute__((unused)),
 		if (arguments[0][0] == '/' || arguments[0][0] == '.')
 			command = strdup(arguments[0]);
 		else
-			command = search_path_list(arguments[0], path_list);
+			command = search_path_list(arguments[0], path_list, &code);
 		if (command != NULL)
 		{
 			arguments[0] = strdup(command);
@@ -46,10 +46,10 @@ int main(int argc __attribute__((unused)),
 
 			free(arguments[0]);
 			free(command);
-
-			if (code == -1)
-				break;
 		}
+
+		if (code == -1)
+			break;
 	}
 
 	if (value != NULL)
