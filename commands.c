@@ -58,7 +58,7 @@ char *get_env(const char *name, char **env)
 		i++;
 	}
 
-	free(environment, number);
+	free_env(environment, number);
 
 	return (NULL);
 }
