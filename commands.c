@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * copy_env - ...
- * @env: ...
- * @environment: ...
- * 
- * Return: ...
+ * copy_env - copies all environment variables in an array of strings
+ * @env: environment variables
+ * @environment: destination
+ *
+ * Return: number of variables
  */
 int copy_env(char **env, char **environment)
 {
@@ -16,7 +16,7 @@ int copy_env(char **env, char **environment)
 		environment[i] = strdup(env[i]);
 		i++;
 	}
-	
+
 	return (i);
 }
 
@@ -62,8 +62,9 @@ char *get_env(const char *name, char **env)
 }
 
 /**
- * free_env - ...
- * @env: ...
+ * free_env - frees an array of environment variables
+ * @env: array of environment variables
+ * @number: number of variables
  */
 void free_env(char **env, int number)
 {
@@ -109,7 +110,7 @@ void get_arguments(char *line, char **arguments)
  * @arguments: array of strings
  * @env: environment variables
  *
- * Return: ...
+ * Return: status code
  */
 
 int process_command(char **arguments, char **argv, char **env)

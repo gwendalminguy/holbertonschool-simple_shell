@@ -11,6 +11,9 @@ list_t *create_path_list(char *value)
 	char *path = NULL;
 	list_t *head = NULL;
 
+	if (value == NULL)
+		return (NULL);
+
 	path = strtok(value, ":\n");
 
 	/* Creating a node for each PATH directory */
