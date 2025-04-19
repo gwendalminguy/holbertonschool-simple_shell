@@ -109,7 +109,7 @@ void get_arguments(char *line, char **arguments)
 /**
  * process_command - process the given command
  * @arguments: array of strings
- * @argv: ...
+ * @argv: array of strings
  * @env: environment variables
  *
  * Return: status code
@@ -124,21 +124,20 @@ int process_command(char **arguments, char **argv, char **env)
 	if (stat(arguments[0], &st) != 0)
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arguments[0]);
-		return (-1);
+		return (127);
 	}
 
 	child_pid = fork();
 
 	if (child_pid == -1)
 	{
-		fprintf(stderr, "Error\n");
-		exit(-1);
+		fprintf(stderr, "%s: fork failed\n", argv[0]);
+		return (-1);
 	}
 
 	if (child_pid == 0)
 	{
 		execve(arguments[0], arguments, env);
-		exit(0);
 	}
 	else
 	{

@@ -40,14 +40,16 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		code = process_command(arguments, argv, env);
 		if (status == 1)
 			free(arguments[0]);
-		if (code == -1)
+		if (code != 0)
 			break;
 	}
 	if (value != NULL)
 		free(value);
 	free(line);
 	free_list(path_list);
-	if (code == -1)
+	if (code == 127)
 		exit(127);
+	else if (code == -1)
+		exit(-1);
 	return (0);
 }
