@@ -33,7 +33,7 @@ list_t *create_path_list(char **env)
 
 /**
  * search_path_list - searches for a given command in all PATH directories
- * @command: user input
+ * @command: command to search
  * @paths: linked list of all PATH directories
  *
  * Return: full command path
@@ -55,9 +55,8 @@ char *search_path_list(char *command, list_t *paths)
 			return (NULL);
 
 		strcpy(full_path, current->str);
-
-		full_path = strcat(full_path, "/");
-		full_path = strcat(full_path, command);
+		strcat(full_path, "/");
+		strcat(full_path, command);
 
 		if (stat(full_path, &st) == 0)
 		{

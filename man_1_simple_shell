@@ -6,13 +6,16 @@
 - Holberton SHell
 
 .SH SYNOPSIS
-.B ./hsh ...
+.B ./hsh
 
 .SH DESCRIPTION
-HSH is a simple shell command interpreter that prompts the user for instructions, then gets the command read from STDIN and executes it. It relies on the value of the PATH environment variable, in order to be able to find a command without the need to specify its absolute path, using the \fIstat\fR system call. If the command is found, \fIfork\fR is called to create a new process that will execute the command using the \fIexecve\fR system call. It also supports some built-in commands.
+HSH is a simple shell command interpreter that prompts the user for instructions, then gets the command read from STDIN and executes it.
+It relies on the value of the PATH environment variable, in order to be able to find a command without the need to specify its absolute path, using the \fIstat\fR system call.
+If the command is found, \fIfork\fR is called to create a new process that will execute the command using the \fIexecve\fR system call. It also supports some built-in commands.
 
 .SS Built-In Commands
-Specific commands that can be used within the shell. Each built-in command can be invoked by using its name, eventually followed by one or more argument(s) if required. The supported built-in commands and their meaning are the following:
+Specific commands that can be used within the shell. Each built-in command can be invoked by using its name, eventually followed by one or more argument(s) if required.
+The supported built-in commands and their meaning are the following:
 .RS
 .LP
 \fBexit\fR [\fISTATUS\fR]
@@ -41,22 +44,45 @@ Prints the help to STDOUT for the command \fIBUILT-IN\fR if specified, or for al
 .RE
 
 .SS Path Search
-When locating a command, HSH will first try to find a built-in command that matches the name it is looking for. If none is found but the name of the command starts with a slash or a period, it will simply try to execute the command as such. Otherwise, it will try to find the command in each directory entry contained in the PATH environment variable.
+When locating a command, HSH will first try to find a built-in command that matches the name it is looking for.
+If none is found but the name of the command starts with a slash or a period, it will simply try to execute the command as such.
+Otherwise, it will try to find the command in each directory entry contained in the PATH environment variable.
 
 .SH EXIT STATUS
-If terminated manually on regular execution, the shell will exit with the status code (0).
-If the specified command does not exist or if it is not found, the shell will exit with the status code (127) and print an error message to STDERR.
-If an error occured when creating a process to execute the specified command, the shell will exit with the status code (-1) and print an error message to STDERR.
+If terminated manually on regular execution, HSH will exit with the status code (0).
+If the specified command does not exist or if it is not found, HSH will exit with the status code (127) and print an error message to STDERR.
+If an error occured when creating a process to execute the specified command, HSH will exit with the status code (-1) and print an error message to STDERR.
 
 .SH ENVIRONMENT
-HSH needs some of the environment variables in order to work properly, and can change some of them. Built-in commands \fBsetenv\fR and \fBunsetenv\fR should not be used to change or remove them. Those variables are the following:
+HSH needs some of the environment variables in order to work properly, and can change some of them. Built-in commands \fBsetenv\fR and \fBunsetenv\fR should not be used to change or remove them.
+Those variables are the following:
 .RS
 .IP \fBHOME\fR
-This variable is used by the \fBcd\fR built-in command as default \fIDIRECTORY\fR if none is provided.
+This variable contains the path to the HOME directory, and is used by the \fBcd\fR built-in command as default \fIDIRECTORY\fR if none is provided.
 .IP \fBPATH\fR
-This variable is used by HSH to search for an executable.
+This variable contains different paths, and is used by HSH to search for an executable.
 .IP \fBPWD\fR
-This variable is updated by the \fBcd\fR built-in command everytime it is used, to keep track of the current working directory.
+This variable contains the path to the current working directory, and is updated by the \fBcd\fR built-in command everytime it is used.
+.RE
+
+.SH FILES
+HSH should be compiled using GCC. It will need all of the following files in order to be compiled correctly:
+.RS
+.LP
+\fIcommands.c\fR
+- The file containing functions related to the command execution.
+.LP
+\fIenvironment.c\fR
+- The file containing functions related to environment variables.
+.LP
+\fIhsh.c\fR
+- The file containing the main function (entry point) of the program.
+.LP
+\fImain.h\fR
+- The header file containing structures and functions prototypes.
+.LP
+\fIpaths.c\fR
+- The file containing functions related to the path search.
 .RE
 
 .SH
