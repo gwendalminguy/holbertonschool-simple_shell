@@ -22,11 +22,15 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
+void print_env(char **env);
+int set_env(char *variable, char *value, char **env, char **argv);
+int unset_env(char *variable, char **env, char **argv);
+
 int copy_env(char **env, char **environment);
 char *get_env(const char *name, char **env);
 void free_env(char **env, int number);
 void get_arguments(char *line, char **arguments);
-int process_command(char **arguments, char **argv, char **env);
+int process_command(char **arguments, char **env, char **argv);
 
 list_t *create_path_list(char *value);
 char *search_path_list(char *command, list_t *paths, int *code);

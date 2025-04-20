@@ -37,7 +37,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			arguments[0] = search_path_list(arguments[0], path_list, &code);
 			status = 1;
 		}
-		code = process_command(arguments, argv, env);
+		code = process_command(arguments, env, argv);
 		if (status == 1)
 			free(arguments[0]);
 		if (code != 0)

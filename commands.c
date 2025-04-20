@@ -89,16 +89,16 @@ void free_env(char **env, int number)
 void get_arguments(char *line, char **arguments)
 {
 	int i = 0;
-	char *str;
+	char *string;
 
-	str = strtok(line, " \n");
+	string = strtok(line, " \n");
 
-	if (str != NULL)
+	if (string != NULL)
 	{
-		while (str != NULL)
+		while (string != NULL)
 		{
-			arguments[i] = str;
-			str = strtok(NULL, " \n");
+			arguments[i] = string;
+			string = strtok(NULL, " \n");
 			i++;
 		}
 	}
@@ -108,14 +108,14 @@ void get_arguments(char *line, char **arguments)
 
 /**
  * process_command - process the given command
- * @arguments: array of strings
- * @argv: array of strings
+ * @arguments: user input
  * @env: environment variables
+ * @argv: arguments of the program
  *
- * Return: status code
+ * Return: 0 if successful ; error code otherwise
  */
 
-int process_command(char **arguments, char **argv, char **env)
+int process_command(char **arguments, char **env, char **argv)
 {
 	pid_t child_pid;
 	int status;
