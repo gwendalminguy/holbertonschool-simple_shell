@@ -35,20 +35,15 @@ list_t *create_path_list(char **env)
  * search_path_list - searches for a given command in all PATH directories
  * @command: user input
  * @paths: linked list of all PATH directories
- * @code: status code
  *
  * Return: full command path
  */
-char *search_path_list(char *command, list_t *paths, int *code)
+char *search_path_list(char *command, list_t *paths)
 {
 	struct stat st;
 	char *full_path;
 	list_t *current = paths;
 	int size = 0;
-
-	/* Setting an error if no PATH directory found */
-	if (current == NULL)
-		*code = -1;
 
 	/* Searching for the command in each PATH */
 	while (current != NULL)

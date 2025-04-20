@@ -33,7 +33,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			continue;
 		if (arguments[0][0] != '/' && arguments[0][0] != '.')
 		{
-			arguments[0] = search_path_list(arguments[0], path_list, &code);
+			arguments[0] = search_path_list(arguments[0], path_list);
 			status = 1;
 		}
 		code = process_command(arguments, env, argv);
