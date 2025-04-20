@@ -2,14 +2,17 @@
 
 /**
  * create_path_list - creates a singly linked list of all PATH directories
- * @value: value of PATH environment variable
+ * @env: environment variables
  *
  * Return: head of the list
  */
-list_t *create_path_list(char *value)
+list_t *create_path_list(char **env)
 {
 	char *path = NULL;
+	char *value = NULL;
 	list_t *head = NULL;
+
+	value = get_env("PATH", env);
 
 	if (value == NULL)
 		return (NULL);
@@ -22,6 +25,8 @@ list_t *create_path_list(char *value)
 		add_node_list(&head, path);
 		path = strtok(NULL, ":\n");
 	}
+
+	free(value);
 
 	return (head);
 }

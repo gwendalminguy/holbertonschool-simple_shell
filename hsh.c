@@ -13,13 +13,12 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read = 0;
-	char *value = NULL;
 	list_t *path_list = NULL;
 	char *arguments[4096];
 	int code = 0, status = 0;
 
-	value = get_env("PATH", env);
-	path_list = create_path_list(value);
+	path_list = create_path_list(env);
+
 	while (1)
 	{
 		status = 0;
@@ -43,8 +42,6 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		if (code != 0)
 			break;
 	}
-	if (value != NULL)
-		free(value);
 	free(line);
 	free_list(path_list);
 	if (code == 127)
