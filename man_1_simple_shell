@@ -49,7 +49,7 @@ If none is found but the name of the command starts with a slash or a period, it
 Otherwise, it will try to find the command in each directory entry contained in the PATH environment variable.
 
 .SS Special Features
-HSH handles a few special features commonly avaiable in a shell, such as variable replacement (and history ?).
+HSH handles a few special features commonly avaiable in a shell, such as \fBexpansion\fR and \fBhistory\fR.
 Expanding a variable can be achieved using the dollar symbol ($), followed by the name of an environment variable.
 Expanding the process identifier (PID) can be achieved using two consecutive dollar symbols ($$).
 Expanding the exit status of the previous command can be achieved using a dollar symbol followed by a question mark ($?).
@@ -72,8 +72,11 @@ This variable contains the path to the current working directory, and is updated
 .RE
 
 .SH FILES
-HSH should be compiled using GCC. It will need all of the following files in order to be compiled correctly:
+HSH should be compiled using GCC. Using warning flags is advised, to ensure a proper compilation. It will need all of the following files:
 .RS
+.LP
+\fIbuiltin.c\fR
+- The file containing functions related to built-in commands.
 .LP
 \fIcommands.c\fR
 - The file containing functions related to the command execution.

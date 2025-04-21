@@ -36,7 +36,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 
 		if (arguments[0][0] != '/' && arguments[0][0] != '.' && arguments[0][0] != '$')
 			arguments[0] = search_path_list(arguments[0], path_list, copy);
-		
+
 		status = process_command(arguments, env, argv, status);
 
 		if (status == -1 || status == 127)

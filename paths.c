@@ -33,6 +33,7 @@ list_t *create_path_list(char **env)
  * search_path_list - searches for a given command in all PATH directories
  * @command: command to search
  * @paths: linked list of all PATH directories
+ * @copy: buffer for the path
  *
  * Return: full command path
  */

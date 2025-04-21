@@ -24,8 +24,9 @@ int copy_env(char **env, char **environment)
  * get_env - gets an environment variable
  * @name: name of variable to get
  * @env: environment variable
+ * @copy: buffer for the value
  *
- * Return: value of the environment variable
+ * Return: copy of the value of the environment variable
  */
 char *get_env(const char *name, char **env, char *copy)
 {
