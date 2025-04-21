@@ -27,13 +27,12 @@ int copy_env(char **env, char **environment)
  *
  * Return: value of the environment variable
  */
-char *get_env(const char *name, char **env)
+char *get_env(const char *name, char **env, char *copy)
 {
 	int i = 0, cmp = 0;
 	int number = 0;
 	char *variable = NULL;
 	char *value = NULL;
-	char *copy = NULL;
 	char *environment[4096];
 
 	memset(environment, 0, sizeof(environment));
@@ -49,7 +48,7 @@ char *get_env(const char *name, char **env)
 
 		if (cmp == 0 && value != NULL)
 		{
-			copy = strdup(value);
+			strcpy(copy, value);
 			free_env(environment, number);
 			return (copy);
 		}
@@ -119,8 +118,9 @@ void get_arguments(char *line, char **arguments)
 int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
-	int code, i = 0, n = -1;
+	int code, i = 0;
 	struct stat st;
+	char copy[2048];
 
 	while (arguments[i] != NULL)
 	{
@@ -129,11 +129,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		else if (arguments[i][0] == '$' && arguments[i][1] == '$')
 			sprintf(arguments[i], "%i", getpid());
 		else if (arguments[i][0] == '$' && arguments[i][1] != '\0')
-		{
-			arguments[i] = get_env(&arguments[i][1], env);
-			n = i;
-			break;
-		}
+			arguments[i] = get_env(&arguments[i][1], env, copy);
 		i++;
 	}
 
@@ -153,9 +149,6 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		execve(arguments[0], arguments, env);
 	else
 		wait(&code);
-	
-	if (n >= 0)
-		free(arguments[i]);
 
 	return (WEXITSTATUS(code));
 }

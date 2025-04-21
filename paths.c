@@ -9,15 +9,15 @@
 list_t *create_path_list(char **env)
 {
 	char *path = NULL;
-	char *value = NULL;
+	char copy[4096] = "";
 	list_t *head = NULL;
 
-	value = get_env("PATH", env);
+	get_env("PATH", env, copy);
 
-	if (value == NULL)
+	if (copy[0] == '\0')
 		return (NULL);
 
-	path = strtok(value, ":\n");
+	path = strtok(copy, ":\n");
 
 	/* Creating a node for each PATH directory */
 	while (path != NULL)
@@ -25,8 +25,6 @@ list_t *create_path_list(char **env)
 		add_node_list(&head, path);
 		path = strtok(NULL, ":\n");
 	}
-
-	free(value);
 
 	return (head);
 }
