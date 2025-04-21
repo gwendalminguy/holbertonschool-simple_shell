@@ -153,9 +153,9 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		execve(arguments[0], arguments, env);
 	else
 		wait(&code);
-
+	
 	if (n >= 0)
 		free(arguments[i]);
 
-	return (0);
+	return (WEXITSTATUS(code));
 }

@@ -42,7 +42,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		else
 			status = process_command(arguments, env, argv, status);
 
-		if (status != 0)
+		if (status == -1 || status == 127)
 			break;
 	}
 
