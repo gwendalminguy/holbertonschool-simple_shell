@@ -127,6 +127,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 	struct stat st;
 	char copy[2048];
 
+	/* Handling expansion */
 	while (arguments[i] != NULL)
 	{
 		if (arguments[i][0] == '$' && arguments[i][1] == '?')
@@ -145,6 +146,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 	}
 
 	child_pid = fork();
+
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "%s: fork failed\n", argv[0]);

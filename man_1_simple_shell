@@ -49,10 +49,11 @@ If none is found but the name of the command starts with a slash or a period, it
 Otherwise, it will try to find the command in each directory entry contained in the PATH environment variable.
 
 .SS Special Features
-HSH handles a few special features commonly avaiable in a shell, such as \fBexpansion\fR and \fBhistory\fR.
+HSH handles a few special features commonly avaiable in a shell, such as \fBexpansion\fR, \fBcomments\fR and \fBhistory\fR.
 Expanding a variable can be achieved using the dollar symbol ($), followed by the name of an environment variable.
 Expanding the process identifier (PID) can be achieved using two consecutive dollar symbols ($$).
 Expanding the exit status of the previous command can be achieved using a dollar symbol followed by a question mark ($?).
+Comments can be written using a hash mark (#). Anything that comes after this symbol will be ignored by HSH.
 
 .SH EXIT STATUS
 If terminated manually on regular execution, HSH will exit with the status code (0).
