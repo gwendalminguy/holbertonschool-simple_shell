@@ -49,6 +49,7 @@ char *get_env(const char *name, char **env, char *copy)
 
 		if (cmp == 0 && value != NULL)
 		{
+			/* Copying and freeing */
 			strcpy(copy, value);
 			free_env(environment, number);
 			return (copy);
@@ -64,7 +65,7 @@ char *get_env(const char *name, char **env, char *copy)
 
 /**
  * free_env - frees an array of environment variables
- * @env: array of environment variables
+ * @env: environment variables
  * @number: number of variables
  */
 void free_env(char **env, int number)
@@ -82,7 +83,7 @@ void free_env(char **env, int number)
 }
 
 /**
- * get_arguments - transforms user input in an array of strings
+ * get_arguments - separates the user input in an array of strings
  * @line: user input
  * @arguments: array of strings
  */
@@ -111,13 +112,13 @@ void get_arguments(char *line, char **arguments)
 }
 
 /**
- * process_command - process the given command
- * @arguments: user input
+ * process_command - process a given command
+ * @arguments: command to process
  * @env: environment variables
  * @argv: arguments of the program
- * @status: status of the previous command
+ * @status: exit status of the previous command
  *
- * Return: 0 if successful ; error code otherwise
+ * Return: exit status of the command if found ; error code otherwise
  */
 
 int process_command(char **arguments, char **env, char **argv, int status)
@@ -139,6 +140,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		i++;
 	}
 
+	/* Checking if the command exists */
 	if (stat(arguments[0], &st) != 0)
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arguments[0]);
@@ -152,6 +154,8 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		fprintf(stderr, "%s: fork failed\n", argv[0]);
 		return (-1);
 	}
+
+	/* Executing the command */
 	else if (child_pid == 0)
 		execve(arguments[0], arguments, env);
 	else

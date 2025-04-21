@@ -24,7 +24,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	{
 		memset(arguments, 0, sizeof(arguments));
 		if (isatty(STDIN_FILENO) != 0)
-			printf("$ ");
+			printf("%s$ ", &argv[0][2]);
 
 		read = getline(&line, &len, stdin);
 		if (read < 0)

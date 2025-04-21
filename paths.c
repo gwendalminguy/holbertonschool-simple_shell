@@ -60,7 +60,7 @@ char *search_path_list(char *command, list_t *paths, char *copy)
 		strcat(full_path, "/");
 		strcat(full_path, command);
 
-		/* Checking if the executable exitsts */
+		/* Checking if the executable exists */
 		if (stat(full_path, &st) == 0)
 		{
 			strcpy(copy, full_path);
