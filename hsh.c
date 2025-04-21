@@ -23,7 +23,6 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		{"env", builtin_env},
 		{NULL, NULL}
 	};
-
 	
 	path_list = create_path_list(env);
 	
