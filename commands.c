@@ -120,7 +120,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
 	int code;
-	int i = 1;
+	int i = 0;
 	struct stat st;
 
 	while (arguments[i] != NULL)
