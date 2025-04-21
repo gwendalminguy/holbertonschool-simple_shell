@@ -43,7 +43,6 @@ char *search_path_list(char *command, list_t *paths)
 	struct stat st;
 	char full_path[1024];
 	list_t *current = paths;
-	int size = 0;
 
 	/* Searching for the command in each PATH */
 	while (current != NULL)
