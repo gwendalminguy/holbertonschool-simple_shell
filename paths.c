@@ -12,6 +12,7 @@ list_t *create_path_list(char **env)
 	char copy[4096] = "";
 	list_t *head = NULL;
 
+	/* Getting the value of PATH */
 	get_env("PATH", env, copy);
 
 	if (copy[0] == '\0')
@@ -47,16 +48,19 @@ char *search_path_list(char *command, list_t *paths, char *copy)
 	/* Searching for the command in each PATH */
 	while (current != NULL)
 	{
+		/* Allocating enough memory for full_path */
 		size = strlen(current->str) + strlen(command);
 		full_path = malloc(2 + size * sizeof(char));
 
 		if (full_path == NULL)
 			return (NULL);
 
+		/* Concatenating PATH with the command name */
 		strcpy(full_path, current->str);
 		strcat(full_path, "/");
 		strcat(full_path, command);
 
+		/* Checking if the executable exitsts */
 		if (stat(full_path, &st) == 0)
 		{
 			strcpy(copy, full_path);
@@ -69,7 +73,7 @@ char *search_path_list(char *command, list_t *paths, char *copy)
 		free(full_path);
 	}
 
-	 strcpy(copy, command);
+	strcpy(copy, command);
 
 	return (copy);
 }
