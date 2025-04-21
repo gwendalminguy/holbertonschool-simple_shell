@@ -16,6 +16,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	list_t *path_list = NULL;
 	char *arguments[4096];
 	int status = 0;
+	char copy[2048];
 
 	path_list = create_path_list(env);
 
@@ -34,13 +35,9 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			continue;
 
 		if (arguments[0][0] != '/' && arguments[0][0] != '.' && arguments[0][0] != '$')
-		{
-			arguments[0] = search_path_list(arguments[0], path_list);
-			status = process_command(arguments, env, argv, status);
-			free(arguments[0]);
-		}
-		else
-			status = process_command(arguments, env, argv, status);
+			arguments[0] = search_path_list(arguments[0], path_list, copy);
+		
+		status = process_command(arguments, env, argv, status);
 
 		if (status == -1 || status == 127)
 			break;

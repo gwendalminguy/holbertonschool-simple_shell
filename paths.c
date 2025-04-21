@@ -36,7 +36,7 @@ list_t *create_path_list(char **env)
  *
  * Return: full command path
  */
-char *search_path_list(char *command, list_t *paths)
+char *search_path_list(char *command, list_t *paths, char *copy)
 {
 	struct stat st;
 	char *full_path;
@@ -58,7 +58,9 @@ char *search_path_list(char *command, list_t *paths)
 
 		if (stat(full_path, &st) == 0)
 		{
-			return (full_path);
+			strcpy(copy, full_path);
+			free(full_path);
+			return (copy);
 		}
 
 		current = current->next;
@@ -66,9 +68,9 @@ char *search_path_list(char *command, list_t *paths)
 		free(full_path);
 	}
 
-	full_path = strdup(command);
+	 strcpy(copy, command);
 
-	return (full_path);
+	return (copy);
 }
 
 /**
