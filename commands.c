@@ -119,7 +119,7 @@ void get_arguments(char *line, char **arguments)
 int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
-	int code, i = 1, n = -1;
+	int code, i = 0, n = -1;
 	struct stat st;
 
 	while (arguments[i] != NULL)
