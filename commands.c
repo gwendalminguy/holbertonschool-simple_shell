@@ -111,15 +111,28 @@ void get_arguments(char *line, char **arguments)
  * @arguments: user input
  * @env: environment variables
  * @argv: arguments of the program
+ * @status: status of the previous command
  *
  * Return: 0 if successful ; error code otherwise
  */
 
-int process_command(char **arguments, char **env, char **argv)
+int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
-	int status;
+	int code;
+	int i = 1;
 	struct stat st;
+
+	while (arguments[i] != NULL)
+	{
+		if (arguments[i][0] == '$' && arguments[i][1] == '?')
+			sprintf(arguments[i], "%i", status);
+		else if (arguments[i][0] == '$' && arguments[i][1] == '$')
+			sprintf(arguments[i], "%i", getpid());
+		else if (arguments[i][0] == '$' && arguments[i][1] != '\0')
+			arguments[i] = getenv(&arguments[i][1]);
+		i++;
+	}
 
 	if (stat(arguments[0], &st) != 0)
 	{
@@ -141,7 +154,7 @@ int process_command(char **arguments, char **env, char **argv)
 	}
 	else
 	{
-		wait(&status);
+		wait(&code);
 	}
 
 	return (0);

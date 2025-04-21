@@ -21,7 +21,6 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 
 	while (1)
 	{
-		status = 0;
 		memset(arguments, 0, sizeof(arguments));
 		if (isatty(STDIN_FILENO) != 0)
 			printf("$ ");
@@ -37,11 +36,11 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		if (arguments[0][0] != '/' && arguments[0][0] != '.')
 		{
 			arguments[0] = search_path_list(arguments[0], path_list);
-			status = process_command(arguments, env, argv);
+			status = process_command(arguments, env, argv, status);
 			free(arguments[0]);
 		}
 		else
-			status = process_command(arguments, env, argv);
+			status = process_command(arguments, env, argv, status);
 
 		if (status != 0)
 			break;
