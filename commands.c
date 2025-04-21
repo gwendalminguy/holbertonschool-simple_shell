@@ -119,8 +119,7 @@ void get_arguments(char *line, char **arguments)
 int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
-	int code;
-	int i = 1;
+	int code, i = 1, n = -1;
 	struct stat st;
 
 	while (arguments[i] != NULL)
@@ -130,7 +129,11 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		else if (arguments[i][0] == '$' && arguments[i][1] == '$')
 			sprintf(arguments[i], "%i", getpid());
 		else if (arguments[i][0] == '$' && arguments[i][1] != '\0')
+		{
 			arguments[i] = get_env(&arguments[i][1], env);
+			n = i;
+			break;
+		}
 		i++;
 	}
 
@@ -141,21 +144,18 @@ int process_command(char **arguments, char **env, char **argv, int status)
 	}
 
 	child_pid = fork();
-
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "%s: fork failed\n", argv[0]);
 		return (-1);
 	}
-
-	if (child_pid == 0)
-	{
+	else if (child_pid == 0)
 		execve(arguments[0], arguments, env);
-	}
 	else
-	{
 		wait(&code);
-	}
+
+	if (n >= 0)
+		free(arguments[i]);
 
 	return (0);
 }
