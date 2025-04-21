@@ -41,26 +41,36 @@ list_t *create_path_list(char **env)
 char *search_path_list(char *command, list_t *paths)
 {
 	struct stat st;
-	char full_path[1024];
+	char *full_path;
+	int size = 0;
 	list_t *current = paths;
 
 	/* Searching for the command in each PATH */
 	while (current != NULL)
 	{
-		memset(full_path, 0, sizeof(full_path));
+		size = strlen(current->str) + strlen(command);
+		full_path = malloc(2 + size * sizeof(char));
 
-		sprintf(full_path, "%s/%s", current->str, command);
+		if (full_path == NULL)
+			return (NULL);
+
+		strcpy(full_path, current->str);
+		strcat(full_path, "/");
+		strcat(full_path, command);
 
 		if (stat(full_path, &st) == 0)
 		{
-			sprintf(command, "%s", full_path);
-			return (command);
+			return (full_path);
 		}
 
 		current = current->next;
+
+		free(full_path);
 	}
 
-	return (command);
+	full_path = strdup(command);
+
+	return (full_path);
 }
 
 /**

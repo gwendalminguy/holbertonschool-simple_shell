@@ -120,7 +120,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
 	int code;
-	int i = 0;
+	int i = 1;
 	struct stat st;
 
 	while (arguments[i] != NULL)
@@ -130,7 +130,7 @@ int process_command(char **arguments, char **env, char **argv, int status)
 		else if (arguments[i][0] == '$' && arguments[i][1] == '$')
 			sprintf(arguments[i], "%i", getpid());
 		else if (arguments[i][0] == '$' && arguments[i][1] != '\0')
-			arguments[i] = getenv(&arguments[i][1]);
+			arguments[i] = get_env(&arguments[i][1], env);
 		i++;
 	}
 
