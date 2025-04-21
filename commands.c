@@ -97,6 +97,10 @@ void get_arguments(char *line, char **arguments)
 	{
 		while (string != NULL)
 		{
+			/* Handling comments */
+			if (string[0] == '#')
+				break;
+
 			arguments[i] = string;
 			string = strtok(NULL, " \n");
 			i++;
