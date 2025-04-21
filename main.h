@@ -22,6 +22,12 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
+typedef struct builtin_s
+{
+	char *name;
+	void (*func)(char **env);
+} builtin_t;
+
 void print_env(char **env);
 int set_env(char *variable, char *value, char **env, char **argv);
 int unset_env(char *variable, char **env, char **argv);
@@ -37,5 +43,8 @@ char *search_path_list(char *command, list_t *paths);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);
+
+void builtin_exit(char **env);
+void builtin_env(char **env);
 
 #endif
