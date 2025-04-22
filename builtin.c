@@ -52,6 +52,10 @@ void builtin_exit(char **command, char **env, int *status)
  */
 void builtin_cd(char **command, char **env, int *status)
 {
+	(void)command;
+	(void)env;
+	(void)status;
+
 	*status = 1;
 }
 
@@ -63,5 +67,9 @@ void builtin_cd(char **command, char **env, int *status)
  */
 void builtin_help(char **command, char **env, int *status)
 {
+	(void)command;
+	(void)env;
+	(void)status;
+
 	*status = 1;
 }
