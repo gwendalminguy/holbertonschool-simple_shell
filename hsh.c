@@ -14,7 +14,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	size_t len = 0;
 	ssize_t read = 0;
 	list_t *path_list = NULL;
-	char *arguments[4096];
+	char *command[4096];
 	int status = 0;
 	char copy[2048];
 
@@ -22,7 +22,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 
 	while (1)
 	{
-		memset(arguments, 0, sizeof(arguments));
+		memset(command, 0, sizeof(command));
 		if (isatty(STDIN_FILENO) != 0)
 			printf("%s$ ", &argv[0][2]);
 
@@ -30,14 +30,14 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		if (read < 0)
 			break;
 
-		get_arguments(line, arguments);
-		if (arguments[0] == NULL)
+		get_arguments(line, command);
+		if (command[0] == NULL)
 			continue;
 
-		if (arguments[0][0] != '/' && arguments[0][0] != '.' && arguments[0][0] != '$')
-			arguments[0] = search_path_list(arguments[0], path_list, copy);
+		if (command[0][0] != '/' && command[0][0] != '.' && command[0][0] != '$')
+			command[0] = search_path_list(command[0], path_list, copy);
 
-		status = process_command(arguments, env, argv, status);
+		status = process_command(command, env, argv, status);
 
 		if (status == -1 || status == 127)
 			break;
