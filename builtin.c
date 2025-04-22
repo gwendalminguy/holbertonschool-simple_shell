@@ -41,7 +41,9 @@ void builtin_exit(char **command, char **env, int *status)
 	(void)env;
 
 	if (command[1] != NULL)
-		*status = atoi(command[1]);
+	{
+		*status = get_integer(command[1]);
+	}
 }
 
 /**

@@ -4,10 +4,8 @@
  * copy_env - copies all environment variables in an array of strings
  * @env: environment variables
  * @environment: destination
- *
- * Return: number of variables
  */
-int copy_env(char **env, char **environment)
+void copy_env(char **env, char **environment)
 {
 	int i = 0;
 
@@ -16,26 +14,20 @@ int copy_env(char **env, char **environment)
 		environment[i] = strdup(env[i]);
 		i++;
 	}
-
-	return (i);
 }
 
 /**
  * free_env - frees an array of environment variables
  * @env: environment variables
- * @number: number of variables
  */
-void free_env(char **env, int number)
+void free_env(char **env)
 {
 	int i = 0;
 
-	while (i < number)
+	while (env[i] != NULL)
 	{
-		if (env[i] != NULL)
-		{
-			free(env[i]);
-			i++;
-		}
+		free(env[i]);
+		i++;
 	}
 }
 

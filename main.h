@@ -36,6 +36,7 @@ typedef struct builtin_s
 /* Functions from commands.c */
 char *get_env(const char *name, char **env, char *copy);
 void get_arguments(char *line, char **arguments);
+int get_integer(char *str);
 int process_command(char **arguments, char **env, char **argv, int status);
 
 /* Functions from paths.c */
@@ -52,8 +53,8 @@ void builtin_cd(char **command, char **env, int *status);
 void builtin_help(char **command, char **env, int *status);
 
 /* Functions from environment.c */
-int copy_env(char **env, char **environment);
-void free_env(char **env, int number);
+void copy_env(char **env, char **environment);
+void free_env(char **env);
 void builtin_printenv(char **command, char **env, int *status);
 void builtin_setenv(char **command, char **env, int *status);
 void builtin_unsetenv(char **command, char **env, int *status);

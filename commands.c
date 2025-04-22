@@ -11,13 +11,12 @@
 char *get_env(const char *name, char **env, char *copy)
 {
 	int i = 0, cmp = 0;
-	int number = 0;
 	char *variable = NULL;
 	char *value = NULL;
 	char *environment[4096];
 
 	memset(environment, 0, sizeof(environment));
-	number = copy_env(env, environment);
+	copy_env(env, environment);
 
 	/* Searching for a matching variable */
 	while (environment[i] != NULL)
@@ -31,14 +30,14 @@ char *get_env(const char *name, char **env, char *copy)
 		{
 			/* Copying and freeing */
 			strcpy(copy, value);
-			free_env(environment, number);
+			free_env(environment);
 			return (copy);
 		}
 
 		i++;
 	}
 
-	free_env(environment, number);
+	free_env(environment);
 
 	return (NULL);
 }
@@ -73,6 +72,46 @@ void get_arguments(char *line, char **arguments)
 }
 
 /**
+ * get_integer - converts a string into an integer
+ * @str - string to convert
+ *
+ * Return: integer
+ */
+int get_integer(char *str)
+{
+	int i;
+	int length = strlen(str);
+	int sign = 1, number = 0;
+	int start = -1, end = 0;
+
+	/* Getting the sign, the starting index and the ending index */
+	for (i = 0 ; i < length ; i++)
+	{
+		if (str[i] == '-')
+			sign = -sign;
+		if ((str[i] >= 48 && str[i] <= 57) && (str[i - 1] < 48 || str[i - 1] > 57))
+			start = i;
+		if ((str[i] >= 48 && str[i] <= 57) && (str[i + 1] < 48 || str[i + 1] > 57))
+		{
+			end = i;
+			break;
+		}
+	}
+
+	/* Going through each digit and updating the number to return */
+	if (start >= 0)
+	{
+		for (i = start ; i <= end ; i++)
+			number = number * 10 + (str[i] - 48);
+
+		if (sign < 0)
+			number = -number;
+	}
+
+	return (number);
+}
+
+/**
  * process_command - process a given command
  * @arguments: command to process
  * @env: environment variables
@@ -81,7 +120,6 @@ void get_arguments(char *line, char **arguments)
  *
  * Return: exit status of the command if found ; error code otherwise
  */
-
 int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
