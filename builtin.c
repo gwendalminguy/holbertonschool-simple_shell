@@ -50,7 +50,10 @@ void builtin_exit(char **command, char **env, int *status, char **argv)
 		if (n >= 0)
 			*status = n;
 		else
+		{
 			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0], command[1]);
+			*status = 2;
+		}
 	}
 }
 
