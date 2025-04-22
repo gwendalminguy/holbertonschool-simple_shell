@@ -14,8 +14,8 @@ It relies on the value of the PATH environment variable, in order to be able to 
 If the command is found, \fIfork\fR is called to create a new process that will execute the command using the \fIexecve\fR system call. It also supports some built-in commands.
 
 .SS Interactive Mode
-When launched, HSH automatically enters interactive mode, and can be used by typing any command.
-Blablabla
+When launched, HSH automatically enters the interactive mode, and can be used by typing any command. In this case, the user can stop the shell using the \fIexit\fR command.
+HSH can also be called from another shell, by using \fIecho\fR and piping the desired command. There is no need to exit HSH in this case.
 
 .SS Built-In Commands
 Specific commands that can be used within the shell. Each built-in command can be invoked by using its name, eventually followed by one or more argument(s) if required.
@@ -24,7 +24,7 @@ The supported built-in commands and their meaning are the following:
 .LP
 \fBexit\fR [\fISTATUS\fR]
 .IP
-Exits the shell with code \fISTATUS\fR if specified, or with code (0) otherwise.
+Exits the shell with code \fISTATUS\fR if specified, or with the exit status of the previous command otherwise.
 .LP
 \fBenv, printenv\fR
 .IP

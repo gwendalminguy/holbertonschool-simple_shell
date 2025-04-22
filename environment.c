@@ -74,15 +74,16 @@ void builtin_setenv(char **command, char **env, int *status, char **argv)
 		{
 			if (strncmp(command[1], env[i], m) == 0)
 			{
-				builtin_unsetenv(command, env, status, argv);
+				free(env[i]);
+				break;
 			}
 
 			i++;
 		}
 
-		size = 2 + m + n;
+		size = m + n;
 
-		env[i] = malloc(size);
+		env[i] = malloc(size + 2);
 
 		if (env[i] == NULL)
 		{
