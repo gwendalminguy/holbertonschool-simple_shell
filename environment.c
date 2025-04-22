@@ -95,23 +95,3 @@ int unset_env(char *variable, char **env, char **argv)
 		return (0);
 	}
 }
-
-void builtin_exit(char **env)
-{
-	(void)env;
-	exit(0);
-}
-
-void builtin_env(char **env)
-{
-	int i = 0;
-	int len = 0;
-
-	while (env[i])
-	{
-		len = strlen(env[i]);
-		write(STDOUT_FILENO, env[i], len);
-		write(STDOUT_FILENO, "\n", 1);
-		i++;
-	}
-}
