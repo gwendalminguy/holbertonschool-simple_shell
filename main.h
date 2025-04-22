@@ -22,6 +22,12 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
+typedef struct builtin_s
+{
+	char *name;
+	void (*func)(char **env);
+} builtin_t;
+
 void print_env(char **env);
 int set_env(char *variable, char *value, char **env, char **argv);
 int unset_env(char *variable, char **env, char **argv);

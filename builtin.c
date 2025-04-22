@@ -27,26 +27,29 @@ void builtin_env(char **env)
 	}
 }
 
-builtin_t builtin[] = {
-	{"exit", builtin_exit},
-	{"env", builtin_env},
-	{NULL, NULL}
-};
 
-i = 0;
-		while (builtin[i].name)
+int (*search_builtin(char *string))(char **command)
+{
+	int i = 0;
+
+	builtin_t builtin[] = {
+		{"exit", builtin_exit},
+		{"env", builtin_env},
+		{NULL, NULL}
+	};
+
+	while (builtin[i].name)
+	{
+		if (strcmp(command[0], builtin[i].name) == 0)
 		{
-			if (strcmp(arguments[0], builtin[i].name) == 0)
-			{
-				builtin[i].func(env);
-				break;
-			}
-			i++;
+			builtin[i].func;		
+			break;
 		}
-		if (builtin[i].name != NULL)
-		{
-			continue;
-		}
+		i++;
+	}
+	
+	return (builtin[i].func);
+}
 
 void builtin_exit(char **env);
 void builtin_env(char **env);
