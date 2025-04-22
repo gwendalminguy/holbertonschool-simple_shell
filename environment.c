@@ -1,18 +1,62 @@
 #include "main.h"
 
 /**
- * print_env - prints all environment variables
+ * copy_env - copies all environment variables in an array of strings
  * @env: environment variables
+ * @environment: destination
+ *
+ * Return: number of variables
  */
-void print_env(char **env)
+int copy_env(char **env, char **environment)
 {
 	int i = 0;
+
+	while (env[i] != NULL)
+	{
+		environment[i] = strdup(env[i]);
+		i++;
+	}
+
+	return (i);
+}
+
+/**
+ * free_env - frees an array of environment variables
+ * @env: environment variables
+ * @number: number of variables
+ */
+void free_env(char **env, int number)
+{
+	int i = 0;
+
+	while (i < number)
+	{
+		if (env[i] != NULL)
+		{
+			free(env[i]);
+			i++;
+		}
+	}
+}
+
+/**
+ * builtin_printenv - prints all environment variables
+ * @command: command to process
+ * @env: environnement variables
+ * @status: exit status
+ */
+void builtin_printenv(char **command, char **env, int *status)
+{
+	int i = 0;
+	(void)command;
 
 	while (env[i] != NULL)
 	{
 		printf("%s\n", env[i]);
 		i++;
 	}
+
+	*status = 0;
 }
 
 /**

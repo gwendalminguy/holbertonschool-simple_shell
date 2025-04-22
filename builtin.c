@@ -1,40 +1,6 @@
 #include "main.h"
 
 /**
- * builtin_exit - fonction to exit
- * @command: command to process
- * @env: environnement variables
- * @status: exit status
- */
-void builtin_exit(char **command, char **env, int *status)
-{
-	(void)env;
-
-	if (command[1] != NULL)
-		*status = atoi(command[1]);
-}
-
-/**
- * builtin_printenv - fonction to print env
- * @command: command to process
- * @env: environnement variables
- * @status: exit status
- */
-void builtin_printenv(char **command, char **env, int *status)
-{
-	int i = 0;
-	(void)command;
-
-	while (env[i] != NULL)
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
-
-	*status = 0;
-}
-
-/**
  * search_builtin - searches for a builtin command
  * @name: name of the command
  *
@@ -50,6 +16,8 @@ void (*search_builtin(char *name))(char **command, char **env, int *status)
 		{"printenv", builtin_printenv},
 		{"setenv", builtin_setenv},
 		{"unsetenv", builtin_unsetenv},
+		{"cd", builtin_cd},
+		{"help", builtin_help},
 		{NULL, NULL}
 	};
 
@@ -61,4 +29,39 @@ void (*search_builtin(char *name))(char **command, char **env, int *status)
 	}
 
 	return (builtin[i].fptr);
+}
+/**
+ * builtin_exit - sets an exit status
+ * @command: command to process
+ * @env: environnement variables
+ * @status: exit status
+ */
+void builtin_exit(char **command, char **env, int *status)
+{
+	(void)env;
+
+	if (command[1] != NULL)
+		*status = atoi(command[1]);
+}
+
+/**
+ * cd - ...
+ * @command:
+ * @env:
+ * @status:
+ */
+void builtin_cd(char **command, char **env, int *status)
+{
+	*status = 1;
+}
+
+/**
+ * help - ...
+ * @command:
+ * @env:
+ * @status:
+ */
+void builtin_help(char **command, char **env, int *status)
+{
+	*status = 1;
 }
