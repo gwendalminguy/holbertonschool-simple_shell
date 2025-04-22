@@ -30,7 +30,10 @@ typedef struct list_s
 typedef struct builtin_s
 {
 	char *name;
-	void (*fptr)(char **command, char **env, int *status, char **argv);
+	void (*fptr)(char **command,
+		     char **env,
+		     int *status,
+		     char **argv);
 } builtin_t;
 
 /* Functions from commands.c */
@@ -40,11 +43,11 @@ int get_integer(char *str);
 int process_command(char **arguments, char **env, char **argv, int status);
 
 /* Functions from paths.c */
-list_t *create_path_list(char **env);
+list_t *create_path_list(char **env, char **environment);
 char *search_path_list(char *command, list_t *paths, char *copy);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
-void free_list(list_t *head);
+void free_list(list_t *head, char **environment);
 
 /* Functions from builtin.c */
 void (*search_builtin(char *name))(char **command, char **env, int *status, char **argv);

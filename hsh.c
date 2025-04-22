@@ -15,17 +15,18 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	size_t len = 0;
 	ssize_t read = 0;
 	char *command[4096];
+	char *environment[4096];
 	int status = 0;
 	char copy[2048];
 
-	path_list = create_path_list(env);
+	memset(environment, 0, sizeof(environment));
+	path_list = create_path_list(env, environment);
 
 	while (1)
 	{
 		memset(command, 0, sizeof(command));
 		if (isatty(STDIN_FILENO) != 0)
 			printf("%s$ ", &argv[0][2]);
-
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 			break;
@@ -34,7 +35,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			continue;
 		if (search_builtin(command[0]) != NULL)
 		{
-			search_builtin(command[0])(command, env, &status, argv);
+			search_builtin(command[0])(command, environment, &status, argv);
 			if (strcmp(command[0], "exit") == 0)
 				break;
 			continue;
@@ -46,8 +47,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		if (status == -1 || status == 127)
 			break;
 	}
-
 	free(line);
-	free_list(path_list);
+	free_list(path_list, environment);
 	exit(status);
 }

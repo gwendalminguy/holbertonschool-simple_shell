@@ -3,14 +3,17 @@
 /**
  * create_path_list - creates a singly linked list of all PATH directories
  * @env: environment variables
+ * @environment: ...
  *
  * Return: head of the list
  */
-list_t *create_path_list(char **env)
+list_t *create_path_list(char **env, char **environment)
 {
 	char *path = NULL;
 	char copy[4096] = "";
 	list_t *head = NULL;
+
+	copy_env(env, environment);
 
 	/* Getting the value of PATH */
 	get_env("PATH", env, copy);
@@ -147,11 +150,14 @@ void add_node_list(list_t **head, const char *str)
 /**
  * free_list - frees a linked list
  * @head: head of the list
+ * @environment: ...
  */
-void free_list(list_t *head)
+void free_list(list_t *head, char **environment)
 {
 	list_t *current = NULL;
 	list_t *temp = NULL;
+
+	free_env(environment);
 
 	if (head != NULL)
 	{

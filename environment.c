@@ -73,7 +73,10 @@ void builtin_setenv(char **command, char **env, int *status, char **argv)
 		while (env[i] != NULL)
 		{
 			if (strncmp(command[1], env[i], m) == 0)
+			{
 				builtin_unsetenv(command, env, status, argv);
+			}
+
 			i++;
 		}
 
@@ -90,7 +93,6 @@ void builtin_setenv(char **command, char **env, int *status, char **argv)
 		{
 			memset(env[i], 0, size);
 			sprintf(env[i], "%s=%s", command[1], command[2]);
-			env[i + 1] = NULL;
 			*status = 0;
 		}
 	}
@@ -115,11 +117,10 @@ void builtin_unsetenv(char **command, char **env, int *status, char **argv)
 	if (command[1] != NULL)
 	{
 		n = strlen(command[1]);
-
 		while (env[i] != NULL)
 		{
 			if (strncmp(command[1], env[i], n) == 0)
-			break;
+				break;
 			i++;
 		}
 
@@ -130,18 +131,25 @@ void builtin_unsetenv(char **command, char **env, int *status, char **argv)
 		}
 		else
 		{
+			/* Freeing variable and shifting the others */
 			while (env[i] != NULL)
 			{
-				env[i] = env[i + 1];
+				free(env[i]);
+				if (env[i + 1] != NULL)
+				{
+					env[i] = malloc(1 + strlen(env[i + 1]));
+					strcpy(env[i], env[i + 1]);
+				}
+				else
+					env[i] = NULL;
 				i++;
 			}
-
 			*status = 0;
 		}
 	}
 	else
 	{
 		fprintf(stderr, "%s: unsetenv failed\n", argv[0]);
-		*status = 0;
+		*status = 99;
 	}
 }

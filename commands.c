@@ -75,7 +75,7 @@ void get_arguments(char *line, char **arguments)
  * get_integer - converts a string into an integer
  * @str: string to convert
  *
- * Return: integer
+ * Return: integer if successful ; -1 otherwise
  */
 int get_integer(char *str)
 {
