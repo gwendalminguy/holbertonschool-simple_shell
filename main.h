@@ -22,29 +22,20 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
-typedef struct builtin_s
-{
-	char *name;
-	void (*func)(char **env);
-} builtin_t;
-
 void print_env(char **env);
 int set_env(char *variable, char *value, char **env, char **argv);
 int unset_env(char *variable, char **env, char **argv);
 
 int copy_env(char **env, char **environment);
-char *get_env(const char *name, char **env);
+char *get_env(const char *name, char **env, char *copy);
 void free_env(char **env, int number);
 void get_arguments(char *line, char **arguments);
-int process_command(char **arguments, char **env, char **argv);
+int process_command(char **arguments, char **env, char **argv, int status);
 
 list_t *create_path_list(char **env);
-char *search_path_list(char *command, list_t *paths);
+char *search_path_list(char *command, list_t *paths, char *copy);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);
-
-void builtin_exit(char **env);
-void builtin_env(char **env);
 
 #endif
