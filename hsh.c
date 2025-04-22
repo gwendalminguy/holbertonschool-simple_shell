@@ -29,11 +29,15 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 			break;
-
 		get_arguments(line, command);
 		if (command[0] == NULL)
 			continue;
-
+		if (search_builtin(command[0]) != NULL)
+		{
+			search_builtin(command[0])(command, env, status);
+			continue;
+		}
+		
 		if (command[0][0] != '/' && command[0][0] != '.' && command[0][0] != '$')
 			command[0] = search_path_list(command[0], path_list, copy);
 

@@ -5,9 +5,11 @@
  * @env: environnement
  */
 
-void builtin_exit(char **env)
+void builtin_exit(char **command, char **env, int status)
 {
 	(void)env;
+	(void)command;
+	(void)status;
 	exit(0);
 }
 
@@ -16,7 +18,7 @@ void builtin_exit(char **env)
  * @env: environnement
  */
 
-void builtin_env(char **env)
+void builtin_env(char **command, char **env, int status)
 {
 	int i = 0;
 
@@ -28,7 +30,7 @@ void builtin_env(char **env)
 }
 
 
-int (*search_builtin(char *string))(char **command)
+void (*search_builtin(char *string))(char **command, char **env, int status)
 {
 	int i = 0;
 
@@ -40,7 +42,7 @@ int (*search_builtin(char *string))(char **command)
 
 	while (builtin[i].name)
 	{
-		if (strcmp(command[0], builtin[i].name) == 0)
+		if (strcmp(string, builtin[i].name) == 0)
 		{
 			builtin[i].func;		
 			break;
@@ -51,5 +53,3 @@ int (*search_builtin(char *string))(char **command)
 	return (builtin[i].func);
 }
 
-void builtin_exit(char **env);
-void builtin_env(char **env);

@@ -25,7 +25,7 @@ typedef struct list_s
 typedef struct builtin_s
 {
 	char *name;
-	void (*func)(char **env);
+	void (*func)(char **command, char **env, int status);
 } builtin_t;
 
 void print_env(char **env);
@@ -43,5 +43,9 @@ char *search_path_list(char *command, list_t *paths, char *copy);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);
+
+void (*search_builtin(char *string))(char **command, char **env, int status);
+void builtin_exit(char **command, char **env, int status);
+void builtin_env(char **command, char **env, int status);
 
 #endif
