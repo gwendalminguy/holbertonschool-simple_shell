@@ -64,24 +64,27 @@ void builtin_exit(char **command, char **env, int *status)
 void builtin_cd(char **command, char **env, int *status)
 {
 	char current[1024];
-	char *old_path;
-	char *new_path;
-	int code = 0;
+	char *old_path = NULL;
+	char *new_path = NULL;
+	int code = 0, size = 0;
 
-	old_path = getcwd(current, 1024);
+	old_path = strdup(getcwd(current, 1024));
 
 	if (command[1] == NULL)
-		new_path = get_env("HOME", env, current);
+		new_path = strdup(get_env("HOME", env, current));
 	else if (strcmp(command[1], "-") == 0)
-		new_path = get_env("OLDPWD", env, current);
+		new_path = strdup(get_env("OLDPWD", env, current));
 	else if (command[1][0] != '/')
 	{
+		size = 2 +strlen(old_path) + strlen(command[1]);
+		new_path = malloc(size);
+
 		strcpy(new_path, old_path);
 		strcat(new_path, "/");
 		strcat(new_path, command[1]);
 	}
 	else
-		new_path = command[1];
+		new_path = strdup(command[1]);
 
 	code = chdir(new_path);
 
@@ -102,6 +105,9 @@ void builtin_cd(char **command, char **env, int *status)
 		fprintf(stderr, "hsh: cd: no such directory\n");
 		*status = 99;
 	}
+
+	free(old_path);
+	free(new_path);
 }
 
 /**
