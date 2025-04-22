@@ -63,11 +63,34 @@ void builtin_exit(char **command, char **env, int *status)
  */
 void builtin_cd(char **command, char **env, int *status)
 {
-	(void)command;
-	(void)env;
-	(void)status;
+	char current[1024];
+	char *path = NULL;
+	int code = 0;
 
-	printf("Upcoming feature!\n");
+	if (command[1] == NULL)
+		path = get_env("HOME", env, current);
+	else
+	{
+		path = getcwd(current, 1024);
+		strcat(path, "/");
+		strcat(path, command[1]);
+	}
+	
+	code = chdir(path);
+
+	if (code == 0)
+	{
+		command[1] = "PWD";
+		command[2] = path;
+
+		builtin_setenv(command, env, status);
+		*status = 0;
+	}
+	else
+	{
+		fprintf(stderr, "hsh: cd: no such directory\n");
+		*status = 99;
+	}
 }
 
 /**
