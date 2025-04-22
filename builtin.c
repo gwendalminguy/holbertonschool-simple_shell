@@ -6,7 +6,7 @@
  *
  * Return: function pointer
  */
-void (*search_builtin(char *name))(char **command, char **env, int *status)
+void (*search_builtin(char *name))(char **command, char **env, int *status, char **argv)
 {
 	int i = 0;
 
@@ -35,10 +35,12 @@ void (*search_builtin(char *name))(char **command, char **env, int *status)
  * @command: command to process
  * @env: environnement variables
  * @status: exit status
+ * @argv: arguments of the program
  */
-void builtin_exit(char **command, char **env, int *status)
+void builtin_exit(char **command, char **env, int *status, char **argv)
 {
 	(void)env;
+	(void)argv;
 
 	if (command[1] != NULL)
 	{
@@ -48,15 +50,17 @@ void builtin_exit(char **command, char **env, int *status)
 
 /**
  * cd - ...
- * @command:
- * @env:
- * @status:
+ * @command: ...
+ * @env: ...
+ * @status: ...
+ * @argv: arguments of the program
  */
-void builtin_cd(char **command, char **env, int *status)
+void builtin_cd(char **command, char **env, int *status, char **argv)
 {
 	(void)command;
 	(void)env;
 	(void)status;
+	(void)argv;
 
 	*status = 1;
 }
@@ -66,12 +70,14 @@ void builtin_cd(char **command, char **env, int *status)
  * @command:
  * @env:
  * @status:
+ * @argv:
  */
-void builtin_help(char **command, char **env, int *status)
+void builtin_help(char **command, char **env, int *status, char **argv)
 {
 	(void)command;
 	(void)env;
 	(void)status;
+	(void)argv;
 
-	*status = 1;
+	printf("Démerde-toi!\n");
 }
