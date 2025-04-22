@@ -24,16 +24,16 @@ int copy_env(char **env, char **environment)
  * get_env - gets an environment variable
  * @name: name of variable to get
  * @env: environment variable
+ * @copy: buffer for the value
  *
- * Return: value of the environment variable
+ * Return: copy of the value of the environment variable
  */
-char *get_env(const char *name, char **env)
+char *get_env(const char *name, char **env, char *copy)
 {
 	int i = 0, cmp = 0;
 	int number = 0;
 	char *variable = NULL;
 	char *value = NULL;
-	char *copy = NULL;
 	char *environment[4096];
 
 	memset(environment, 0, sizeof(environment));
@@ -49,7 +49,8 @@ char *get_env(const char *name, char **env)
 
 		if (cmp == 0 && value != NULL)
 		{
-			copy = strdup(value);
+			/* Copying and freeing */
+			strcpy(copy, value);
 			free_env(environment, number);
 			return (copy);
 		}
@@ -64,7 +65,7 @@ char *get_env(const char *name, char **env)
 
 /**
  * free_env - frees an array of environment variables
- * @env: array of environment variables
+ * @env: environment variables
  * @number: number of variables
  */
 void free_env(char **env, int number)
@@ -82,7 +83,7 @@ void free_env(char **env, int number)
 }
 
 /**
- * get_arguments - transforms user input in an array of strings
+ * get_arguments - separates the user input in an array of strings
  * @line: user input
  * @arguments: array of strings
  */
@@ -97,6 +98,10 @@ void get_arguments(char *line, char **arguments)
 	{
 		while (string != NULL)
 		{
+			/* Handling comments */
+			if (string[0] == '#')
+				break;
+
 			arguments[i] = string;
 			string = strtok(NULL, " \n");
 			i++;
@@ -107,20 +112,35 @@ void get_arguments(char *line, char **arguments)
 }
 
 /**
- * process_command - process the given command
- * @arguments: user input
+ * process_command - process a given command
+ * @arguments: command to process
  * @env: environment variables
  * @argv: arguments of the program
+ * @status: exit status of the previous command
  *
- * Return: 0 if successful ; error code otherwise
+ * Return: exit status of the command if found ; error code otherwise
  */
 
-int process_command(char **arguments, char **env, char **argv)
+int process_command(char **arguments, char **env, char **argv, int status)
 {
 	pid_t child_pid;
-	int status;
+	int code, i = 0;
 	struct stat st;
+	char copy[2048];
 
+	/* Handling expansion */
+	while (arguments[i] != NULL)
+	{
+		if (arguments[i][0] == '$' && arguments[i][1] == '?')
+			sprintf(arguments[i], "%i", status);
+		else if (arguments[i][0] == '$' && arguments[i][1] == '$')
+			sprintf(arguments[i], "%i", getpid());
+		else if (arguments[i][0] == '$' && arguments[i][1] != '\0')
+			arguments[i] = get_env(&arguments[i][1], env, copy);
+		i++;
+	}
+
+	/* Checking if the command exists */
 	if (stat(arguments[0], &st) != 0)
 	{
 		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arguments[0]);
@@ -135,14 +155,11 @@ int process_command(char **arguments, char **env, char **argv)
 		return (-1);
 	}
 
-	if (child_pid == 0)
-	{
+	/* Executing the command */
+	else if (child_pid == 0)
 		execve(arguments[0], arguments, env);
-	}
 	else
-	{
-		wait(&status);
-	}
+		wait(&code);
 
-	return (0);
+	return (WEXITSTATUS(code));
 }

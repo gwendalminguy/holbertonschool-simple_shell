@@ -9,15 +9,16 @@
 list_t *create_path_list(char **env)
 {
 	char *path = NULL;
-	char *value = NULL;
+	char copy[4096] = "";
 	list_t *head = NULL;
 
-	value = get_env("PATH", env);
+	/* Getting the value of PATH */
+	get_env("PATH", env, copy);
 
-	if (value == NULL)
+	if (copy[0] == '\0')
 		return (NULL);
 
-	path = strtok(value, ":\n");
+	path = strtok(copy, ":\n");
 
 	/* Creating a node for each PATH directory */
 	while (path != NULL)
@@ -26,8 +27,6 @@ list_t *create_path_list(char **env)
 		path = strtok(NULL, ":\n");
 	}
 
-	free(value);
-
 	return (head);
 }
 
@@ -35,32 +34,38 @@ list_t *create_path_list(char **env)
  * search_path_list - searches for a given command in all PATH directories
  * @command: command to search
  * @paths: linked list of all PATH directories
+ * @copy: buffer for the path
  *
  * Return: full command path
  */
-char *search_path_list(char *command, list_t *paths)
+char *search_path_list(char *command, list_t *paths, char *copy)
 {
 	struct stat st;
 	char *full_path;
-	list_t *current = paths;
 	int size = 0;
+	list_t *current = paths;
 
 	/* Searching for the command in each PATH */
 	while (current != NULL)
 	{
+		/* Allocating enough memory for full_path */
 		size = strlen(current->str) + strlen(command);
 		full_path = malloc(2 + size * sizeof(char));
 
 		if (full_path == NULL)
 			return (NULL);
 
+		/* Concatenating PATH with the command name */
 		strcpy(full_path, current->str);
 		strcat(full_path, "/");
 		strcat(full_path, command);
 
+		/* Checking if the executable exists */
 		if (stat(full_path, &st) == 0)
 		{
-			return (full_path);
+			strcpy(copy, full_path);
+			free(full_path);
+			return (copy);
 		}
 
 		current = current->next;
@@ -68,9 +73,9 @@ char *search_path_list(char *command, list_t *paths)
 		free(full_path);
 	}
 
-	full_path = strdup(command);
+	strcpy(copy, command);
 
-	return (full_path);
+	return (copy);
 }
 
 /**

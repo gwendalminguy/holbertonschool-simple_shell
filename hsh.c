@@ -14,56 +14,32 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	size_t len = 0;
 	ssize_t read = 0;
 	list_t *path_list = NULL;
-	char *arguments[4096];
+	char *command[4096];
 	int status = 0;
-	int i = 0;
+	char copy[2048];
 
-	builtin_t builtin[] = {
-		{"exit", builtin_exit},
-		{"env", builtin_env},
-		{NULL, NULL}
-	};
-	
 	path_list = create_path_list(env);
-	
+
 	while (1)
 	{
-		status = 0;
-		memset(arguments, 0, sizeof(arguments));
+		memset(command, 0, sizeof(command));
 		if (isatty(STDIN_FILENO) != 0)
-			printf("$ ");
+			printf("%s$ ", &argv[0][2]);
 
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 			break;
-		get_arguments(line, arguments);
-		if (arguments[0] == NULL)
-			continue;
-		i = 0;
-		while (builtin[i].name)
-		{
-			if (strcmp(arguments[0], builtin[i].name) == 0)
-			{
-				builtin[i].func(env);
-				break;
-			}
-			i++;
-		}
-		if (builtin[i].name != NULL)
-		{
-			continue;
-		}
-		
-		if (arguments[0][0] != '/' && arguments[0][0] != '.')
-		{
-			arguments[0] = search_path_list(arguments[0], path_list);
-			status = process_command(arguments, env, argv);
-			free(arguments[0]);
-		}
-		else
-			status = process_command(arguments, env, argv);
 
-		if (status != 0)
+		get_arguments(line, command);
+		if (command[0] == NULL)
+			continue;
+
+		if (command[0][0] != '/' && command[0][0] != '.' && command[0][0] != '$')
+			command[0] = search_path_list(command[0], path_list, copy);
+
+		status = process_command(command, env, argv, status);
+
+		if (status == -1 || status == 127)
 			break;
 	}
 
