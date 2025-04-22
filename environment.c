@@ -16,26 +16,23 @@ void print_env(char **env)
 }
 
 /**
- * set_env - adds or updates an environment variable
- * @variable: name of the variable
- * @value: value of the variable
+ * builtin_setenv - adds or updates an environment variable
+ * @command: command to process
  * @env: environment variables
- * @argv: arguments of the program
- *
- * Return: 0 if successful ; -1 otherwise
+ * @status: exit status
  */
-int set_env(char *variable, char *value, char **env, char **argv)
+void builtin_setenv(char **command, char **env, int *status)
 {
 	int i = 0, m = 0, n = 0;
 	int size = 0;
 
-	m = strlen(variable);
-	n = strlen(value);
+	m = strlen(command[1]);
+	n = strlen(command[2]);
 
 	while (env[i] != NULL)
 	{
-		if (strncmp(variable, env[i], m) == 0)
-			unset_env(variable, env, argv);
+		if (strncmp(command[1], env[i], m) == 0)
+			builtin_unsetenv(command, env, status);
 		i++;
 	}
 
@@ -45,44 +42,42 @@ int set_env(char *variable, char *value, char **env, char **argv)
 
 	if (env[i] == NULL)
 	{
-		fprintf(stderr, "%s: setenv failed\n", argv[0]);
-		return (-1);
+		fprintf(stderr, "hsh: setenv failed\n");
+		*status = 99;
 	}
 
 	memset(env[i], 0, size);
 
-	sprintf(env[i], "%s=%s", variable, value);
+	sprintf(env[i], "%s=%s", command[1], command[2]);
 
 	env[i + 1] = NULL;
 
-	return (0);
+	*status = 0;
 }
 
 /**
- * unset_env - removes an environment variable
- * @variable: name of the variable
+ * builtin_unsetenv - removes an environment variable
+ * @command: command to process
  * @env: environment variables
- * @argv: arguments of the program
- *
- * Return: 0 if successful ; -1 otherwise
+ * @status: exit status
  */
-int unset_env(char *variable, char **env, char **argv)
+void builtin_unsetenv(char **command, char **env, int *status)
 {
 	int i = 0, n = 0;
 
-	n = strlen(variable);
+	n = strlen(command[1]);
 
 	while (env[i] != NULL)
 	{
-		if (strncmp(variable, env[i], n) == 0)
+		if (strncmp(command[1], env[i], n) == 0)
 			break;
 		i++;
 	}
 
 	if (env[i] == NULL)
 	{
-		fprintf(stderr, "%s: unsetenv failed\n", argv[0]);
-		return (-1);
+		fprintf(stderr, "hsh: unsetenv failed\n");
+		*status = 99;
 	}
 	else
 	{
@@ -92,6 +87,6 @@ int unset_env(char *variable, char **env, char **argv)
 			i++;
 		}
 
-		return (0);
+		*status = 0;
 	}
 }
