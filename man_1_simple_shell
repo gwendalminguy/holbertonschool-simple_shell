@@ -60,7 +60,8 @@ Expanding the exit status of the previous command can be achieved using a dollar
 Comments can be written using a hash mark (#). Anything that comes after this symbol will be ignored by HSH.
 
 .SH EXIT STATUS
-If terminated manually on regular execution, HSH will exit with the status code (0).
+If terminated manually on regular execution with the \fIexit\fR command or the \fIEOF\fR signal, HSH will exit with the status code of the last command executed.
+Unless an error occured with the last command, the status code should be (0).
 If the specified command does not exist or if it is not found, HSH will exit with the status code (127) and print an error message to STDERR.
 If an error occured when creating a process to execute the specified command, HSH will exit with the status code (-1) and print an error message to STDERR.
 

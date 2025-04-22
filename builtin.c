@@ -6,7 +6,7 @@
  *
  * Return: function pointer
  */
-void (*search_builtin(char *name))(char **command, char **env, int *status, char **argv)
+void (*search_builtin(char *name))(char **command, char **env, int *status)
 {
 	int i = 0;
 
@@ -35,13 +35,11 @@ void (*search_builtin(char *name))(char **command, char **env, int *status, char
  * @command: command to process
  * @env: environnement variables
  * @status: exit status
- * @argv: arguments of the program
  */
-void builtin_exit(char **command, char **env, int *status, char **argv)
+void builtin_exit(char **command, char **env, int *status)
 {
 	int n = 0;
 	(void)env;
-	(void)argv;
 
 	if (command[1] != NULL)
 	{
@@ -51,42 +49,38 @@ void builtin_exit(char **command, char **env, int *status, char **argv)
 			*status = n;
 		else
 		{
-			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0], command[1]);
+			fprintf(stderr, "hsh: 1: exit: Illegal number: %s\n", command[1]);
 			*status = 2;
 		}
 	}
 }
 
 /**
- * builtin_cd - ...
- * @command: ...
- * @env: ...
- * @status: ...
- * @argv: arguments of the program
+ * builtin_cd - changes current working directory
+ * @command: command to process
+ * @env: environment variables
+ * @status: exit status
  */
-void builtin_cd(char **command, char **env, int *status, char **argv)
+void builtin_cd(char **command, char **env, int *status)
 {
 	(void)command;
 	(void)env;
 	(void)status;
-	(void)argv;
 
-	*status = 1;
+	printf("Upcoming feature!\n");
 }
 
 /**
- * builtin_help - ...
- * @command: ...
- * @env: ...
- * @status: ...
- * @argv: ...
+ * builtin_help - prints help for any builtin command
+ * @command: command to process
+ * @env: environment variable
+ * @status: exit status
  */
-void builtin_help(char **command, char **env, int *status, char **argv)
+void builtin_help(char **command, char **env, int *status)
 {
 	(void)command;
 	(void)env;
 	(void)status;
-	(void)argv;
 
-	printf("Démerde-toi!\n");
+	printf("Upcoming feature\n");
 }
