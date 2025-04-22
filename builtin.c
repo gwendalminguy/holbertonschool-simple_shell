@@ -8,6 +8,7 @@
  */
 void builtin_exit(char **command, char **env, int *status)
 {
+	(void)env;
 	if (command[1] != NULL)
 		*status = atoi(command[1]);
 }
@@ -21,12 +22,14 @@ void builtin_exit(char **command, char **env, int *status)
 void builtin_env(char **command, char **env, int *status)
 {
 	int i = 0;
+	(void)command;
 
 	while (env[i] != NULL)
 	{
 		printf("%s\n", env[i]);
 		i++;
 	}
+	*status = 0;
 }
 
 /**
@@ -50,7 +53,6 @@ void (*search_builtin(char *string))(char **command, char **env, int *status)
 	{
 		if (strcmp(string, builtin[i].name) == 0)
 		{
-			builtin[i].func;
 			break;
 		}
 		i++;
