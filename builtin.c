@@ -39,17 +39,23 @@ void (*search_builtin(char *name))(char **command, char **env, int *status, char
  */
 void builtin_exit(char **command, char **env, int *status, char **argv)
 {
+	int n = 0;
 	(void)env;
 	(void)argv;
 
 	if (command[1] != NULL)
 	{
-		*status = get_integer(command[1]);
+		n = get_integer(command[1]);
+
+		if (n >= 0)
+			*status = n;
+		else
+			fprintf(stderr, "%s 1: exit: Illegal number: %s\n", argv[0], command[1]);
 	}
 }
 
 /**
- * cd - ...
+ * builtin_cd - ...
  * @command: ...
  * @env: ...
  * @status: ...
@@ -66,11 +72,11 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 }
 
 /**
- * help - ...
- * @command:
- * @env:
- * @status:
- * @argv:
+ * builtin_help - ...
+ * @command: ...
+ * @env: ...
+ * @status: ...
+ * @argv: ...
  */
 void builtin_help(char **command, char **env, int *status, char **argv)
 {

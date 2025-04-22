@@ -73,7 +73,7 @@ void get_arguments(char *line, char **arguments)
 
 /**
  * get_integer - converts a string into an integer
- * @str - string to convert
+ * @str: string to convert
  *
  * Return: integer
  */
@@ -83,6 +83,9 @@ int get_integer(char *str)
 	int length = strlen(str);
 	int sign = 1, number = 0;
 	int start = -1, end = 0;
+
+	if (length == 1 && str[0] == 0)
+		return (0);
 
 	/* Getting the sign, the starting index and the ending index */
 	for (i = 0 ; i < length ; i++)
@@ -107,6 +110,9 @@ int get_integer(char *str)
 		if (sign < 0)
 			number = -number;
 	}
+
+	if (number == 0)
+		return (-1);
 
 	return (number);
 }
