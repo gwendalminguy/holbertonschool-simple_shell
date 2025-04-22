@@ -13,6 +13,10 @@ HSH is a simple shell command interpreter that prompts the user for instructions
 It relies on the value of the PATH environment variable, in order to be able to find a command without the need to specify its absolute path, using the \fIstat\fR system call.
 If the command is found, \fIfork\fR is called to create a new process that will execute the command using the \fIexecve\fR system call. It also supports some built-in commands.
 
+.SS Interactive Mode
+When launched, HSH automatically enters interactive mode, and can be used by typing any command.
+Blablabla
+
 .SS Built-In Commands
 Specific commands that can be used within the shell. Each built-in command can be invoked by using its name, eventually followed by one or more argument(s) if required.
 The supported built-in commands and their meaning are the following:

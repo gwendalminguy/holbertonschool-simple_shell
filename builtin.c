@@ -2,23 +2,23 @@
 
 /**
  * builtin_exit - fonction to exit
- * @env: environnement
+ * @command: ...
+ * @env: environnement variables
+ * @status: ...
  */
-
-void builtin_exit(char **command, char **env, int status)
+void builtin_exit(char **command, char **env, int *status)
 {
-	(void)env;
-	(void)command;
-	(void)status;
-	exit(0);
+	if (command[1] != NULL)
+		*status = atoi(command[1]);
 }
 
 /**
  * builtin_env - fonction to print env
- * @env: environnement
+ * @command: ...
+ * @env: environnement variables
+ * @status: ...
  */
-
-void builtin_env(char **command, char **env, int status)
+void builtin_env(char **command, char **env, int *status)
 {
 	int i = 0;
 
@@ -29,14 +29,20 @@ void builtin_env(char **command, char **env, int status)
 	}
 }
 
-
-void (*search_builtin(char *string))(char **command, char **env, int status)
+/**
+ * search_builtin - ...
+ * @string: ...
+ *
+ * Return: ...
+ */
+void (*search_builtin(char *string))(char **command, char **env, int *status)
 {
 	int i = 0;
 
 	builtin_t builtin[] = {
 		{"exit", builtin_exit},
 		{"env", builtin_env},
+		{"printenv", builtin_env},
 		{NULL, NULL}
 	};
 
@@ -44,12 +50,12 @@ void (*search_builtin(char *string))(char **command, char **env, int status)
 	{
 		if (strcmp(string, builtin[i].name) == 0)
 		{
-			builtin[i].func;		
+			builtin[i].func;
 			break;
 		}
 		i++;
 	}
-	
+
 	return (builtin[i].func);
 }
 

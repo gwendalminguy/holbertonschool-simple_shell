@@ -22,10 +22,15 @@ typedef struct list_s
 	struct list_s *next;
 } list_t;
 
+/**
+ * struct builtin_s - ...
+ * @name: ...
+ * @func: ...
+ */
 typedef struct builtin_s
 {
 	char *name;
-	void (*func)(char **command, char **env, int status);
+	void (*func)(char **command, char **env, int *status);
 } builtin_t;
 
 void print_env(char **env);
@@ -44,8 +49,8 @@ void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);
 
-void (*search_builtin(char *string))(char **command, char **env, int status);
-void builtin_exit(char **command, char **env, int status);
-void builtin_env(char **command, char **env, int status);
+void (*search_builtin(char *string))(char **command, char **env, int *status);
+void builtin_exit(char **command, char **env, int *status);
+void builtin_env(char **command, char **env, int *status);
 
 #endif

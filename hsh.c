@@ -10,10 +10,10 @@
  */
 int main(int argc __attribute__((unused)), char **argv, char **env)
 {
+	list_t *path_list = NULL;
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read = 0;
-	list_t *path_list = NULL;
 	char *command[4096];
 	int status = 0;
 	char copy[2048];
@@ -34,15 +34,15 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			continue;
 		if (search_builtin(command[0]) != NULL)
 		{
-			search_builtin(command[0])(command, env, status);
+			search_builtin(command[0])(command, env, &status);
+			if (strcmp(command[0], "exit") == 0)
+				break;
 			continue;
 		}
-		
 		if (command[0][0] != '/' && command[0][0] != '.' && command[0][0] != '$')
 			command[0] = search_path_list(command[0], path_list, copy);
 
 		status = process_command(command, env, argv, status);
-
 		if (status == -1 || status == 127)
 			break;
 	}
