@@ -64,26 +64,37 @@ void builtin_exit(char **command, char **env, int *status)
 void builtin_cd(char **command, char **env, int *status)
 {
 	char current[1024];
-	char *path = NULL;
+	char *old_path;
+	char *new_path;
 	int code = 0;
 
+	old_path = getcwd(current, 1024);
+
 	if (command[1] == NULL)
-		path = get_env("HOME", env, current);
-	else
+		new_path = get_env("HOME", env, current);
+	else if (strcmp(command[1], "-") == 0)
+		new_path = get_env("OLDPWD", env, current);
+	else if (command[1][0] != '/')
 	{
-		path = getcwd(current, 1024);
-		strcat(path, "/");
-		strcat(path, command[1]);
+		strcpy(new_path, old_path);
+		strcat(new_path, "/");
+		strcat(new_path, command[1]);
 	}
-	
-	code = chdir(path);
+	else
+		new_path = command[1];
+
+	code = chdir(new_path);
 
 	if (code == 0)
 	{
-		command[1] = "PWD";
-		command[2] = path;
-
+		command[1] = "OLDPWD";
+		command[2] = old_path;
 		builtin_setenv(command, env, status);
+
+		command[1] = "PWD";
+		command[2] = new_path;
+		builtin_setenv(command, env, status);
+
 		*status = 0;
 	}
 	else
