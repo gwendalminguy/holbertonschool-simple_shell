@@ -67,17 +67,20 @@ void builtin_cd(char **command, char **env, int *status)
 	char *old_path = NULL, *new_path = NULL;
 	int code = -1, size = 0;
 
+	memset(home, 0, sizeof(home));
+	memset(previous, 0, sizeof(previous));
+
 	get_env("HOME", env, home);
 	get_env("OLDPWD", env, previous);
 	old_path = strdup(getcwd(current, 1024));
 	if (command[1] == NULL)
 	{
-		if (home != NULL)
+		if (home[0] != '\0')
 			new_path = strdup(home);
 	}
 	else if (strcmp(command[1], "-") == 0)
 	{
-		if (previous != NULL)
+		if (previous[0] != '\0')
 			new_path = strdup(previous);
 	}
 	else if (command[1][0] == '/')
