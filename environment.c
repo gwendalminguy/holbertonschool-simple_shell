@@ -72,7 +72,7 @@ void builtin_setenv(char **command, char **env, int *status, char **argv)
 
 		while (env[i] != NULL)
 		{
-			if (strncmp(command[1], env[i], m) == 0)
+			if (strncmp(command[1], env[i], m) == 0 && env[i][m] == '=')
 			{
 				free(env[i]);
 				break;

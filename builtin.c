@@ -2,11 +2,12 @@
 
 /**
  * search_builtin - searches for a builtin command
- * @name: name of the command
+ * @argv: name of the command
  *
  * Return: function pointer
  */
-void (*search_builtin(char *name))(char **command, char **env, int *status, char **argv)
+void (*search_builtin(char *name))(char **command, char **env, int *status,
+							       char **argv)
 {
 	int i = 0;
 
@@ -50,7 +51,7 @@ void builtin_exit(char **command, char **env, int *status, char **argv)
 			*status = n;
 		else
 		{
-			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0],  command[1]);
+			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0], command[1]);
 			*status = 2;
 		}
 	}
