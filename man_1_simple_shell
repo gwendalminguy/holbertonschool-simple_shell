@@ -40,7 +40,7 @@ Removes \fIVARIABLE\fR from the environment if it exists.
 .LP
 \fBcd\fR [\fIDIRECTORY\fR]
 .IP
-Changes current directory to \fIDIRECTORY\fR if specified, or to the HOME directory otherwise. This command uses the \fIgetcwd\fR and the \fIchdir\fR system calls to operate the change of current directory. The PWD environment variable will be updated accordingly.
+Changes the current working directory to \fIDIRECTORY\fR if specified, or to the HOME directory otherwise. The hyphen (-) can also be specified as \fIDIRECTORY\fR to access the previous working directory. This command uses the \fIgetcwd\fR and the \fIchdir\fR system calls to operate the change of current directory. The PWD environment variable will be updated accordingly.
 .LP
 \fBhelp\fR [\fIBUILT-IN\fR]
 .IP
