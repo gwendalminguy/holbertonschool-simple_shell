@@ -35,7 +35,7 @@ void (*search_builtin(char *name))(char **command, char **env, int *status, char
  * @command: command to process
  * @env: environnement variables
  * @status: exit status
- * @argv: ...
+ * @argv: arguments of the program
  */
 void builtin_exit(char **command, char **env, int *status, char **argv)
 {
@@ -61,7 +61,7 @@ void builtin_exit(char **command, char **env, int *status, char **argv)
  * @command: command to process
  * @env: environment variables
  * @status: exit status
- * @argv: ...
+ * @argv: arguments of the program
  */
 void builtin_cd(char **command, char **env, int *status, char **argv)
 {
@@ -113,52 +113,49 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 }
 
 /**
- * builtin_help - prints help for any builtin command
+ * builtin_help - prints the help for any builtin command
  * @command: command to process
  * @env: environment variable
  * @status: exit status
- * @argv: ...
+ * @argv: arguments of the program
  */
 void builtin_help(char **command, char **env, int *status, char **argv)
 {
 	(void)env;
-	(void)status;
 	(void)argv;
 
-	if (command[1] == NULL)
+	if (command[1] == NULL || !strcmp(command[1], "help"))
 	{
-		printf("Please put a command after help: ");
-		printf("cd, exit, setenv, env or unsetenv.\n");
+		printf("\nhelp: help [BUILT-IN]\n\n");
+		printf("\tPrints the help for the command BUILT-IN:\n");
+		printf("\texit | env | setenv | unsetenv | cd | help\n\n");
 	}
-	else
+	else if (!strcmp(command[1], "exit"))
 	{
-		if (strcmp(command[1], "cd") == 0)
-		{
-			printf("cd: cd [DIRECTORY]\n");
-			printf("Changes current directory to [DIRECTORY] if specified, ");
-			printf("or to the HOME directory otherwise.\n");
-		}
-		if (strcmp(command[1], "exit") == 0)
-		{
-			printf("exit: exit [STATUS]\n");
-			printf("Exit the shell with code [STATUS] if specified.\n");
-		}
-		if (strcmp(command[1], "env") == 0)
-		{
-			printf("env: env\n");
-			printf("Print the current environement.\n");
-		}
-		if (strcmp(command[1], "setenv") == 0)
-		{
-			printf("setenv: setenv VARIABLE VALUE\n");
-			printf("Adds variable to the environment and initializes it ");
-			printf("to VALUE. If VARIABLE is alreday exists, ");
-			printf("its current value is updated to VALUE.\n");
-		}
-		if (strcmp(command[1], "unsetenv") == 0)
-		{
-			printf("unsetenv: unsetenv VARIABLE\n");
-			printf("Removes VARIABLE from the environment if exists.\n");
-		}
+		printf("\nexit: exit [STATUS]\n\n");
+		printf("\tExits the shell with code STATUS if specified.\n\n");
 	}
+	else if (!strcmp(command[1], "env") || !strcmp(command[1], "printenv"))
+	{
+		printf("\nenv: env\n\n");
+		printf("\tPrints all environement variables.\n\n");
+	}
+	else if (!strcmp(command[1], "setenv"))
+	{
+		printf("\nsetenv: setenv VARIABLE VALUE\n\n");
+		printf("\tAdds VARIABLE to the environment and initializes it\n");
+		printf("\tto VALUE, or updates it if it alreday exists.\n\n");
+	}
+	else if (!strcmp(command[1], "unsetenv"))
+	{
+		printf("\nunsetenv: unsetenv VARIABLE\n\n");
+		printf("\tRemoves VARIABLE from the environment if it exists.\n\n");
+	}
+	else if (!strcmp(command[1], "cd"))
+	{
+		printf("\ncd: cd [DIRECTORY]\n\n");
+		printf("\tChanges current directory to [DIRECTORY] if specified,\n");
+		printf("\tor to the HOME directory otherwise.\n\n");
+	}
+	*status = 0;
 }

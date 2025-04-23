@@ -36,7 +36,7 @@ void free_env(char **env)
  * @command: command to process
  * @env: environnement variables
  * @status: exit status
- * @argv: ...
+ * @argv: arguments of the program
  */
 void builtin_printenv(char **command, char **env, int *status, char **argv)
 {
@@ -58,7 +58,7 @@ void builtin_printenv(char **command, char **env, int *status, char **argv)
  * @command: command to process
  * @env: environment variables
  * @status: exit status
- * @argv: ...
+ * @argv: arguments of the program
  */
 void builtin_setenv(char **command, char **env, int *status, char **argv)
 {
@@ -109,7 +109,7 @@ void builtin_setenv(char **command, char **env, int *status, char **argv)
  * @command: command to process
  * @env: environment variables
  * @status: exit status
- * @argv: ...
+ * @argv: arguments of the program
  */
 void builtin_unsetenv(char **command, char **env, int *status, char **argv)
 {

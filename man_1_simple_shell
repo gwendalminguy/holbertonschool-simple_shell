@@ -40,7 +40,7 @@ Removes \fIVARIABLE\fR from the environment if it exists.
 .LP
 \fBcd\fR [\fIDIRECTORY\fR]
 .IP
-Changes the current working directory to \fIDIRECTORY\fR if specified, or to the HOME directory otherwise. The hyphen (-) can also be specified as \fIDIRECTORY\fR to access the previous working directory. This command uses the \fIgetcwd\fR and the \fIchdir\fR system calls to operate the change of current directory. The PWD environment variable will be updated accordingly.
+Changes the current working directory to \fIDIRECTORY\fR if specified, or to the HOME directory otherwise. The hyphen (-) can also be specified as \fIDIRECTORY\fR to access the previous working directory. This command uses the \fIgetcwd\fR and the \fIchdir\fR system calls to operate the change of current directory. The PWD and OLDPWD environment variables will be updated accordingly.
 .LP
 \fBhelp\fR [\fIBUILT-IN\fR]
 .IP
@@ -66,7 +66,7 @@ If the specified command does not exist or if it is not found, HSH will exit wit
 If an error occured when creating a process to execute the specified command, HSH will exit with the status code (-1) and print an error message to STDERR.
 
 .SH ENVIRONMENT
-HSH needs some of the environment variables in order to work properly, and can change some of them. Built-in commands \fBsetenv\fR and \fBunsetenv\fR should not be used to change or remove them.
+HSH needs some of the environment variables in order to work properly, and can change some of them. Built-in commands \fBsetenv\fR and \fBunsetenv\fR should not be used to change or remove them, especially PWD and OLDPWD.
 Those variables are the following:
 .RS
 .IP \fBHOME\fR
@@ -75,6 +75,8 @@ This variable contains the path to the HOME directory, and is used by the \fBcd\
 This variable contains different paths, and is used by HSH to search for an executable.
 .IP \fBPWD\fR
 This variable contains the path to the current working directory, and is updated by the \fBcd\fR built-in command everytime it is used.
+.IP \fBOLDPWD\fR
+This variable contains the path to the previous working directory, and is updated by the \fBcd\fR built-in command everytime it is used.
 .RE
 
 .SH FILES
