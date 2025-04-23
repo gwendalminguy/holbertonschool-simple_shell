@@ -105,7 +105,7 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 			builtin_setenv(command, env, status, argv);
 		}
 		else
-			fprintf(stderr, "./%s: 1: cd: can't cd to %s\n", argv[0], command[1]);
+			fprintf(stderr, "s: 1: cd: can't cd to %s\n", argv[0], command[1]);
 		free(new_path);
 	}
 	*status = 0;
@@ -121,10 +121,35 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
  */
 void builtin_help(char **command, char **env, int *status, char **argv)
 {
-	(void)command;
 	(void)env;
 	(void)status;
 	(void)argv;
 
-	printf("Upcoming feature\n");
+	if (command[1] == NULL)
+	{
+		printf("Wait for a command\n");
+	}
+	else
+	{
+		if (strcmp(command[1], "cd") == 0)
+		{
+			printf("Upcoming feature for cd\n");
+		}
+		if (strcmp(command[1], "exit") == 0)
+		{
+			printf("Upcoming feature for exit\n");
+		}
+		if (strcmp(command[1], "env") == 0)
+		{
+			printf("Upcoming feature for env\n");
+		}
+		if (strcmp(command[1], "setenv") == 0)
+		{
+			printf("Upcoming feature for setenv\n");
+		}
+		if (strcmp(command[1], "unsetenv") == 0)
+		{
+			printf("Upcoming feature for unsetenv\n");
+		}
+	}	
 }
