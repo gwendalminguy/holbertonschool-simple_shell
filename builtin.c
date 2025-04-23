@@ -134,7 +134,7 @@ void builtin_help(char **command, char **env, int *status, char **argv)
 		if (strcmp(command[1], "cd") == 0)
 		{
 			printf("cd: cd [DIRECTORY]\n");
-    		printf("Changes current directory to [DIRECTORY] if specified, ");
+			printf("Changes current directory to [DIRECTORY] if specified, ");
 			printf("or to the HOME directory otherwise.\n");
 		}
 		if (strcmp(command[1], "exit") == 0)
@@ -159,5 +159,5 @@ void builtin_help(char **command, char **env, int *status, char **argv)
 			printf("unsetenv: unsetenv VARIABLE\n");
 			printf("Removes VARIABLE from the environment if exists.\n");
 		}
-	}	
+	}
 }
