@@ -69,8 +69,6 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 	char *old_path = NULL, *new_path = NULL;
 	int code = -1, size = 0;
 
-	memset(home, 0, sizeof(home));
-	memset(previous, 0, sizeof(previous));
 	get_env("HOME", env, home);
 	get_env("OLDPWD", env, previous);
 	old_path = strdup(getcwd(current, 1024));
