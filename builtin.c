@@ -6,7 +6,7 @@
  *
  * Return: function pointer
  */
-void (*search_builtin(char *name))(char **command, char **env, int *status)
+void (*search_builtin(char *name))(char **command, char **env, int *status, char **argv)
 {
 	int i = 0;
 
@@ -35,8 +35,9 @@ void (*search_builtin(char *name))(char **command, char **env, int *status)
  * @command: command to process
  * @env: environnement variables
  * @status: exit status
+ * @argv: ...
  */
-void builtin_exit(char **command, char **env, int *status)
+void builtin_exit(char **command, char **env, int *status, char **argv)
 {
 	int n = 0;
 	(void)env;
@@ -49,7 +50,7 @@ void builtin_exit(char **command, char **env, int *status)
 			*status = n;
 		else
 		{
-			fprintf(stderr, "hsh: 1: exit: Illegal number: %s\n", command[1]);
+			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", argv[0],  command[1]);
 			*status = 2;
 		}
 	}
@@ -60,8 +61,9 @@ void builtin_exit(char **command, char **env, int *status)
  * @command: command to process
  * @env: environment variables
  * @status: exit status
+ * @argv: ...
  */
-void builtin_cd(char **command, char **env, int *status)
+void builtin_cd(char **command, char **env, int *status, char **argv)
 {
 	char current[1024], previous[1024], home[1024];
 	char *old_path = NULL, *new_path = NULL;
@@ -69,7 +71,6 @@ void builtin_cd(char **command, char **env, int *status)
 
 	memset(home, 0, sizeof(home));
 	memset(previous, 0, sizeof(previous));
-
 	get_env("HOME", env, home);
 	get_env("OLDPWD", env, previous);
 	old_path = strdup(getcwd(current, 1024));
@@ -98,15 +99,13 @@ void builtin_cd(char **command, char **env, int *status)
 		{
 			command[1] = "OLDPWD";
 			command[2] = old_path;
-			builtin_setenv(command, env, status);
+			builtin_setenv(command, env, status, argv);
 			command[1] = "PWD";
 			command[2] = new_path;
-			builtin_setenv(command, env, status);
+			builtin_setenv(command, env, status, argv);
 		}
 		else
-		{
-			fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", command[1]);
-		}
+			fprintf(stderr, "./%s: 1: cd: can't cd to %s\n", argv[0], command[1]);
 		free(new_path);
 	}
 	*status = 0;
@@ -118,12 +117,14 @@ void builtin_cd(char **command, char **env, int *status)
  * @command: command to process
  * @env: environment variable
  * @status: exit status
+ * @argv: ...
  */
-void builtin_help(char **command, char **env, int *status)
+void builtin_help(char **command, char **env, int *status, char **argv)
 {
 	(void)command;
 	(void)env;
 	(void)status;
+	(void)argv;
 
 	printf("Upcoming feature\n");
 }
