@@ -106,11 +106,6 @@ void builtin_cd(char **command, char **env, int *status)
 		}
 		free(new_path);
 	}
-	else
-	{
-		fprintf(stderr, "hsh: cd: no such directory\n");
-		*status = 99;
-	}
 	free(old_path);
 }
 
