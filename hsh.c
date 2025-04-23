@@ -35,7 +35,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			continue;
 		if (search_builtin(command[0]) != NULL)
 		{
-			search_builtin(command[0])(command, environment, &status);
+			search_builtin(command[0])(command, environment, &status, argv);
 			if (strcmp(command[0], "exit") == 0 || status == -1)
 				break;
 			continue;

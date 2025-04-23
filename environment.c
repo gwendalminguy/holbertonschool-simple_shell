@@ -36,11 +36,13 @@ void free_env(char **env)
  * @command: command to process
  * @env: environnement variables
  * @status: exit status
+ * @argv: ...
  */
-void builtin_printenv(char **command, char **env, int *status)
+void builtin_printenv(char **command, char **env, int *status, char **argv)
 {
 	int i = 0;
 	(void)command;
+	(void)argv;
 
 	while (env[i] != NULL)
 	{
@@ -56,8 +58,9 @@ void builtin_printenv(char **command, char **env, int *status)
  * @command: command to process
  * @env: environment variables
  * @status: exit status
+ * @argv: ...
  */
-void builtin_setenv(char **command, char **env, int *status)
+void builtin_setenv(char **command, char **env, int *status, char **argv)
 {
 	int i = 0, m = 0, n = 0;
 	int size = 0;
@@ -84,7 +87,7 @@ void builtin_setenv(char **command, char **env, int *status)
 
 		if (env[i] == NULL)
 		{
-			fprintf(stderr, "hsh: setenv failed\n");
+			fprintf(stderr, "%s: setenv failed\n", argv[0]);
 			*status = -1;
 		}
 		else
@@ -96,7 +99,7 @@ void builtin_setenv(char **command, char **env, int *status)
 	}
 	else
 	{
-		fprintf(stderr, "hsh: setenv: missing argument\n");
+		fprintf(stderr, "%s: setenv: missing argument\n", argv[0]);
 		*status = 99;
 	}
 }
@@ -106,8 +109,9 @@ void builtin_setenv(char **command, char **env, int *status)
  * @command: command to process
  * @env: environment variables
  * @status: exit status
+ * @argv: ...
  */
-void builtin_unsetenv(char **command, char **env, int *status)
+void builtin_unsetenv(char **command, char **env, int *status, char **argv)
 {
 	int i = 0, n = 0;
 
@@ -122,7 +126,7 @@ void builtin_unsetenv(char **command, char **env, int *status)
 		}
 		if (env[i] == NULL)
 		{
-			fprintf(stderr, "hsh: unsetenv: wrong argument\n");
+			fprintf(stderr, "%s: unsetenv: wrong argument\n", argv[0]);
 			*status = 99;
 		}
 		else
@@ -136,7 +140,7 @@ void builtin_unsetenv(char **command, char **env, int *status)
 					env[i] = malloc(1 + strlen(env[i + 1]));
 					if (env[i] == NULL)
 					{
-						fprintf(stderr, "hsh: unsetenv failed\n");
+						fprintf(stderr, "%s: unsetenv failed\n", argv[0]);
 						*status = -1;
 						break;
 					}
@@ -153,7 +157,7 @@ void builtin_unsetenv(char **command, char **env, int *status)
 	}
 	else
 	{
-		fprintf(stderr, "hsh: unsetenv: missing argument\n");
+		fprintf(stderr, "%s: unsetenv: missing argument\n", argv[0]);
 		*status = 99;
 	}
 }
