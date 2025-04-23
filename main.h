@@ -30,7 +30,10 @@ typedef struct list_s
 typedef struct builtin_s
 {
 	char *name;
-	void (*fptr)(char **command, char **env, int *status);
+	void (*fptr)(char **command,
+		     char **env,
+		     int *status,
+		     char **argv);
 } builtin_t;
 
 /* Functions from commands.c */
@@ -47,16 +50,16 @@ void print_list(const list_t *head);
 void free_list(list_t *head, char **environment);
 
 /* Functions from builtin.c */
-void (*search_builtin(char *name))(char **command, char **env, int *status);
-void builtin_exit(char **command, char **env, int *status);
-void builtin_cd(char **command, char **env, int *status);
-void builtin_help(char **command, char **env, int *status);
+void (*search_builtin(char *name))(char **, char **, int *, char **);
+void builtin_exit(char **command, char **env, int *status, char **argv);
+void builtin_cd(char **command, char **env, int *status, char **argv);
+void builtin_help(char **command, char **env, int *status, char **argv);
 
 /* Functions from environment.c */
 void copy_env(char **env, char **environment);
 void free_env(char **env);
-void builtin_printenv(char **command, char **env, int *status);
-void builtin_setenv(char **command, char **env, int *status);
-void builtin_unsetenv(char **command, char **env, int *status);
+void builtin_printenv(char **command, char **env, int *status, char **argv);
+void builtin_setenv(char **command, char **env, int *status, char **argv);
+void builtin_unsetenv(char **command, char **env, int *status, char **argv);
 
 #endif
