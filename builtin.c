@@ -105,7 +105,7 @@ void builtin_cd(char **command, char **env, int *status)
 		}
 		else
 		{
-			fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", command[0]);
+			fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", command[1]);
 		}
 		free(new_path);
 	}
