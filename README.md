@@ -6,21 +6,18 @@ In this project, our goal was to write a simple UNIX command interpreter. We wor
 
 ## 📋 Project Overview
 
-This custom `SHELL` interprets the command inputs by the user. It can handle the basic commands such as `ls`, `pwd`, `touch`, `rm` and `man` as examples, as well as buit-in ones like `cd`, `env`, `exit` and `help`.
+This custom `SHELL` interprets the command typed by the user. It can handle the basic usual commands such as `ls`, `pwd`, `touch`, `rm` and `man` and others, as well as buit-in ones like `cd`, `env`, `exit` and `help`.
 
 ## 🛠 Features
 
-This custom `SHELL` supports the principals following features:
+This custom `SHELL` supports the main following features:
 
-- Displaying files of a directory (`ls`).
-- Displaying path of the current directory (`pwd`).
-- Create a new file (`touch`).
-- Remove a file (`rm`).
-- Print the manuel of a command (`man`).
-- Change the directory (`cd`).
-- Print the current environnement (`env`).
-- Exit the `SHELL` (`exit`).
-- Print the help page of a built-in command (`help`).
+- Accessing usual commands and handling arguments (`ls`, `pwd`, `rm`, etc.).
+- Printing, adding and removing environment variables (`env`, `setenv`, `unsetenv`).
+- Changing the current working directory (`cd`).
+- Exiting the shell with a status code (`exit`).
+- Printing the help for a built-in command (`help`).
+- Using expansion (`$`) and comments (`#`).
 
 ## 🔧 Technologies Used
 
@@ -35,13 +32,13 @@ This custom `SHELL` supports the principals following features:
 The project contains several files, which are the following:
 
 | Files | Description  |
-| :-------- | :------- |
-| [`main.h`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/main.h) | The header file containing structures and functions prototypes. |
-| [`paths.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/paths.c) | The file containing functions related to the path search. |
+| :---- | :----------- |
+| [`builtin.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/builtin.c) | The  file  containing functions related to built-in commands. |
 | [`commands.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/commands.c) | The file containing functions related to the command execution.  |
 | [`environment.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/environment.c) | The  file  containing functions related to environment variables. |
-| [`builtin.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/builtin.c) | The  file  containing functions related to built-in commands. |
 | [`hsh.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/hsh.c) | The file containing the main function of the program. |
+| [`main.h`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/main.h) | The header file containing structures and functions prototypes. |
+| [`paths.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/paths.c) | The file containing functions related to the path search. |
 
 ## ⚙️  Compilation and Restrictions
 
@@ -110,7 +107,6 @@ Authorized functions and macros:
 Let's take a look at what our `SHELL` actually does when we test our code with a `touch`, a `ls` and an `rm`:
 
 ```
-
 hsh$ touch test
 hsh$ ls
 AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c  test
@@ -119,13 +115,11 @@ hsh$ ls
 AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
 hsh$ pwd
 /home/dougdoug/holbertonschool-simple_shell
-
 ```
 
 Let's take a look at what our `SHELL` actually does when we test our code with a `cd` and an `exit`:
 
 ```
-
 dougdoug@dorinette:~/holbertonschool-simple_shell$ ./hsh
 hsh$ ls
 AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
@@ -139,10 +133,9 @@ hsh$ ls
 AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
 hsh$ exit
 dougdoug@dorinette:~/holbertonschool-simple_shell$
-
 ```
 
-Let's take a look at what our `SHELL` actually does when we test our code with a `unsetenv` and an `env`:
+Let's take a look at what our `SHELL` actually does when we test our code with `unsetenv` and an `env`:
 
 ```
 hsh$ unsetenv LS_COLOR
@@ -180,15 +173,11 @@ PULSE_SERVER=unix:/mnt/wslg/PulseServer
 TERM_PROGRAM=vscode
 VSCODE_IPC_HOOK_CLI=/run/user/1000/vscode-ipc-df8becd6-2ae6-41ff-ac9e-492a32994422.sock
 _=./hsh
-
 ```
-
-
 
 ## 💾 Use of Memory
 
-The code does not contain any dynamic allocation of the memory.
-However, to ensure the code is free of any memory-related issue, a tool such as `Valgrind` can be used on the executable file, after compilation:
+The code uses dynamic allocation of the memory. However, it is free of any memory-related issue. To ensure this, a tool such as `Valgrind` can be used on the executable file, after compilation:
 
 ```
 valgrind ./hsh 
@@ -213,9 +202,10 @@ hsh$ ==92313==
 ==92313== For lists of detected and suppressed errors, rerun with: -s
 ==92313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
+
 ## 📂 Flowchart of the project
 
-![Copie de SHELL drawio (2)](https://github.com/user-attachments/assets/48e47a62-ffac-4103-b308-82dfd3fe3ef6)
+![Drawio](https://github.com/user-attachments/assets/48e47a62-ffac-4103-b308-82dfd3fe3ef6)
 
 ## 🧑‍🤝‍🧑 Authors
 
