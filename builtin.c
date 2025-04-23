@@ -69,6 +69,8 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 	char *old_path = NULL, *new_path = NULL;
 	int code = -1, size = 0;
 
+	memset(home, 0, sizeof(home));
+	memset(previous, 0, sizeof(previous));
 	get_env("HOME", env, home);
 	get_env("OLDPWD", env, previous);
 	old_path = strdup(getcwd(current, 1024));
@@ -77,35 +79,31 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 		if (home[0] != '\0')
 			new_path = strdup(home);
 	}
-	else if (strcmp(command[1], "-") == 0)
-	{
-		if (previous[0] != '\0')
-			new_path = strdup(previous);
-	}
+	else if (!strcmp(command[1], "-") && previous[0] != '\0')
+		new_path = strdup(previous);
 	else if (command[1][0] == '/')
 		new_path = strdup(command[1]);
-	else
+	else if (command[1][0] != '-' && command[1][0] != '/')
 	{
 		size = 2 + strlen(old_path) + strlen(command[1]);
 		new_path = malloc(size);
 		sprintf(new_path, "%s/%s", old_path, command[1]);
 	}
-	if (new_path != NULL)
+
+	code = chdir(new_path);
+	if (code == 0)
 	{
-		code = chdir(new_path);
-		if (code == 0)
-		{
-			command[1] = "OLDPWD";
-			command[2] = old_path;
-			builtin_setenv(command, env, status, argv);
-			command[1] = "PWD";
-			command[2] = new_path;
-			builtin_setenv(command, env, status, argv);
-		}
-		else
-			fprintf(stderr, "%s: 1: cd: can't cd to %s\n", argv[0], command[1]);
-		free(new_path);
+		command[1] = "OLDPWD";
+		command[2] = old_path;
+		builtin_setenv(command, env, status, argv);
+		command[1] = "PWD";
+		command[2] = new_path;
+		builtin_setenv(command, env, status, argv);
 	}
+	else
+		fprintf(stderr, "%s: 1: cd: can't cd to %s\n", argv[0], command[1]);
+	free(new_path);
+
 	*status = 0;
 	free(old_path);
 }
