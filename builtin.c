@@ -102,10 +102,14 @@ void builtin_cd(char **command, char **env, int *status)
 			command[1] = "PWD";
 			command[2] = new_path;
 			builtin_setenv(command, env, status);
-			*status = 0;
+		}
+		else
+		{
+			fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", command[0]);
 		}
 		free(new_path);
 	}
+	*status = 0;
 	free(old_path);
 }
 
