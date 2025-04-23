@@ -127,7 +127,8 @@ void builtin_help(char **command, char **env, int *status, char **argv)
 
 	if (command[1] == NULL)
 	{
-		printf("Wait for a command\n");
+		printf("Please put a command after help: ");
+		printf("cd, exit, setenv, env or unsetenv.\n");
 	}
 	else
 	{
