@@ -67,7 +67,7 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 {
 	char current[1024], previous[1024], home[1024];
 	char *old_path = NULL, *new_path = NULL;
-	int code = -1, size = 0;
+	int code = 1, size = 0;
 
 	memset(home, 0, sizeof(home));
 	memset(previous, 0, sizeof(previous));
@@ -89,8 +89,8 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 		new_path = malloc(size);
 		sprintf(new_path, "%s/%s", old_path, command[1]);
 	}
-
-	code = chdir(new_path);
+	if (new_path != NULL)
+		code = chdir(new_path);
 	if (code == 0)
 	{
 		command[1] = "OLDPWD";
@@ -100,12 +100,11 @@ void builtin_cd(char **command, char **env, int *status, char **argv)
 		command[2] = new_path;
 		builtin_setenv(command, env, status, argv);
 	}
-	else
+	else if (code == -1)
 		fprintf(stderr, "%s: 1: cd: can't cd to %s\n", argv[0], command[1]);
 	free(new_path);
-
-	*status = 0;
 	free(old_path);
+	*status = 0;
 }
 
 /**
