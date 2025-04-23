@@ -63,38 +63,45 @@ void builtin_exit(char **command, char **env, int *status)
  */
 void builtin_cd(char **command, char **env, int *status)
 {
-	char current[1024];
-	char *old_path = NULL;
-	char *new_path = NULL;
-	int code = 0, size = 0;
+	char current[1024], previous[1024], home[1024];
+	char *old_path = NULL, *new_path = NULL;
+	int code = -1, size = 0;
 
+	get_env("HOME", env, home);
+	get_env("OLDPWD", env, previous);
 	old_path = strdup(getcwd(current, 1024));
 	if (command[1] == NULL)
-		new_path = strdup(get_env("HOME", env, current));
+	{
+		if (home != NULL)
+			new_path = strdup(home);
+	}
 	else if (strcmp(command[1], "-") == 0)
-		new_path = strdup(get_env("OLDPWD", env, current));
-	else if (command[1][0] != '/')
+	{
+		if (previous != NULL)
+			new_path = strdup(previous);
+	}
+	else if (command[1][0] == '/')
+		new_path = strdup(command[1]);
+	else
 	{
 		size = 2 + strlen(old_path) + strlen(command[1]);
 		new_path = malloc(size);
-		strcpy(new_path, old_path);
-		strcat(new_path, "/");
-		strcat(new_path, command[1]);
+		sprintf(new_path, "%s/%s", old_path, command[1]);
 	}
-	else
-		new_path = strdup(command[1]);
-
-	code = chdir(new_path);
-
-	if (code == 0)
+	if (new_path != NULL)
 	{
-		command[1] = "OLDPWD";
-		command[2] = old_path;
-		builtin_setenv(command, env, status);
-		command[1] = "PWD";
-		command[2] = new_path;
-		builtin_setenv(command, env, status);
-		*status = 0;
+		code = chdir(new_path);
+		if (code == 0)
+		{
+			command[1] = "OLDPWD";
+			command[2] = old_path;
+			builtin_setenv(command, env, status);
+			command[1] = "PWD";
+			command[2] = new_path;
+			builtin_setenv(command, env, status);
+			*status = 0;
+		}
+		free(new_path);
 	}
 	else
 	{
@@ -102,7 +109,6 @@ void builtin_cd(char **command, char **env, int *status)
 		*status = 99;
 	}
 	free(old_path);
-	free(new_path);
 }
 
 /**
