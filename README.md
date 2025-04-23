@@ -213,6 +213,9 @@ hsh$ ==92313==
 ==92313== For lists of detected and suppressed errors, rerun with: -s
 ==92313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
+## 📂 Flowchart of the project
+
+![Copie de SHELL drawio (2)](https://github.com/user-attachments/assets/48e47a62-ffac-4103-b308-82dfd3fe3ef6)
 
 ## 🧑‍🤝‍🧑 Authors
 
