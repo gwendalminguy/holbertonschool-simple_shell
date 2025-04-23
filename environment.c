@@ -131,19 +131,12 @@ void builtin_unsetenv(char **command, char **env, int *status, char **argv)
 		}
 		else
 		{
-			/* Freeing variable and shifting the others */
 			while (env[i] != NULL)
 			{
 				free(env[i]);
 				if (env[i + 1] != NULL)
 				{
 					env[i] = malloc(1 + strlen(env[i + 1]));
-					if (env[i] == NULL)
-					{
-						fprintf(stderr, "%s: unsetenv failed\n", argv[0]);
-						*status = -1;
-						break;
-					}
 					strcpy(env[i], env[i + 1]);
 				}
 				else

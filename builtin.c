@@ -128,7 +128,8 @@ void builtin_help(char **command, char **env, int *status, char **argv)
 	else if (!strcmp(command[1], "exit"))
 	{
 		printf("\nexit: exit [STATUS]\n\n");
-		printf("\tExits the shell with code STATUS if specified.\n\n");
+		printf("\tExits the shell with the code STATUS if specified,\n");
+		printf("\tor with the exit status of the previous command otherwise.\n\n");
 	}
 	else if (!strcmp(command[1], "env") || !strcmp(command[1], "printenv"))
 	{
