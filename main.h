@@ -54,7 +54,7 @@ typedef struct builtin_s
 char *get_env(const char *name, char **env, char *copy);
 void get_arguments(char *line, char **arguments);
 int get_integer(char *str);
-int process_command(char **arguments, char **env, char **argv, int status);
+int process_command(parameters_t *p);
 
 /* Functions from paths.c */
 list_t *create_path_list(char **env, char **env_copy);

@@ -11,12 +11,12 @@
 int main(int argc __attribute__((unused)), char **argv, char **env)
 {
 	list_t *path_list = NULL;
-	char *line = NULL;
+	char *line = NULL, copy[2048];
 	size_t len = 0;
 	ssize_t read = 0;
-	char copy[2048];
 	parameters_t p[5];
 
+	p->status = 0;
 	p->argv = argv;
 	memset(p->env, 0, sizeof(p->env));
 	path_list = create_path_list(env, p->env);
@@ -43,7 +43,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			&& p->command[0][0] != '.' && p->command[0][0] != '$'
 		   )
 			p->command[0] = search_path_list(p->command[0], path_list, copy);
-		p->status = process_command(p->command, p->env, p->argv, p->status);
+		p->status = process_command(p);
 		if (p->status == -1 || p->status == 127)
 			break;
 	}

@@ -119,14 +119,11 @@ int get_integer(char *str)
 
 /**
  * process_command - process a given command
- * @arguments: command to process
- * @env: environment variables
- * @argv: arguments of the program
- * @status: exit status of the previous command
+ * @p: parameters
  *
  * Return: exit status of the command if found ; error code otherwise
  */
-int process_command(char **arguments, char **env, char **argv, int status)
+int process_command(parameters_t *p)
 {
 	pid_t child_pid;
 	int code, i = 0;
@@ -134,21 +131,21 @@ int process_command(char **arguments, char **env, char **argv, int status)
 	char copy[2048];
 
 	/* Handling expansion */
-	while (arguments[i] != NULL)
+	while (p->command[i] != NULL)
 	{
-		if (arguments[i][0] == '$' && arguments[i][1] == '?')
-			sprintf(arguments[i], "%i", status);
-		else if (arguments[i][0] == '$' && arguments[i][1] == '$')
-			sprintf(arguments[i], "%i", getpid());
-		else if (arguments[i][0] == '$' && arguments[i][1] != '\0')
-			arguments[i] = get_env(&arguments[i][1], env, copy);
+		if (p->command[i][0] == '$' && p->command[i][1] == '?')
+			sprintf(p->command[i], "%i", p->status);
+		else if (p->command[i][0] == '$' && p->command[i][1] == '$')
+			sprintf(p->command[i], "%i", getpid());
+		else if (p->command[i][0] == '$' && p->command[i][1] != '\0')
+			p->command[i] = get_env(&p->command[i][1], p->env, copy);
 		i++;
 	}
 
 	/* Checking if the command exists */
-	if (stat(arguments[0], &st) != 0)
+	if (stat(p->command[0], &st) != 0)
 	{
-		fprintf(stderr, "%s: 1: %s: not found\n", argv[0], arguments[0]);
+		fprintf(stderr, "%s: 1: %s: not found\n", p->argv[0], p->command[0]);
 		return (127);
 	}
 
@@ -156,13 +153,13 @@ int process_command(char **arguments, char **env, char **argv, int status)
 
 	if (child_pid == -1)
 	{
-		fprintf(stderr, "%s: fork failed\n", argv[0]);
+		fprintf(stderr, "%s: fork failed\n", p->argv[0]);
 		return (-1);
 	}
 
 	/* Executing the command */
 	else if (child_pid == 0)
-		execve(arguments[0], arguments, env);
+		execve(p->command[0], p->command, p->env);
 	else
 		wait(&code);
 
