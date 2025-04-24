@@ -17,9 +17,10 @@ This custom `SHELL` supports the main following features:
 - Changing the current working directory (`cd`).
 - Exiting the shell with a status code (`exit`).
 - Printing the help for a built-in command (`help`).
+- Handling a history of typed commands (`history`).
 - Using expansion (`$`) and comments (`#`).
 
-## 🧩 Exit STATUS
+## 🧩 Exit Status
 
 In our `SHELL`, we can exit the shell with code STATUS if specified, or with the exit status with the previous command otherwise. If a built-in command fails, the STATUS will be update to 99 and print an error message on exit. If a specified command does not exist or if it is not found, the STATUS is updated to 127 and print an error message on exit.
 
@@ -96,9 +97,9 @@ Authorized functions and macros:
  - `read`
  - `readdir`
  - `signal`
- - `stat` (__xstat)
- - `lstat` (__lxstat)
- - `fstat` (__fxstat)
+ - `stat`
+ - `lstat`
+ - `fstat`
  - `strtok`
  - `wait`
  - `waitpid`

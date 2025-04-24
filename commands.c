@@ -124,15 +124,17 @@ int get_integer(char *str)
 }
 
 /**
- * terminate_program - frees path_list, environment and history
+ * terminate_program - frees everything and export history
+ * @line: ...
  * @head: ...
  * @env: ...
  * @history: ...
  */
-void terminate_program(list_t *head, char **env, char **history)
+void terminate_program(char *line, list_t *head, char **env, char **history)
 {
 	int i = 0;
 
+	free(line);
 	free_list(head);
 	free_env(env);
 

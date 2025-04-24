@@ -48,7 +48,6 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		if (p->status == -1 || p->status == 127)
 			break;
 	}
-	free(line);
-	terminate_program(path_list, p->env, p->history);
+	terminate_program(line, path_list, p->env, p->history);
 	exit(p->status);
 }
