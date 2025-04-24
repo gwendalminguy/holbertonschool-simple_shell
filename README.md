@@ -6,7 +6,7 @@ In this project, our goal was to write a simple UNIX command interpreter. We wor
 
 ## 📋 Project Overview
 
-This custom `SHELL` interprets the command typed by the user. It can handle the basic usual commands such as `ls`, `pwd`, `touch`, `rm` and `man` and others, as well as buit-in ones like `cd`, `env`, `exit` and `help`.
+This custom `SHELL` interprets the command typed by the user. It can handle the basic usual commands such as `ls`, `pwd`, `rm`, `man` and others, as well as buit-in ones like `cd`, `env`, `exit`, `help` and `history`.
 
 ## 🛠 Features
 
@@ -44,6 +44,7 @@ The project contains several files, which are the following:
 | [`hsh.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/hsh.c) | The file containing the main function of the program. |
 | [`main.h`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/main.h) | The header file containing structures and functions prototypes. |
 | [`paths.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/paths.c) | The file containing functions related to the path search. |
+| [`program.c`](https://github.com/gwendalminguy/holbertonschool-simple_shell/blob/main/program.c) | The file containing functions related to starting and stopping the program. |
 
 ## ⚙️  Compilation and Restrictions
 
