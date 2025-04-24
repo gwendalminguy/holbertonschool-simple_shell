@@ -45,10 +45,10 @@ char *get_env(const char *name, char **env, char *copy)
 /**
  * get_arguments - separates the user input in an array of strings
  * @line: user input
- * @arguments: array of strings
+ * @command: array of strings
  * @history: history of commands
  */
-void get_arguments(char *line, char **arguments, char **history)
+void get_arguments(char *line, char **command, char **history)
 {
 	int i = 0, j = 0;
 	char *string;
@@ -57,6 +57,8 @@ void get_arguments(char *line, char **arguments, char **history)
 		i++;
 
 	history[i] = strdup(line);
+
+	memset(command, 0, 4096);
 
 	string = strtok(line, " \n");
 
@@ -68,13 +70,13 @@ void get_arguments(char *line, char **arguments, char **history)
 			if (string[0] == '#')
 				break;
 
-			arguments[j] = string;
+			command[j] = string;
 			string = strtok(NULL, " \n");
 			j++;
 		}
 	}
 	else
-		arguments[0] = NULL;
+		command[0] = NULL;
 }
 
 /**

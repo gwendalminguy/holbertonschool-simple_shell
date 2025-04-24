@@ -65,7 +65,7 @@ void free_list(list_t *head);
 
 /* Functions from program.c */
 void start_program(list_t **head, char **argv, char **env, parameters_t *p);
-void stop_program(char *line, list_t *head, char **env, char **history);
+void stop_program(list_t *head, char *line, parameters_t *p);
 
 /* Functions from builtin.c */
 void (*search_builtin(char *name))(parameters_t *p);

@@ -50,7 +50,7 @@ void builtin_printenv(parameters_t *p)
 
 /**
  * builtin_setenv - adds or updates an environment variable
- * @p: parameters if the builtin command
+ * @p: parameters of the builtin command
  */
 void builtin_setenv(parameters_t *p)
 {

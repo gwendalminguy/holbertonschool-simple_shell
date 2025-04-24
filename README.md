@@ -2,11 +2,11 @@
 
 Welcome to our custom `SHELL` project!
 
-In this project, our goal was to write a simple UNIX command interpreter. We worked as a team to develop a simplified version of a shell, handling different commands and built-in commands.
+In this project, our goal was to write a simple UNIX command interpreter. We worked as a team to develop a simplified version of a shell, handling the different usual commands, but also some built-in commands.
 
 ## 📋 Project Overview
 
-This custom `SHELL` interprets the command typed by the user. It can handle the basic usual commands such as `ls`, `pwd`, `rm`, `man` and others, as well as buit-in ones like `cd`, `env`, `exit`, `help` and `history`.
+This custom `SHELL` interprets the command typed by the user. It can handle the basic usual commands such as `ls`, `pwd`, `rm`, and others, as well as buit-in ones like `cd`, `exit`, `help` and `history`.
 
 ## 🛠 Features
 
@@ -17,12 +17,12 @@ This custom `SHELL` supports the main following features:
 - Changing the current working directory (`cd`).
 - Exiting the shell with a status code (`exit`).
 - Printing the help for a built-in command (`help`).
-- Handling a history of typed commands (`history`).
+- Handling a history of commands (`history`).
 - Using expansion (`$`) and comments (`#`).
 
 ## 🧩 Exit Status
 
-In our `SHELL`, we can exit the shell with code STATUS if specified, or with the exit status with the previous command otherwise. If a built-in command fails, the STATUS will be update to 99 and print an error message on exit. If a specified command does not exist or if it is not found, the STATUS is updated to 127 and print an error message on exit.
+In our `SHELL`, we can exit the shell with a custom status if specified, or with the exit status of the previous command otherwise. If a built-in command fails, the exit status will be updated to 99 and an error message will be printed on exit. If a specified command does not exist or if it is not found, the status will be updated to 127 and an error message will be printed on exit.
 
 ## 🔧 Technologies Used
 
@@ -183,7 +183,7 @@ _=./hsh
 
 ## 💾 Use of Memory
 
-The code uses dynamic allocation of the memory. However, it is free of any memory-related issue. To ensure this, a tool such as `Valgrind` can be used on the executable file, after compilation:
+The code uses dynamic allocation of the memory, and is free of any memory-related issue. To ensure this, a tool such as `Valgrind` can be used on the executable file, after compilation:
 
 ```
 valgrind ./hsh 
@@ -209,7 +209,7 @@ hsh$ ==92313==
 ==92313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
-## 📂 Flowchart of the project
+## 📂 Flowchart of the Project
 
 ![Drawio](https://github.com/user-attachments/assets/48e47a62-ffac-4103-b308-82dfd3fe3ef6)
 

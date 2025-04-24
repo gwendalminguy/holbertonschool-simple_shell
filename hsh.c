@@ -10,10 +10,9 @@
  */
 int main(int argc __attribute__((unused)), char **argv, char **env)
 {
-	list_t *path_list = NULL;
 	parameters_t p[5];
-	char *line = NULL;
-	char copy[2048];
+	list_t *path_list = NULL;
+	char *line = NULL, copy[2048];
 	size_t len = 0;
 	ssize_t read = 0;
 
@@ -21,7 +20,6 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 
 	while (1)
 	{
-		memset(p->command, 0, sizeof(p->command));
 		if (isatty(STDIN_FILENO) != 0)
 			printf("%s$ ", &argv[0][2]);
 		read = getline(&line, &len, stdin);
@@ -39,7 +37,8 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		}
 		if (
 			p->command[0][0] != '/'
-			&& p->command[0][0] != '.' && p->command[0][0] != '$'
+			&& p->command[0][0] != '.'
+			&& p->command[0][0] != '$'
 		   )
 			p->command[0] = search_path_list(p->command[0], path_list, copy);
 
@@ -48,6 +47,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			break;
 	}
 
-	stop_program(line, path_list, p->env, p->history);
-	exit(p->status);
+	stop_program(path_list, line, p);
+
+	return (0);
 }

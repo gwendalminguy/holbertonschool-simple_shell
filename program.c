@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * start_program - initializes environment and a PATH list
+ * start_program - initializes environment and a list of all PATH directories
  * @head: head of the list
  * @argv: arguments of the program
  * @env: environment variables
@@ -21,23 +21,24 @@ void start_program(list_t **head, char **argv, char **env, parameters_t *p)
 }
 
 /**
- * stop_program - frees everything and export history
- * @line: user input
+ * stop_program - frees everything and exits the program
  * @head: linked list of all PATH directories
- * @env: environùent variables
- * @history: history of commands
+ * @line: user input
+ * @p: parameters
  */
-void stop_program(char *line, list_t *head, char **env, char **history)
+void stop_program(list_t *head, char *line, parameters_t *p)
 {
 	int i = 0;
 
 	free(line);
 	free_list(head);
-	free_env(env);
+	free_env(p->env);
 
-	while (history[i] != NULL)
+	while (p->history[i] != NULL)
 	{
-		free(history[i]);
+		free(p->history[i]);
 		i++;
 	}
+
+	exit(p->status);
 }
