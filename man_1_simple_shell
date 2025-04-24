@@ -45,6 +45,10 @@ Changes the current working directory to \fIDIRECTORY\fR if specified, or to the
 \fBhelp\fR [\fIBUILT-IN\fR]
 .IP
 Prints the help to STDOUT for the command \fIBUILT-IN\fR if specified, or for all built-in commands otherwise.
+.LP
+\fBhistory\fR
+.IP
+Prints to STDOUT the history of all commands from the current session.
 .RE
 
 .SS Path Search
@@ -100,6 +104,9 @@ HSH should be compiled using GCC. Using warning flags is advised, to ensure a pr
 .LP
 \fIpaths.c\fR
 - The file containing functions related to the path search.
+.LP
+\fIprogram.c\fR
+- The file containing functions related to starting and stopping the program.
 .RE
 
 .SH
