@@ -146,7 +146,7 @@ void builtin_help(parameters_t *p)
 }
 
 /**
- * builtin_history - ...
+ * builtin_history - prints the history of all commands
  * @p: parameters of the builtin command
  */
 void builtin_history(parameters_t *p)

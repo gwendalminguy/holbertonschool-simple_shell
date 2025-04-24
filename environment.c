@@ -109,7 +109,7 @@ void builtin_unsetenv(parameters_t *p)
 		n = strlen(p->command[1]);
 		while (p->env[i] != NULL)
 		{
-			if (strncmp(p->command[1], p->env[i], n) == 0)
+			if (strncmp(p->command[1], p->env[i], n) == 0 && p->env[i][n] == '=')
 				break;
 			i++;
 		}
