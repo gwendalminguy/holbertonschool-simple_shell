@@ -52,8 +52,9 @@ typedef struct builtin_s
 
 /* Functions from commands.c */
 char *get_env(const char *name, char **env, char *copy);
-void get_arguments(char *line, char **arguments);
+void get_arguments(char *line, char **arguments, char **history);
 int get_integer(char *str);
+void terminate_program(list_t *head, char **env, char **history);
 int process_command(parameters_t *p);
 
 /* Functions from paths.c */
@@ -61,13 +62,14 @@ list_t *create_path_list(char **env, char **env_copy);
 char *search_path_list(char *command, list_t *paths, char *copy);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
-void free_list(list_t *head, char **environment);
+void free_list(list_t *head);
 
 /* Functions from builtin.c */
 void (*search_builtin(char *name))(parameters_t *p);
 void builtin_exit(parameters_t *p);
 void builtin_cd(parameters_t *p);
 void builtin_help(parameters_t *p);
+void builtin_history(parameters_t *p);
 
 /* Functions from environment.c */
 void copy_env(char **env, char **env_copy);

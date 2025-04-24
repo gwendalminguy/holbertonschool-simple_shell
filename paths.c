@@ -150,14 +150,11 @@ void add_node_list(list_t **head, const char *str)
 /**
  * free_list - frees a linked list
  * @head: head of the list
- * @environment: ...
  */
-void free_list(list_t *head, char **environment)
+void free_list(list_t *head)
 {
 	list_t *current = NULL;
 	list_t *temp = NULL;
-
-	free_env(environment);
 
 	if (head != NULL)
 	{

@@ -18,6 +18,7 @@ void (*search_builtin(char *name))(parameters_t *p)
 		{"unsetenv", builtin_unsetenv},
 		{"cd", builtin_cd},
 		{"help", builtin_help},
+		{"history", builtin_history},
 		{NULL, NULL}
 	};
 
@@ -141,5 +142,22 @@ void builtin_help(parameters_t *p)
 		printf("\tChanges current directory to [DIRECTORY] if specified,\n");
 		printf("\tor to the HOME directory otherwise.\n\n");
 	}
+	p->status = 0;
+}
+
+/**
+ * builtin_history - ...
+ * @p: parameters of the builtin command
+ */
+void builtin_history(parameters_t *p)
+{
+	int i = 0;
+
+	while (p->history[i] != NULL)
+	{
+		printf("[%i] %s", i, p->history[i]);
+		i++;
+	}
+
 	p->status = 0;
 }

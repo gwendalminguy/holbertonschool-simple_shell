@@ -46,11 +46,17 @@ char *get_env(const char *name, char **env, char *copy)
  * get_arguments - separates the user input in an array of strings
  * @line: user input
  * @arguments: array of strings
+ * @history: history of commands
  */
-void get_arguments(char *line, char **arguments)
+void get_arguments(char *line, char **arguments, char **history)
 {
-	int i = 0;
+	int i = 0, j = 0;
 	char *string;
+
+	while (history[i] != NULL)
+		i++;
+
+	history[i] = strdup(line);
 
 	string = strtok(line, " \n");
 
@@ -62,9 +68,9 @@ void get_arguments(char *line, char **arguments)
 			if (string[0] == '#')
 				break;
 
-			arguments[i] = string;
+			arguments[j] = string;
 			string = strtok(NULL, " \n");
-			i++;
+			j++;
 		}
 	}
 	else
@@ -115,6 +121,26 @@ int get_integer(char *str)
 		return (-1);
 
 	return (number);
+}
+
+/**
+ * terminate_program - frees path_list, environment and history
+ * @head: ...
+ * @env: ...
+ * @history: ...
+ */
+void terminate_program(list_t *head, char **env, char **history)
+{
+	int i = 0;
+
+	free_list(head);
+	free_env(env);
+
+	while (history[i] != NULL)
+	{
+		free(history[i]);
+		i++;
+	}
 }
 
 /**

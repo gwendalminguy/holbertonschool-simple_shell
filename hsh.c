@@ -19,6 +19,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	p->status = 0;
 	p->argv = argv;
 	memset(p->env, 0, sizeof(p->env));
+	memset(p->history, 0, sizeof(p->history));
 	path_list = create_path_list(env, p->env);
 	while (1)
 	{
@@ -28,7 +29,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 			break;
-		get_arguments(line, p->command);
+		get_arguments(line, p->command, p->history);
 		if (p->command[0] == NULL)
 			continue;
 		if (search_builtin(p->command[0]) != NULL)
@@ -48,6 +49,6 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			break;
 	}
 	free(line);
-	free_list(path_list, p->env);
+	terminate_program(path_list, p->env, p->history);
 	exit(p->status);
 }
