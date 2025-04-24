@@ -23,17 +23,17 @@ typedef struct list_s
 } list_t;
 
 /**
- * struct parameters_s - ...
- * @command:
- * @env:
- * @status:
- * @argv:
- * @history:
+ * struct parameters_s - parameters for builtin commands
+ * @command: command to process
+ * @env: environment variables
+ * @status: exit status
+ * @argv: arguments of the program
+ * @history: history of commands
  */
 typedef struct parameters_s
 {
 	char *command[4096];
-	char *environment[4096];
+	char *env[4096];
 	int status;
 	char **argv;
 	char *history[4096];
@@ -47,7 +47,7 @@ typedef struct parameters_s
 typedef struct builtin_s
 {
 	char *name;
-	void (*fptr)(parameters_t *parameters);
+	void (*fptr)(parameters_t *p);
 } builtin_t;
 
 /* Functions from commands.c */
@@ -57,7 +57,7 @@ int get_integer(char *str);
 int process_command(char **arguments, char **env, char **argv, int status);
 
 /* Functions from paths.c */
-list_t *create_path_list(char **env, char **environment);
+list_t *create_path_list(char **env, char **env_copy);
 char *search_path_list(char *command, list_t *paths, char *copy);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
@@ -70,7 +70,7 @@ void builtin_cd(parameters_t *p);
 void builtin_help(parameters_t *p);
 
 /* Functions from environment.c */
-void copy_env(char **env, char **environment);
+void copy_env(char **env, char **env_copy);
 void free_env(char **env);
 void builtin_printenv(parameters_t *p);
 void builtin_setenv(parameters_t *p);

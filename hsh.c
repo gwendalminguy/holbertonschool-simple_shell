@@ -18,9 +18,8 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 	parameters_t p[5];
 
 	p->argv = argv;
-	memset(p->environment, 0, sizeof(p->environment));
-	path_list = create_path_list(env, p->environment);
-
+	memset(p->env, 0, sizeof(p->env));
+	path_list = create_path_list(env, p->env);
 	while (1)
 	{
 		memset(p->command, 0, sizeof(p->command));
@@ -39,14 +38,16 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 				break;
 			continue;
 		}
-		if (p->command[0][0] != '/' && p->command[0][0] != '.' && p->command[0][0] != '$')
+		if (
+			p->command[0][0] != '/'
+			&& p->command[0][0] != '.' && p->command[0][0] != '$'
+		   )
 			p->command[0] = search_path_list(p->command[0], path_list, copy);
-
-		p->status = process_command(p->command, p->environment, p->argv, p->status);
+		p->status = process_command(p->command, p->env, p->argv, p->status);
 		if (p->status == -1 || p->status == 127)
 			break;
 	}
 	free(line);
-	free_list(path_list, p->environment);
+	free_list(path_list, p->env);
 	exit(p->status);
 }

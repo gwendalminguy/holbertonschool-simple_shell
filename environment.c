@@ -3,15 +3,15 @@
 /**
  * copy_env - copies all environment variables in an array of strings
  * @env: environment variables
- * @environment: destination
+ * @env_copy: destination
  */
-void copy_env(char **env, char **environment)
+void copy_env(char **env, char **env_copy)
 {
 	int i = 0;
 
 	while (env[i] != NULL)
 	{
-		environment[i] = strdup(env[i]);
+		env_copy[i] = strdup(env[i]);
 		i++;
 	}
 }
@@ -39,9 +39,9 @@ void builtin_printenv(parameters_t *p)
 {
 	int i = 0;
 
-	while (p->environment[i] != NULL)
+	while (p->env[i] != NULL)
 	{
-		printf("%s\n", p->environment[i]);
+		printf("%s\n", p->env[i]);
 		i++;
 	}
 
@@ -62,11 +62,11 @@ void builtin_setenv(parameters_t *p)
 		m = strlen(p->command[1]);
 		n = strlen(p->command[2]);
 
-		while (p->environment[i] != NULL)
+		while (p->env[i] != NULL)
 		{
-			if (strncmp(p->command[1], p->environment[i], m) == 0 && p->environment[i][m] == '=')
+			if (strncmp(p->command[1], p->env[i], m) == 0 && p->env[i][m] == '=')
 			{
-				free(p->environment[i]);
+				free(p->env[i]);
 				break;
 			}
 
@@ -75,17 +75,17 @@ void builtin_setenv(parameters_t *p)
 
 		size = m + n;
 
-		p->environment[i] = malloc(size + 2);
+		p->env[i] = malloc(size + 2);
 
-		if (p->environment[i] == NULL)
+		if (p->env[i] == NULL)
 		{
 			fprintf(stderr, "%s: setenv failed\n", p->argv[0]);
 			p->status = -1;
 		}
 		else
 		{
-			memset(p->environment[i], 0, size);
-			sprintf(p->environment[i], "%s=%s", p->command[1], p->command[2]);
+			memset(p->env[i], 0, size);
+			sprintf(p->env[i], "%s=%s", p->command[1], p->command[2]);
 			p->status = 0;
 		}
 	}
@@ -107,30 +107,30 @@ void builtin_unsetenv(parameters_t *p)
 	if (p->command[1] != NULL)
 	{
 		n = strlen(p->command[1]);
-		while (p->environment[i] != NULL)
+		while (p->env[i] != NULL)
 		{
-			if (strncmp(p->command[1], p->environment[i], n) == 0)
+			if (strncmp(p->command[1], p->env[i], n) == 0)
 				break;
 			i++;
 		}
-		if (p->environment[i] == NULL)
+		if (p->env[i] == NULL)
 		{
 			fprintf(stderr, "%s: unsetenv: wrong argument\n", p->argv[0]);
 			p->status = 99;
 		}
 		else
 		{
-			while (p->environment[i] != NULL)
+			while (p->env[i] != NULL)
 			{
-				free(p->environment[i]);
-				if (p->environment[i + 1] != NULL)
+				free(p->env[i]);
+				if (p->env[i + 1] != NULL)
 				{
-					p->environment[i] = malloc(1 + strlen(p->environment[i + 1]));
-					strcpy(p->environment[i], p->environment[i + 1]);
+					p->env[i] = malloc(1 + strlen(p->env[i + 1]));
+					strcpy(p->env[i], p->env[i + 1]);
 				}
 				else
 				{
-					p->environment[i] = NULL;
+					p->env[i] = NULL;
 					p->status = 0;
 				}
 				i++;

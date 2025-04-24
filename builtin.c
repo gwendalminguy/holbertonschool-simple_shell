@@ -2,7 +2,7 @@
 
 /**
  * search_builtin - searches for a builtin command
- * @p: parameters of the builtin command
+ * @name: name of the command
  *
  * Return: function pointer
  */
@@ -46,7 +46,8 @@ void builtin_exit(parameters_t *p)
 			p->status = n;
 		else
 		{
-			fprintf(stderr, "%s: 1: exit: Illegal number: %s\n", p->argv[0], p->command[1]);
+			fprintf(stderr, "%s: 1: exit:", p->argv[0]);
+			fprintf(" Illegal number: %s\n", p->command[1]);
 			p->status = 2;
 		}
 	}
@@ -64,8 +65,8 @@ void builtin_cd(parameters_t *p)
 
 	memset(home, 0, sizeof(home));
 	memset(previous, 0, sizeof(previous));
-	get_env("HOME", p->environment, home);
-	get_env("OLDPWD", p->environment, previous);
+	get_env("HOME", p->env, home);
+	get_env("OLDPWD", p->env, previous);
 	old_path = strdup(getcwd(current, 1024));
 	if (p->command[1] == NULL)
 	{
