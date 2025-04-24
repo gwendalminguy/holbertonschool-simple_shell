@@ -124,28 +124,6 @@ int get_integer(char *str)
 }
 
 /**
- * terminate_program - frees everything and export history
- * @line: ...
- * @head: ...
- * @env: ...
- * @history: ...
- */
-void terminate_program(char *line, list_t *head, char **env, char **history)
-{
-	int i = 0;
-
-	free(line);
-	free_list(head);
-	free_env(env);
-
-	while (history[i] != NULL)
-	{
-		free(history[i]);
-		i++;
-	}
-}
-
-/**
  * process_command - process a given command
  * @p: parameters
  *

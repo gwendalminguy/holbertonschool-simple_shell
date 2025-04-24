@@ -3,17 +3,14 @@
 /**
  * create_path_list - creates a singly linked list of all PATH directories
  * @env: environment variables
- * @environment: ...
  *
  * Return: head of the list
  */
-list_t *create_path_list(char **env, char **environment)
+list_t *create_path_list(char **env)
 {
 	char *path = NULL;
 	char copy[4096] = "";
 	list_t *head = NULL;
-
-	copy_env(env, environment);
 
 	/* Getting the value of PATH */
 	get_env("PATH", env, copy);
