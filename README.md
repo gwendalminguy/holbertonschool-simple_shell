@@ -20,7 +20,7 @@ This custom `SHELL` supports the main following features:
 - Handling a history of commands (`history`).
 - Using expansion (`$`) and comments (`#`).
 
-## 🧩 Exit Status
+## 🔗 Exit Status
 
 In our `SHELL`, we can exit the shell with a custom status if specified, or with the exit status of the previous command otherwise. If a built-in command fails, the exit status will be updated to 99 and an error message will be printed on exit. If a specified command does not exist or if it is not found, the status will be updated to 127 and an error message will be printed on exit.
 
@@ -186,7 +186,7 @@ _=./hsh
 The code uses dynamic allocation of the memory, and is free of any memory-related issue. To ensure this, a tool such as `Valgrind` can be used on the executable file, after compilation:
 
 ```
-valgrind ./hsh 
+valgrind ./hsh
 ==92313== Memcheck, a memory error detector
 ==92313== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
 ==92313== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
@@ -215,7 +215,7 @@ hsh$ ==92313==
 
 ## 🧑‍🤝‍🧑 Authors
 
-This project was carried out by: 
+This project was carried out by:
 
 - [Gwendal Minguy-Pèlerin](https://github.com/gwendalminguy)
 - [Dorine Lemée](https:/https://github.com/dougd0ug)
