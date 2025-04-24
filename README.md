@@ -19,6 +19,10 @@ This custom `SHELL` supports the main following features:
 - Printing the help for a built-in command (`help`).
 - Using expansion (`$`) and comments (`#`).
 
+## 🧩 Exit STATUS
+
+In our `SHELL`, we can exit the shell with code STATUS if specified, or with the exit status with the previous command otherwise. If a built-in command fails, the STATUS will be update to 99 and print an error message on exit. If a specified command does not exist or if it is not found, the STATUS is updated to 127 and print an error message on exit.
+
 ## 🔧 Technologies Used
 
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
