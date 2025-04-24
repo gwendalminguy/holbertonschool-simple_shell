@@ -47,7 +47,7 @@ void builtin_exit(parameters_t *p)
 		else
 		{
 			fprintf(stderr, "%s: 1: exit:", p->argv[0]);
-			fprintf(" Illegal number: %s\n", p->command[1]);
+			fprintf(stderr, " Illegal number: %s\n", p->command[1]);
 			p->status = 2;
 		}
 	}
