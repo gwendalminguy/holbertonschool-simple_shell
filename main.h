@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -29,6 +30,7 @@ typedef struct list_s
  * @status: exit status
  * @argv: arguments of the program
  * @history: history of commands
+ * @position: position of first history line
  */
 typedef struct parameters_s
 {
@@ -37,6 +39,7 @@ typedef struct parameters_s
 	int status;
 	char **argv;
 	char *history[4096];
+	int position;
 } parameters_t;
 
 /**
@@ -51,8 +54,8 @@ typedef struct builtin_s
 } builtin_t;
 
 /* Functions from commands.c */
-char *get_env(const char *name, char **env, char *copy);
-void get_arguments(char *line, char **arguments, char **history);
+void free_array(char **array);
+void get_arguments(char *line, char **env, parameters_t *p);
 int get_integer(char *str);
 int process_command(parameters_t *p);
 
@@ -65,7 +68,9 @@ void free_list(list_t *head);
 
 /* Functions from program.c */
 void start_program(list_t **head, char **argv, char **env, parameters_t *p);
-void stop_program(list_t *head, char *line, parameters_t *p);
+void stop_program(list_t **head, char *line, parameters_t *p);
+void load_history(char **env, parameters_t *p);
+void export_history(char **env, parameters_t *p);
 
 /* Functions from builtin.c */
 void (*search_builtin(char *name))(parameters_t *p);
@@ -75,8 +80,8 @@ void builtin_help(parameters_t *p);
 void builtin_history(parameters_t *p);
 
 /* Functions from environment.c */
+char *get_env(const char *name, char **env, char *copy);
 void copy_env(char **env, char **env_copy);
-void free_env(char **env);
 void builtin_printenv(parameters_t *p);
 void builtin_setenv(parameters_t *p);
 void builtin_unsetenv(parameters_t *p);

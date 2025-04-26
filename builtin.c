@@ -60,15 +60,14 @@ void builtin_exit(parameters_t *p)
  */
 void builtin_cd(parameters_t *p)
 {
-	char current[1024], previous[1024], home[1024];
+	char current[1024], previous[1024] = {0}, home[1024] = {0};
 	char *old_path = NULL, *new_path = NULL;
 	int code = 1, size = 0;
 
-	memset(home, 0, sizeof(home));
-	memset(previous, 0, sizeof(previous));
 	get_env("HOME", p->env, home);
 	get_env("OLDPWD", p->env, previous);
 	old_path = strdup(getcwd(current, 1024));
+
 	if (p->command[1] == NULL)
 	{
 		if (home[0] != '\0')
@@ -84,8 +83,12 @@ void builtin_cd(parameters_t *p)
 		new_path = malloc(size);
 		sprintf(new_path, "%s/%s", old_path, p->command[1]);
 	}
+
+	/* Changing directory */
 	if (new_path != NULL)
 		code = chdir(new_path);
+
+	/* Updating OLDPWD and PWD */
 	if (code == 0)
 	{
 		p->command[1] = "OLDPWD";
@@ -128,8 +131,8 @@ void builtin_help(parameters_t *p)
 	else if (!strcmp(p->command[1], "setenv"))
 	{
 		printf("\nsetenv: setenv VARIABLE VALUE\n\n");
-		printf("\tAdds VARIABLE to the environment and initializes it\n");
-		printf("\tto VALUE, or updates it if it alreday exists.\n\n");
+		printf("\tAdds VARIABLE to the environment and initializes it to VALUE,\n");
+		printf("\tor updates its value to VALUE if it alreday exists.\n\n");
 	}
 	else if (!strcmp(p->command[1], "unsetenv"))
 	{
@@ -142,6 +145,12 @@ void builtin_help(parameters_t *p)
 		printf("\tChanges current directory to [DIRECTORY] if specified,\n");
 		printf("\tor to the HOME directory otherwise.\n\n");
 	}
+	else if (!strcmp(p->command[1], "history"))
+	{
+		printf("\nhistory: history\n\n");
+		printf("\tPrints the history of all commands.\n");
+	}
+
 	p->status = 0;
 }
 
@@ -153,7 +162,7 @@ void builtin_history(parameters_t *p)
 {
 	int i = 0;
 
-	while (p->history[i] != NULL)
+	while (i < 4096 && p->history[i] != NULL)
 	{
 		printf("[%i] %s", i, p->history[i]);
 		i++;

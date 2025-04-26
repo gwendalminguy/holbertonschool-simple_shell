@@ -18,7 +18,7 @@ This custom `SHELL` supports the main following features:
 - Exiting the shell with a status code (`exit`).
 - Printing the help for a built-in command (`help`).
 - Handling a history of commands (`history`).
-- Using expansion (`$`) and comments (`#`).
+- Using variable expansion (`$`) and comments (`#`).
 
 ## 🔗 Exit Status
 

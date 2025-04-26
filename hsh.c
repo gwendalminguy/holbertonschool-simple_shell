@@ -25,7 +25,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 			break;
-		get_arguments(line, p->command, p->history);
+		get_arguments(line, env, p);
 		if (p->command[0] == NULL)
 			continue;
 		if (search_builtin(p->command[0]) != NULL)
@@ -35,11 +35,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 				break;
 			continue;
 		}
-		if (
-			p->command[0][0] != '/'
-			&& p->command[0][0] != '.'
-			&& p->command[0][0] != '$'
-		   )
+		if (p->command[0][0] != '/' && p->command[0][0] != '.' && p->command[0][0] != '$')
 			p->command[0] = search_path_list(p->command[0], path_list, copy);
 
 		p->status = process_command(p);
@@ -47,7 +43,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			break;
 	}
 
-	stop_program(path_list, line, p);
+	stop_program(&path_list, line, p);
 
 	return (0);
 }

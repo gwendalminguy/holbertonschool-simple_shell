@@ -1,64 +1,46 @@
 #include "main.h"
 
 /**
- * get_env - gets an environment variable
- * @name: name of variable to get
- * @env: environment variable
- * @copy: buffer for the value
- *
- * Return: copy of the value of the environment variable
+ * free_array - frees an array
+ * @array: array to free
  */
-char *get_env(const char *name, char **env, char *copy)
+void free_array(char **array)
 {
-	int i = 0, cmp = 0;
-	char *variable = NULL;
-	char *value = NULL;
-	char *environment[4096];
+	int i = 0;
 
-	memset(environment, 0, sizeof(environment));
-	copy_env(env, environment);
-
-	/* Searching for a matching variable */
-	while (environment[i] != NULL)
+	while (i < 4096 && array[i] != NULL)
 	{
-		variable = strtok(environment[i], "=\n");
-		value = strtok(NULL, "=\n");
-
-		cmp = strcmp(name, variable);
-
-		if (cmp == 0 && value != NULL)
-		{
-			/* Copying and freeing */
-			strcpy(copy, value);
-			free_env(environment);
-			return (copy);
-		}
-
+		free(array[i]);
 		i++;
 	}
-
-	free_env(environment);
-
-	return (NULL);
 }
 
 /**
  * get_arguments - separates the user input in an array of strings
  * @line: user input
- * @command: array of strings
- * @history: history of commands
+ * @env: environment variables
+ * @p: parameters
  */
-void get_arguments(char *line, char **command, char **history)
+void get_arguments(char *line, char **env, parameters_t *p)
 {
 	int i = 0, j = 0;
 	char *string;
 
-	while (history[i] != NULL)
+	/* Writing user input in history */
+	while (p->history[i] != NULL)
+	{
 		i++;
+		if (i == 4096)
+		{
+			export_history(env, p);
+			free_array(p->history);
+			i = 0;
+		}
+	}
 
-	history[i] = strdup(line);
+	p->history[i] = strdup(line);
 
-	memset(command, 0, 4096);
+	memset(p->command, 0, 4096);
 
 	string = strtok(line, " \n");
 
@@ -70,13 +52,13 @@ void get_arguments(char *line, char **command, char **history)
 			if (string[0] == '#')
 				break;
 
-			command[j] = string;
+			p->command[j] = string;
 			string = strtok(NULL, " \n");
 			j++;
 		}
 	}
 	else
-		command[0] = NULL;
+		p->command[0] = NULL;
 }
 
 /**

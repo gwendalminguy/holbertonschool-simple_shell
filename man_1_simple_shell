@@ -15,10 +15,11 @@ If the command is found, \fIfork\fR is called to create a new process that will 
 
 .SS Interactive Mode
 When launched, HSH automatically enters the interactive mode, and can be used by typing any command. In this case, the user can stop the shell using the \fIexit\fR command.
-HSH can also be called from another shell, by using \fIecho\fR and piping the desired command. There is no need to exit HSH in this case.
+HSH can also be called from another shell, by using \fIecho\fR and piping the desired command to HSH. There is no need to exit HSH in this case.
 
 .SS Built-In Commands
 Specific commands that can be used within the shell. Each built-in command can be invoked by using its name, eventually followed by one or more argument(s) if required.
+.br
 The supported built-in commands and their meaning are the following:
 .RS
 .LP
@@ -48,7 +49,7 @@ Prints the help to STDOUT for the command \fIBUILT-IN\fR if specified, or for al
 .LP
 \fBhistory\fR
 .IP
-Prints to STDOUT the history of all commands from the current session.
+Prints to STDOUT the history of all commands.
 .RE
 
 .SS Path Search
@@ -57,11 +58,11 @@ If none is found but the name of the command starts with a slash or a period, it
 Otherwise, it will try to find the command in each directory entry contained in the PATH environment variable.
 
 .SS Special Features
-HSH handles a few special features commonly avaiable in a shell, such as \fBexpansion\fR, \fBcomments\fR and \fBhistory\fR.
-Expanding a variable can be achieved using the dollar symbol ($), followed by the name of an environment variable.
-Expanding the process identifier (PID) can be achieved using two consecutive dollar symbols ($$).
-Expanding the exit status of the previous command can be achieved using a dollar symbol followed by a question mark ($?).
-Comments can be written using a hash mark (#). Anything that comes after this symbol will be ignored by HSH.
+HSH handles a few special features commonly avaiable in a shell, such as \fBhistory\fR, \fBexpansion\fR and \fBcomments\fR.
+When launched, HSH reads and loads, if it exists, the history file of all commands from the previous session, located in the HOME directory.
+This list of commands is constantly updated, everytime a command is typed. When the shell exits, HSH writes this list to the same file, overwriting it.
+Expanding a variable can be achieved using the dollar symbol ($), followed by the name of an environment variable. Expanding the process identifier (PID) can be achieved using two consecutive dollar symbols ($$). Expanding the exit status of the previous command can be achieved using a dollar symbol followed by a question mark ($?). Comments can be written using a hash mark (#). Anything that comes after this symbol will be ignored by HSH.
+
 
 .SH EXIT STATUS
 If terminated manually on regular execution with the \fIexit\fR command or the \fIEOF\fR signal, HSH will exit with the status code of the last command executed.
@@ -71,10 +72,12 @@ If an error occured when creating a process to execute a specified command, HSH 
 
 .SH ENVIRONMENT
 HSH needs some of the environment variables in order to work properly, and can change some of them. Built-in commands \fBsetenv\fR and \fBunsetenv\fR should not be used to change or remove them, especially PWD and OLDPWD.
+.br
 Those variables are the following:
 .RS
 .IP \fBHOME\fR
 This variable contains the path to the HOME directory, and is used by the \fBcd\fR built-in command as default \fIDIRECTORY\fR if none is provided.
+It is also used when HSH starts and stops, to read and write the history of commands.
 .IP \fBPATH\fR
 This variable contains different paths, and is used by HSH to search for an executable.
 .IP \fBPWD\fR
@@ -84,7 +87,9 @@ This variable contains the path to the previous working directory, and is update
 .RE
 
 .SH FILES
-HSH should be compiled using GCC. Using warning flags is advised, to ensure a proper compilation. It will need all of the following files:
+HSH should be compiled using GCC with warning flags, to ensure a proper compilation: \fBgcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh\fR
+.br
+It will need all of the following files:
 .RS
 .LP
 \fIbuiltin.c\fR
