@@ -22,7 +22,7 @@ This custom `SHELL` supports the main following features:
 
 ## 🔗 Exit Status
 
-In our `SHELL`, we can exit the shell with a custom status if specified, or with the exit status of the previous command otherwise. If a built-in command fails, the exit status will be updated to 99 and an error message will be printed on exit. If a specified command does not exist or if it is not found, the status will be updated to 127 and an error message will be printed on exit.
+In our `SHELL`, we can exit the shell with a custom status if specified, or with the exit status of the previous command otherwise. If a built-in command fails, the exit status will be updated to 99 and an error message will be printed to STDERR. If an error occurs while loading or exporting the history of commands, the exit status will be updated to 101 and an error message will be printed to STDERR. If a specified command does not exist or if it is not found, the status will be updated to 127 and an error message will be printed to STDERR, and HSH will automatically exit.
 
 ## 🔧 Technologies Used
 
