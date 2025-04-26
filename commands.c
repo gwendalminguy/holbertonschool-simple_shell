@@ -40,7 +40,7 @@ void get_arguments(char *line, char **env, parameters_t *p)
 
 	p->history[i] = strdup(line);
 
-	memset(p->command, 0, 4096);
+	memset(p->command, 0, sizeof(p->command));
 
 	string = strtok(line, " \n");
 

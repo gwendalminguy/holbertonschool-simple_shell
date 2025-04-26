@@ -115,7 +115,7 @@ void load_history(char **env, parameters_t *p)
 void export_history(char **env, parameters_t *p)
 {
 	char home[1024] = {0};
-	char *line = NULL, *path = NULL;
+	char *path = NULL;
 	char *file = ".simple_shell_history";
 	ssize_t bytes_written = 0;
 	int size = 0, i = p->position, fd, length = 0;
@@ -136,6 +136,12 @@ void export_history(char **env, parameters_t *p)
 			{
 				length = strlen(p->history[i]);
 				bytes_written = write(fd, p->history[i], length);
+				if (bytes_written == -1)
+				{
+					fprintf(stderr, "%s: history: write failure\n", p->argv[0]);
+					p->status = -1;
+					break;
+				}
 				i++;
 			}
 			close(fd);
