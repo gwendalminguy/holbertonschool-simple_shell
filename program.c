@@ -98,6 +98,13 @@ void load_history(char **env, parameters_t *p)
 						}
 					}
 					bytes_read = read(fd, buffer, 4096);
+
+					if (bytes_read == -1)
+					{
+						fprintf(stderr, "%s: history: read failure\n", p->argv[0]);
+						p->status = -1
+						break;
+					}
 				}
 				close(fd);
 			}
