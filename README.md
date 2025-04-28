@@ -1,16 +1,16 @@
-# 🚀 Creation of a Custom `SHELL`
+# 🚀 Creation of a Custom Shell: `HSH`
 
-Welcome to our custom `SHELL` project!
+Welcome to our custom shell project!
 
-In this project, our goal was to write a simple UNIX command interpreter. We worked as a team to develop a simplified version of a shell, handling the different usual commands, but also some built-in commands.
+In this project, our goal was to write a simple UNIX command interpreter. We worked as a team to develop a simplified version of a shell, handling the different usual commands, some built-in commands and a few special features.
 
 ## 📋 Project Overview
 
-This custom `SHELL` interprets the command typed by the user. It can handle the basic usual commands such as `ls`, `pwd`, `rm`, and others, as well as buit-in ones like `cd`, `exit`, `help` and `history`.
+This custom shell interprets the command typed by the user. `HSH` can handle the basic usual commands such as `ls`, `pwd`, `rm` and many others, as well as buit-in ones like `cd`, `exit`, `help` and `history`. It relies on the value of the PATH environment variable in order to find a command without the need to specify its absolute path.
 
 ## 🛠 Features
 
-This custom `SHELL` supports the main following features:
+`HSH` supports the main following features:
 
 - Accessing usual commands and handling arguments (`ls`, `pwd`, `rm`, etc.).
 - Printing, adding and removing environment variables (`env`, `setenv`, `unsetenv`).
@@ -22,11 +22,11 @@ This custom `SHELL` supports the main following features:
 
 ## 🔗 Exit Status
 
-In our `SHELL`, we can stop the shell with a custom exit status if specified, or with the exit status of the previous command otherwise. The exit status (0) means nothing went wrong. If a problem occurs while using the `SHELL`, one of the following cases might have happened:
-- If a general error occurs, the `SHELL` will stop with the exit status (1). This means something went wrong with a system call or with memory allocation.
-- If an argument error occurs, the `SHELL` will update the exit status to (2). This means a required argument for the command is missing or invalid.
-- If a history error occurs, the `SHELL` will update the exit status to (3). This means the history of commands couldn't be loaded or exported.
-- If a specified command does not exist or if it is not found, the `SHELL` will stop with the exit status (127).
+`HSH` can stop with a custom exit status if specified, or with the exit status of the previous command otherwise. The exit status (0) means nothing went wrong. If a problem occurs while using the shell, one of the following cases might have happened:
+- If a general error occurs, the shell will stop with the exit status (1). This means something went wrong with a system call or with memory allocation.
+- If an argument error occurs, the shell will update the exit status to (2). This means a required argument for the command is missing or invalid.
+- If a history error occurs, the shell will update the exit status to (3). This means the history of commands couldn't be loaded or exported.
+- If a specified command does not exist or if it is not found, the shell will stop with the exit status (127).
 
 ## 🔧 Technologies Used
 
@@ -114,7 +114,7 @@ Authorized functions and macros:
 
 ## 🧩 Use in Code
 
-Let's take a look at what our `SHELL` actually does when we test our code with a `touch`, a `ls` and an `rm`:
+Let's take a look at what `HSH` actually does when we test our code with a `touch`, a `ls` and an `rm`:
 
 ```
 hsh$ touch test
@@ -127,7 +127,7 @@ hsh$ pwd
 /home/dougdoug/holbertonschool-simple_shell
 ```
 
-Let's take a look at what our `SHELL` actually does when we test our code with a `cd` and an `exit`:
+Let's take a look at what `HSH` actually does when we test our code with a `cd` and an `exit`:
 
 ```
 dougdoug@dorinette:~/holbertonschool-simple_shell$ ./hsh
@@ -145,7 +145,7 @@ hsh$ exit
 dougdoug@dorinette:~/holbertonschool-simple_shell$
 ```
 
-Let's take a look at what our `SHELL` actually does when we test our code with `unsetenv` and an `env`:
+Let's take a look at what `HSH` actually does when we test our code with `unsetenv` and an `env`:
 
 ```
 hsh$ unsetenv LS_COLOR

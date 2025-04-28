@@ -146,7 +146,7 @@ void builtin_unsetenv(parameters_t *p)
 		}
 		if (p->env[i] == NULL)
 		{
-			fprintf(stderr, "%s: unsetenv: wrong argument\n", p->argv[0]);
+			fprintf(stderr, "%s: unsetenv: invalid argument %s\n", p->argv[0], p->command[1]);
 			p->status = 2;
 		}
 		else

@@ -62,7 +62,7 @@ HSH handles a few special features commonly avaiable in a shell, such as \fBhist
 .br
 - \fBHistory\fR:
 When launched, HSH reads and loads, if it exists, the history file of all commands from the previous session, located in the HOME directory.
-This list of commands is constantly updated, everytime a command is typed. When the shell exits, HSH writes this list to the same file, overwriting it.
+This list of commands is constantly updated, everytime a command is typed. When the shell exits, HSH writes this list by appending it to the same file.
 .br
 - \fBExpansion\fR:
 Expanding a variable can be achieved using the dollar symbol ($), followed by the name of an environment variable. Expanding the process identifier (PID) can be achieved using two consecutive dollar symbols ($$). Expanding the exit status of the previous command can be achieved using a dollar symbol followed by a question mark ($?).
