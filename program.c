@@ -102,7 +102,7 @@ void load_history(char **env, parameters_t *p)
 					if (bytes_read == -1)
 					{
 						fprintf(stderr, "%s: history: read failure\n", p->argv[0]);
-						p->status = 101;
+						p->status = 3;
 						break;
 					}
 				}
@@ -146,7 +146,7 @@ void export_history(char **env, parameters_t *p)
 				if (bytes_written == -1)
 				{
 					fprintf(stderr, "%s: history: write failure\n", p->argv[0]);
-					p->status = 101;
+					p->status = 3;
 					break;
 				}
 				i++;

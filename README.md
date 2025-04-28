@@ -22,11 +22,11 @@ This custom `SHELL` supports the main following features:
 
 ## 🔗 Exit Status
 
-In our `SHELL`, we can exit the shell with a custom status if specified, or with the exit status of the previous command otherwise. If a problem occurs while using the `SHELL`, one of the following cases might have happened:
-- If any built-in command fails, the exit status will be updated to (99) and an error message will be printed.
-- If an error occurs while loading or exporting the history of commands, the exit status will be updated to (101) and an error message will be printed.
-- If a specified command does not exist or if it is not found, the exit status will be updated to (127), an error message will be printed, and the `SHELL` will automatically exit.
-- If a there's a problem when creating a new process to execute a command, the exit status will be updated to (-1), an error message will be printed, and the `SHELL` will automatically exit.
+In our `SHELL`, we can stop the shell with a custom exit status if specified, or with the exit status of the previous command otherwise. The exit status (0) means nothing went wrong. If a problem occurs while using the `SHELL`, one of the following cases might have happened:
+- If a general error occurs, the `SHELL` will stop with the exit status (1). This means something went wrong with a system call or with memory allocation.
+- If an argument error occurs, the `SHELL` will update the exit status to (2). This means a required argument for the command is missing or invalid.
+- If a history error occurs, the `SHELL` will update the exit status to (3). This means the history of commands couldn't be loaded or exported.
+- If a specified command does not exist or if it is not found, the `SHELL` will stop with the exit status (127).
 
 ## 🔧 Technologies Used
 

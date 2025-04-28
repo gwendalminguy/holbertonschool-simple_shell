@@ -31,7 +31,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		if (search_builtin(p->command[0]) != NULL)
 		{
 			search_builtin(p->command[0])(p);
-			if (strcmp(p->command[0], "exit") == 0 || p->status == -1)
+			if (strcmp(p->command[0], "exit") == 0 || p->status == 1)
 				break;
 			continue;
 		}
@@ -39,7 +39,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			p->command[0] = search_path_list(p->command[0], path_list, copy);
 
 		p->status = process_command(p);
-		if (p->status == -1 || p->status == 127)
+		if (p->status == 1 || p->status == 127)
 			break;
 	}
 

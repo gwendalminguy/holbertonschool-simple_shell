@@ -144,7 +144,7 @@ int process_command(parameters_t *p)
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "%s: fork failed\n", p->argv[0]);
-		return (-1);
+		return (1);
 	}
 
 	/* Executing the command */

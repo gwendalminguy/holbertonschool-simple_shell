@@ -73,10 +73,11 @@ Comments can be written using a hash mark (#). Anything that comes after this sy
 
 .SH EXIT STATUS
 If terminated manually on regular execution with the \fIexit\fR command or the \fIEOF\fR signal, HSH will exit with the status code of the last command executed.
-Unless an error occured with the last command, the status code should be (0). If a built-in command fails, HSH will set the status code (99) and print an error message to STDERR.
-If an error occured while loading or exporting the history of commands, HSH will set the status code to (101) and print an error message to STDERR.
-If a specified command does not exist or if it is not found, HSH will exit with the status code (127) and print an error message to STDERR.
-If an error occured when creating a process to execute a specified command, HSH will exit with the status code (-1) and print an error message to STDERR.
+Unless an error occured with the last command, the status code should be (0).
+If a general error occured, HSH will exit with the status code (1), meaning something went wrong with a system call or with memory allocation.
+If an argument error occured, HSH will set the status code to (2), meaning a required argument for the command is invalid or missing.
+If a history error occured, HSH will set the status code to (3), meaning the history of commands couldn't be loaded or exported.
+If a specified command does not exist or if it is not found, HSH will exit with the status code (127).
 
 .SH ENVIRONMENT
 HSH needs some of the environment variables in order to work properly, and can change some of them. Built-in commands \fBsetenv\fR and \fBunsetenv\fR should not be used to change or remove them, especially PWD and OLDPWD.

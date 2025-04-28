@@ -108,8 +108,8 @@ void builtin_setenv(parameters_t *p)
 
 		if (p->env[i] == NULL)
 		{
-			fprintf(stderr, "%s: setenv failed\n", p->argv[0]);
-			p->status = -1;
+			fprintf(stderr, "%s: setenv: malloc failed\n", p->argv[0]);
+			p->status = 1;
 		}
 		else
 		{
@@ -121,7 +121,7 @@ void builtin_setenv(parameters_t *p)
 	else
 	{
 		fprintf(stderr, "%s: setenv: missing argument\n", p->argv[0]);
-		p->status = 99;
+		p->status = 2;
 	}
 }
 
@@ -147,7 +147,7 @@ void builtin_unsetenv(parameters_t *p)
 		if (p->env[i] == NULL)
 		{
 			fprintf(stderr, "%s: unsetenv: wrong argument\n", p->argv[0]);
-			p->status = 99;
+			p->status = 2;
 		}
 		else
 		{
@@ -160,7 +160,8 @@ void builtin_unsetenv(parameters_t *p)
 					p->env[i] = malloc(1 + strlen(p->env[i + 1]));
 					if (p->env[i] == NULL)
 					{
-						p->status = -1;
+						fprintf(stderr, "%s: unsetenv: malloc failed\n", p->argv[0]);
+						p->status = 1;
 						break;
 					}
 					strcpy(p->env[i], p->env[i + 1]);
@@ -177,6 +178,6 @@ void builtin_unsetenv(parameters_t *p)
 	else
 	{
 		fprintf(stderr, "%s: unsetenv: missing argument\n", p->argv[0]);
-		p->status = 99;
+		p->status = 2;
 	}
 }

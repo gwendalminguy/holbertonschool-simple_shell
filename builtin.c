@@ -47,8 +47,7 @@ void builtin_exit(parameters_t *p)
 			p->status = n;
 		else
 		{
-			fprintf(stderr, "%s: 1: exit:", p->argv[0]);
-			fprintf(stderr, " Illegal number: %s\n", p->command[1]);
+			fprintf(stderr, "%s: 1: exit: illegal number: %s\n", p->argv[0], p->command[1]);
 			p->status = 2;
 		}
 	}
@@ -97,12 +96,15 @@ void builtin_cd(parameters_t *p)
 		p->command[1] = "PWD";
 		p->command[2] = new_path;
 		builtin_setenv(p);
+		p->status = 0;
 	}
 	else if (code == -1)
+	{
 		fprintf(stderr, "%s: 1: cd: can't cd to %s\n", p->argv[0], p->command[1]);
+		p->status = 2;
+	}
 	free(new_path);
 	free(old_path);
-	p->status = 0;
 }
 
 /**
@@ -111,6 +113,8 @@ void builtin_cd(parameters_t *p)
  */
 void builtin_help(parameters_t *p)
 {
+	p->status = 0;
+
 	if (p->command[1] == NULL || !strcmp(p->command[1], "help"))
 	{
 		printf("\nhelp: help [BUILT-IN]\n\n");
@@ -150,8 +154,11 @@ void builtin_help(parameters_t *p)
 		printf("\nhistory: history\n\n");
 		printf("\tPrints the history of all commands.\n");
 	}
-
-	p->status = 0;
+	else
+	{
+		fprintf(stderr, "%s: help: no help found for %s\n", p->argv[0], p->command[1]);
+		p->status = 2;
+	}
 }
 
 /**
