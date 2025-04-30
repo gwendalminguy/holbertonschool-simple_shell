@@ -17,9 +17,10 @@ void start_program(list_t **head, char **argv, char **env, parameters_t *p)
 {
 	p->status = 0;
 	p->argv = argv;
-
 	memset(p->env, 0, sizeof(p->env));
 	memset(p->history, 0, sizeof(p->history));
+
+	signal(SIGINT, SIG_IGN);
 
 	copy_env(env, p->env);
 	*head = create_path_list(env);
