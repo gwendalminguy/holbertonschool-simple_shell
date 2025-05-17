@@ -108,7 +108,35 @@ int get_integer(char *str)
 }
 
 /**
- * process_command - process a given command
+ * process_expansion - processes expansion
+ * @p: parameters
+ * @copy: ...
+ */
+void process_expansion(parameters_t *p, char *copy)
+{
+	int i = 0, size = sizeof(copy);
+
+	while (p->command[i] != NULL)
+	{
+		memset(copy, 0, size);
+
+		if (p->command[i][0] == '$' && p->command[i][1] == '?')
+			sprintf(p->command[i], "%i", p->status);
+		else if (p->command[i][0] == '$' && p->command[i][1] == '$')
+			sprintf(p->command[i], "%i", getpid());
+		else if (p->command[i][0] == '$' && p->command[i][1] != '\0')
+		{
+			copy = get_env(&p->command[i][1], p->env, copy);
+			if (copy != NULL)
+				p->command[i] = copy;
+		}
+
+		i++;
+	}
+}
+
+/**
+ * process_command - processes a given command
  * @p: parameters
  *
  * Return: exit status of the command if found ; error code otherwise
@@ -116,21 +144,8 @@ int get_integer(char *str)
 int process_command(parameters_t *p)
 {
 	pid_t child_pid;
-	int code, i = 0;
+	int code;
 	struct stat st;
-	char copy[2048];
-
-	/* Handling expansion */
-	while (p->command[i] != NULL)
-	{
-		if (p->command[i][0] == '$' && p->command[i][1] == '?')
-			sprintf(p->command[i], "%i", p->status);
-		else if (p->command[i][0] == '$' && p->command[i][1] == '$')
-			sprintf(p->command[i], "%i", getpid());
-		else if (p->command[i][0] == '$' && p->command[i][1] != '\0')
-			p->command[i] = get_env(&p->command[i][1], p->env, copy);
-		i++;
-	}
 
 	/* Checking if the command exists */
 	if (stat(p->command[0], &st) != 0)
