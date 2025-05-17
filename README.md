@@ -114,75 +114,21 @@ Authorized functions and macros:
 
 ## 🧩 Use in Code
 
-Let's take a look at what `HSH` actually does when we test our code with a `touch`, a `ls` and an `rm`:
+Let's take a look at what `HSH` actually does when used with a few basic commands and some built-in ones:
 
 ```
-hsh$ touch test
+root@b6579b5f94d3:/home/ubuntu/holbertonschool-simple_shell$ ./hsh
 hsh$ ls
-AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c  test
-hsh$ rm test
-hsh$ ls
-AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
+AUTHORS  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c  program.c  README.md
 hsh$ pwd
-/home/dougdoug/holbertonschool-simple_shell
-```
-
-Let's take a look at what `HSH` actually does when we test our code with a `cd` and an `exit`:
-
-```
-dougdoug@dorinette:~/holbertonschool-simple_shell$ ./hsh
-hsh$ ls
-AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
-hsh$ cd ..
-hsh$ ls
-Betty                                    holbertonschool-printf        holbertonschool-simple_shell-1
-holbertonschool-binary_trees             holbertonschool-shell         holbertonschool-sorting_algorithms
-holbertonschool-low_level_programming-3  holbertonschool-simple_shell  snap
-hsh$ cd holbertonschool-simple_shell
-hsh$ ls
-AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
+/home/ubuntu/holbertonschool-simple_shell
+hsh$ mkdir test
+hsh$ setenv DIRECTORY test
+hsh$ cd $DIRECTORY
+hsh$ pwd
+/home/ubuntu/holbertonschool-simple_shell/test
 hsh$ exit
-dougdoug@dorinette:~/holbertonschool-simple_shell$
-```
-
-Let's take a look at what `HSH` actually does when we test our code with `unsetenv` and an `env`:
-
-```
-hsh$ unsetenv LS_COLOR
-hsh$ unsetenv PATH
-hsh$ env
-SHELL=/bin/bash
-COLORTERM=truecolor
-WSL2_GUI_APPS_ENABLED=1
-TERM_PROGRAM_VERSION=1.99.2
-WSL_DISTRO_NAME=Ubuntu-24.04
-NAME=dorinette
-PWD=/home/dougdoug/holbertonschool-simple_shell
-LOGNAME=dougdoug
-VSCODE_GIT_ASKPASS_NODE=/home/dougdoug/.vscode-server/bin/4949701c880d4bdb949e3c0e6b400288da7f474b/node
-HOME=/home/dougdoug
-LANG=C.UTF-8
-WSL_INTEROP=/run/WSL/1324_interop
-WAYLAND_DISPLAY=wayland-0
-GIT_ASKPASS=/home/dougdoug/.vscode-server/bin/4949701c880d4bdb949e3c0e6b400288da7f474b/extensions/git/dist/askpass.sh
-VSCODE_GIT_ASKPASS_EXTRA_ARGS=
-LESSCLOSE=/usr/bin/lesspipe %s %s
-TERM=xterm-256color
-LESSOPEN=| /usr/bin/lesspipe %s
-USER=dougdoug
-VSCODE_GIT_IPC_HANDLE=/run/user/1000/vscode-git-7aaa4a50df.sock
-DISPLAY=:0
-SHLVL=1
-XDG_RUNTIME_DIR=/run/user/1000/
-WSLENV=VSCODE_WSL_EXT_LOCATION/up:VSCODE_SERVER_TAR/up
-VSCODE_GIT_ASKPASS_MAIN=/home/dougdoug/.vscode-server/bin/4949701c880d4bdb949e3c0e6b400288da7f474b/extensions/git/dist/askpass-main.js
-XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
-HOSTTYPE=x86_64
-PULSE_SERVER=unix:/mnt/wslg/PulseServer
-TERM_PROGRAM=vscode
-VSCODE_IPC_HOOK_CLI=/run/user/1000/vscode-ipc-df8becd6-2ae6-41ff-ac9e-492a32994422.sock
-_=./hsh
+root@b6579b5f94d3:/home/ubuntu/holbertonschool-simple_shell$
 ```
 
 ## 💾 Use of Memory
@@ -190,27 +136,39 @@ _=./hsh
 The code uses dynamic allocation of the memory, and is free of any memory-related issue. To ensure this, a tool such as `Valgrind` can be used on the executable file, after compilation:
 
 ```
-valgrind ./hsh
-==92313== Memcheck, a memory error detector
-==92313== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==92313== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==92313== Command: ./hsh
-==92313== 
-hsh$ ls
-AUTHORS  README.md  builtin.c  commands.c  environment.c  hsh  hsh.c  main.h  man_1_simple_shell  paths.c
-hsh$ cd
+root@b6579b5f94d3:/home/ubuntu/holbertonschool-simple_shell$ valgrind ./hsh
+==52238== Memcheck, a memory error detector
+==52238== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==52238== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==52238== Command: ./hsh
+==52238== 
+hsh$ cd ..
 hsh$ pwd
-/home/dougdoug
-hsh$ cd -
-hsh$ ==92313== 
-==92313== HEAP SUMMARY:
-==92313==     in use at exit: 0 bytes in 0 blocks
-==92313==   total heap usage: 315 allocs, 315 frees, 30,781 bytes allocated
-==92313== 
-==92313== All heap blocks were freed -- no leaks are possible
-==92313== 
-==92313== For lists of detected and suppressed errors, rerun with: -s
-==92313== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+/home/ubuntu
+hsh$ setenv COMMAND history
+hsh$ $COMMAND
+[0] ls
+[1] pwd
+[2] mkdir test
+[3] setenv DIRECTORY test
+[4] cd $DIRECTORY
+[5] pwd
+[6] exit
+[7] cd ..
+[8] pwd
+[9] setenv COMMAND history
+[10] $COMMAND
+hsh$ exit
+==52238== 
+==52238== HEAP SUMMARY:
+==52238==     in use at exit: 0 bytes in 0 blocks
+==52238==   total heap usage: 267 allocs, 267 frees, 27,223 bytes allocated
+==52238== 
+==52238== All heap blocks were freed -- no leaks are possible
+==52238== 
+==52238== For lists of detected and suppressed errors, rerun with: -s
+==52238== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+root@b6579b5f94d3:/home/ubuntu/holbertonschool-simple_shell$
 ```
 
 ## 📂 Flowchart of the Project
