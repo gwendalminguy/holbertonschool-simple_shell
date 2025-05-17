@@ -10,10 +10,10 @@
  */
 int main(int argc __attribute__((unused)), char **argv, char **env)
 {
-	parameters_t p[5];
+	parameters_t p[6];
 	list_t *path_list = NULL;
-	char *line = NULL;
 	char copy[2048], path[2048];
+	char *line = NULL;
 	size_t len = 0;
 	ssize_t read = 0;
 
@@ -37,7 +37,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 				break;
 			continue;
 		}
-		if (p->command[0][0] != '/' && p->command[0][0] != '.' && p->command[0][0] != '$')
+		if (p->command[0][0] != '/' && p->command[0][0] != '.')
 			p->command[0] = search_path_list(p->command[0], path_list, path);
 
 		p->status = process_command(p);
