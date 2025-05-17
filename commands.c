@@ -127,7 +127,7 @@ void process_expansion(parameters_t *p, char *copy)
 			memset(copy, 0, size);
 			copy = get_env(&p->command[i][1], p->env, copy);
 			if (copy != NULL)
-				p->command[i] = copy;
+				sprintf(p->command[i], "%s", copy);
 		}
 
 		i++;
