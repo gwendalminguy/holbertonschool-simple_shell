@@ -110,7 +110,7 @@ int get_integer(char *str)
 /**
  * process_expansion - processes expansion
  * @p: parameters
- * @copy: ...
+ * @copy: buffer for the value
  */
 void process_expansion(parameters_t *p, char *copy)
 {
@@ -118,14 +118,13 @@ void process_expansion(parameters_t *p, char *copy)
 
 	while (p->command[i] != NULL)
 	{
-		memset(copy, 0, size);
-
 		if (p->command[i][0] == '$' && p->command[i][1] == '?')
 			sprintf(p->command[i], "%i", p->status);
 		else if (p->command[i][0] == '$' && p->command[i][1] == '$')
 			sprintf(p->command[i], "%i", getpid());
 		else if (p->command[i][0] == '$' && p->command[i][1] != '\0')
 		{
+			memset(copy, 0, size);
 			copy = get_env(&p->command[i][1], p->env, copy);
 			if (copy != NULL)
 				p->command[i] = copy;
