@@ -12,7 +12,8 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 {
 	parameters_t p[5];
 	list_t *path_list = NULL;
-	char *line = NULL, copy[2048];
+	char *line = NULL;
+	char copy[2048], path[2048];
 	size_t len = 0;
 	ssize_t read = 0;
 
@@ -28,6 +29,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 		get_arguments(line, env, p);
 		if (p->command[0] == NULL)
 			continue;
+		process_expansion(p, copy);
 		if (search_builtin(p->command[0]) != NULL)
 		{
 			search_builtin(p->command[0])(p);
@@ -36,7 +38,7 @@ int main(int argc __attribute__((unused)), char **argv, char **env)
 			continue;
 		}
 		if (p->command[0][0] != '/' && p->command[0][0] != '.' && p->command[0][0] != '$')
-			p->command[0] = search_path_list(p->command[0], path_list, copy);
+			p->command[0] = search_path_list(p->command[0], path_list, path);
 
 		p->status = process_command(p);
 		if (p->status == 1 || p->status == 127)

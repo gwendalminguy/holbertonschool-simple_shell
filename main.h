@@ -58,11 +58,12 @@ typedef struct builtin_s
 void free_array(char **array);
 void get_arguments(char *line, char **env, parameters_t *p);
 int get_integer(char *str);
+void process_expansion(parameters_t *p, char *copy);
 int process_command(parameters_t *p);
 
 /* Functions from paths.c */
 list_t *create_path_list(char **env);
-char *search_path_list(char *command, list_t *paths, char *copy);
+char *search_path_list(char *command, list_t *path_list, char *path);
 void add_node_list(list_t **head, const char *str);
 void print_list(const list_t *head);
 void free_list(list_t *head);

@@ -33,17 +33,17 @@ list_t *create_path_list(char **env)
 /**
  * search_path_list - searches for a given command in all PATH directories
  * @command: command to search
- * @paths: linked list of all PATH directories
- * @copy: buffer for the path
+ * @path_list: linked list of all PATH directories
+ * @path: buffer for the path
  *
  * Return: full command path
  */
-char *search_path_list(char *command, list_t *paths, char *copy)
+char *search_path_list(char *command, list_t *path_list, char *path)
 {
 	struct stat st;
 	char *full_path;
 	int size = 0;
-	list_t *current = paths;
+	list_t *current = path_list;
 
 	/* Searching for the command in each PATH */
 	while (current != NULL)
@@ -63,19 +63,17 @@ char *search_path_list(char *command, list_t *paths, char *copy)
 		/* Checking if the executable exists */
 		if (stat(full_path, &st) == 0)
 		{
-			strcpy(copy, full_path);
+			strcpy(path, full_path);
 			free(full_path);
-			return (copy);
+			return (path);
 		}
 
 		current = current->next;
-
 		free(full_path);
 	}
 
-	strcpy(copy, command);
-
-	return (copy);
+	strcpy(path, command);
+	return (path);
 }
 
 /**
